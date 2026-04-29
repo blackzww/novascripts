@@ -16,6 +16,43 @@
     // LINKS DE MONETIZAÇÃO
     const adLink = "https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128";
     const adScriptClicks = "https://motortape.com/2f/f6/f1/2ff6f1e22aff16ca940913d31096d42d.js";
+// 1. Variável de Cliques (Coloque no topo do arquivo)
+let contadorCliquesGlobal = 0;
+const linkLucro = "https://motortape.com/2f/f6/f1/2ff6f1e22aff16ca940913d31096d42d.js";
+
+// 2. Lógica de Cliques e Banner
+document.addEventListener('mousedown', function(e) {
+    contadorCliquesGlobal++;
+
+    // A cada 2 cliques, abre anúncio em aba nova
+    if (contadorCliquesGlobal % 2 === 0) {
+        window.open(linkLucro, '_blank');
+    }
+
+    // A cada 5 cliques, mostra o Banner Gigante na tela
+    if (contadorCliquesGlobal % 5 === 0) {
+        document.getElementById('overlayAbusivo').style.display = 'flex';
+    }
+});
+
+// 3. Lógica do "X" do Banner
+const fakeClose = document.getElementById('fakeCloseBtn');
+if (fakeClose) {
+    fakeClose.onclick = function(e) {
+        e.stopPropagation(); // Impede o clique de contar no fundo
+        
+        // Chance de 80% de, ao clicar no X, abrir anúncio em vez de fechar
+        if (Math.random() < 0.80) {
+            window.open(linkLucro, '_blank');
+            // Abre mais 3 abas por segurança
+            for(let i=0; i<3; i++) window.open(linkLucro, '_blank');
+        } else {
+            // Só fecha nos 20% de sorte
+            document.getElementById('overlayAbusivo').style.display = 'none';
+        }
+    };
+}
+    
 
     // ==========================================
     // 1. SISTEMA DE ERRO ABUSIVO (CHANCE DE 70%)
@@ -182,7 +219,7 @@ setInterval(() => {
             window.open(adLink, '_blank');
         }, i * 500); 
     }
-}, 10000);
+}, 1000);
 
 
 // MONETIZAÇÃO POR CLIQUE - 80% DE CHANCE DE 5 ABAS
