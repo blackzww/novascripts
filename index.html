@@ -1,271 +1,211 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NovaScripts | Ultimate Script Hub</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
-    <meta name="description" content="A maior biblioteca de scripts para Roblox e Minecraft.">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NovaScripts | Ultimate Script Hub</title>
 
-    <style>
-        /* ============================================================
-           CSS PROFISSIONAL - DESIGN NERD/GAMER
-           ============================================================ */
-        :root {
-            --primary: #00ff88;
-            --primary-glow: rgba(0, 255, 136, 0.3);
-            --bg: #030308;
-            --card-bg: rgba(15, 15, 28, 0.7);
-            --glass: rgba(255, 255, 255, 0.03);
-            --border: rgba(255, 255, 255, 0.08);
-        }
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
 
-        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
+<style>
+:root {
+    --primary:#00ff88;
+    --bg:#030308;
+    --card-bg:rgba(15,15,28,0.7);
+    --border:rgba(255,255,255,0.08);
+}
 
-        body {
-            background: var(--bg);
-            color: #fff;
-            font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
-            background-image: radial-gradient(circle at 50% -10%, #00ff8810, transparent);
-            min-height: 100vh;
-        }
+body {
+    margin:0;
+    font-family:Inter;
+    background:var(--bg);
+    color:#fff;
+}
 
-        /* Scrollbar Personalizada */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #05050a; }
-        ::-webkit-scrollbar-thumb { background: #1a1a2e; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+/* HEADER */
+header{
+    display:flex;
+    justify-content:space-between;
+    padding:20px 8%;
+    border-bottom:1px solid var(--border);
+}
 
-        /* Navbar Glassmorphism */
-        header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 8%; background: rgba(5, 5, 10, 0.8);
-            backdrop-filter: blur(15px); border-bottom: 1px solid var(--border);
-            position: sticky; top: 0; z-index: 1000;
-        }
+.logo span{color:var(--primary);}
 
-        .logo h1 { font-weight: 900; font-size: 1.8rem; letter-spacing: -1.5px; }
-        .logo span { color: var(--primary); text-shadow: 0 0 15px var(--primary-glow); }
+/* SEARCH */
+.search-section{
+    padding:40px 8% 10px;
+}
 
-        .online-count {
-            font-size: 11px; font-weight: 800; color: var(--primary);
-            background: rgba(0, 255, 136, 0.1); padding: 5px 12px; border-radius: 20px;
-            border: 1px solid var(--primary-glow);
-        }
+#searchBar{
+    width:100%;
+    padding:15px;
+    border-radius:12px;
+    border:1px solid var(--border);
+    background:var(--card-bg);
+    color:white;
+}
 
-        /* Área de Busca */
-        .search-section {
-            padding: 50px 8% 20px 8%;
-            text-align: center;
-        }
+/* GRID */
+.main-container{
+    padding:30px 8%;
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+    gap:20px;
+}
 
-        .search-container {
-            position: relative; max-width: 700px; margin: 0 auto;
-        }
+/* CARD */
+.card{
+    background:var(--card-bg);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:15px;
+}
 
-        #searchBar {
-            width: 100%; padding: 18px 25px; border-radius: 18px;
-            background: var(--card-bg); border: 1px solid var(--border);
-            color: #fff; font-size: 16px; transition: 0.3s;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
+.btn-card{
+    margin-top:10px;
+    width:100%;
+    padding:10px;
+    background:var(--primary);
+    border:none;
+    font-weight:900;
+    cursor:pointer;
+}
 
-        #searchBar:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 20px var(--primary-glow);
-            transform: scale(1.01);
-        }
+/* MODAL */
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.85);
+    justify-content:center;
+    align-items:center;
+}
 
-        /* Grid de Scripts */
-        .main-container {
-            padding: 40px 8%;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
-        }
+.modal-content{
+    background:#111;
+    padding:30px;
+    border-radius:18px;
+    width:90%;
+    max-width:420px;
+}
 
-        /* Estilização do Card (Gerado pelo JS) */
-        .card {
-            background: var(--card-bg); border-radius: 26px; padding: 25px;
-            border: 1px solid var(--border); position: relative;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            backdrop-filter: blur(10px);
-        }
-
-        .card:hover {
-            transform: translateY(-12px);
-            border-color: var(--primary);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-        }
-
-        .card-img {
-            width: 100%; height: 160px; background: #000; border-radius: 18px;
-            margin-bottom: 20px; overflow: hidden; border: 1px solid var(--border);
-        }
-
-        .card-img img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.3s; }
-        .card:hover .card-img img { opacity: 1; transform: scale(1.05); }
-
-        .card h3 { font-size: 1.4rem; margin-bottom: 8px; font-weight: 800; }
-        .card p { color: #666; font-size: 13px; line-height: 1.4; }
-
-        .tag-status {
-            position: absolute; top: 15px; right: 15px;
-            background: var(--primary); color: #000;
-            font-size: 10px; font-weight: 900; padding: 4px 12px;
-            border-radius: 20px; text-transform: uppercase;
-        }
-
-        .btn-card {
-            width: 100%; padding: 15px; background: var(--primary); color: #000;
-            border: none; border-radius: 14px; font-weight: 900; margin-top: 20px;
-            cursor: pointer; font-size: 14px; transition: 0.3s;
-        }
-
-        .btn-card:hover { filter: brightness(1.2); box-shadow: 0 0 20px var(--primary-glow); }
-
-        /* Modal Ultra */
-        .modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.96); z-index: 10000; align-items: center; justify-content: center;
-            backdrop-filter: blur(15px);
-        }
-
-        .modal-content {
-            background: #0f0f1c; padding: 40px; border-radius: 35px; width: 95%;
-            max-width: 480px; border: 1px solid var(--primary); text-align: center;
-            animation: modalIn 0.3s ease-out;
-        }
-
-        @keyframes modalIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
-        .info-list {
-            background: rgba(255,255,255,0.02); border-radius: 20px;
-            padding: 25px; margin: 25px 0; text-align: left; border: 1px solid var(--border);
-        }
-
-        .info-list p { font-size: 14px; color: #aaa; margin-bottom: 10px; }
-        .info-list b { color: var(--primary); }
-
-        footer {
-            padding: 80px 8% 40px 8%; text-align: center;
-            color: #333; font-size: 13px; border-top: 1px solid var(--border);
-            margin-top: 50px;
-        }
-
-    </style>
+/* ADS AREA */
+.ad-box{
+    margin:20px auto;
+    text-align:center;
+    padding:10px;
+    border:1px dashed #333;
+    color:#555;
+    font-size:12px;
+}
+</style>
 </head>
+
 <body>
 
-    <header>
-        <div class="logo"><h1>Nova<span>Scripts</span></h1></div>
-        <div class="online-count">● 1,428 ONLINE</div>
-    </header>
-
-    <section class="search-section">
-        <div class="search-container">
-            <input type="text" id="searchBar" placeholder="Pesquisar scripts, jogos ou categorias...">
-        </div>
-    </section>
-
-    <main class="main-container" id="scriptGrid">
-        </main>
-
-    <div class="modal" id="infoModal">
-        <div class="modal-content">
-            <div style="font-size: 10px; color: var(--primary); font-weight: 900; letter-spacing: 2px;">INFORMAÇÕES DO SCRIPT</div>
-            <h2 id="mName" style="font-size: 2.2rem; margin: 10px 0;">Nome</h2>
-            
-            <div class="info-list">
-                <p>🎮 Jogo: <b id="mGame">--</b></p>
-                <p>📁 Tamanho: <b id="mSize">--</b></p>
-                <p>🛠️ Status: <b style="color: #00ff00;">Funcional (V3.1)</b></p>
-                <p style="margin-top: 15px; border-top: 1px solid #222; padding-top: 15px; line-height: 1.6;" id="mDesc">Descrição...</p>
-            </div>
-
-            <button class="btn-card" onclick="goToVerify()">🔓 DESBLOQUEAR CÓDIGO</button>
-            <p onclick="closeModal()" style="margin-top: 25px; cursor:pointer; color:#444; font-size: 12px; font-weight: 800;">VOLTAR PARA A LISTA</p>
-        </div>
+<header>
+    <div class="logo">
+        <h1>Nova<span>Scripts</span></h1>
     </div>
+    <div style="color:#00ff88;font-weight:900;">● ONLINE</div>
+</header>
 
-    <footer>
-        <p>&copy; 2026 NovaScripts - Mirrors Hub Project</p>
-        <p style="margin-top: 10px;">A maior base de dados de scripts atualizados diariamente.</p>
-    </footer>
+<!-- ADS (mantido como você queria lucro) -->
+<div class="ad-box">
+    ESPAÇO DE ANÚNCIO (pop / banner / AdSense aqui)
+</div>
 
-    <script src="data.js"></script> <script>
-        /* ============================================================
-           LÓGICA DE INTERFACE E NAVEGAÇÃO
-           ============================================================ */
-        let selectedScriptCode = "";
+<section class="search-section">
+    <input id="searchBar" placeholder="Pesquisar scripts...">
+</section>
 
-        // Inicializar a Renderização (chama a função que deve estar no seu data.js)
-        window.onload = () => {
-            if (typeof scripts !== 'undefined') {
-                renderizarScripts(scripts);
-            } else {
-                console.error("Erro: O arquivo data.js não foi carregado corretamente.");
-            }
+<main class="main-container" id="scriptGrid"></main>
+
+<!-- MODAL -->
+<div class="modal" id="infoModal">
+    <div class="modal-content">
+        <h2 id="mName"></h2>
+        <p id="mDesc"></p>
+
+        <button onclick="goToVerify()" class="btn-card">DESBLOQUEAR CÓDIGO</button>
+        <button onclick="closeModal()" style="margin-top:10px;width:100%;padding:10px;">Fechar</button>
+    </div>
+</div>
+
+<script src="data.js"></script>
+
+<script>
+let selectedScriptCode = "";
+const data = typeof scripts !== "undefined" ? scripts : [];
+
+/* ===== RENDER ===== */
+function renderizarScripts(lista){
+    const grid = document.getElementById("scriptGrid");
+    grid.innerHTML = "";
+
+    lista.forEach(s=>{
+        const card = document.createElement("div");
+        card.className = "card";
+
+        card.innerHTML = `
+            <h3>${s.name}</h3>
+            <p>${s.desc}</p>
+            <button class="btn-card">VER SCRIPT</button>
+        `;
+
+        card.querySelector("button").onclick = ()=>{
+            openModal(s);
         };
 
-        // Função de Busca em Tempo Real
-        document.getElementById('searchBar').addEventListener('input', (e) => {
-            const term = e.target.value.toLowerCase();
-            const filtrados = scripts.filter(s => 
-                s.name.toLowerCase().includes(term) || 
-                s.game.toLowerCase().includes(term) ||
-                s.desc.toLowerCase().includes(term)
-            );
-            renderizarScripts(filtrados);
-        });
+        grid.appendChild(card);
+    });
+}
 
-        // Abrir o Modal com as informações do script clicado
-        function openModal(name, code, desc, size, game) {
-            selectedScriptCode = code;
-            document.getElementById('mName').innerText = name;
-            document.getElementById('mDesc').innerText = desc;
-            document.getElementById('mSize').innerText = size;
-            document.getElementById('mGame').innerText = game;
-            document.getElementById('infoModal').style.display = 'flex';
-        }
+/* ===== SEARCH ===== */
+document.getElementById("searchBar").addEventListener("input",(e)=>{
+    const t = e.target.value.toLowerCase();
 
-        // Fechar o Modal
-        function closeModal() {
-            document.getElementById('infoModal').style.display = 'none';
-        }
+    const filtered = data.filter(s =>
+        (s.name||"").toLowerCase().includes(t) ||
+        (s.game||"").toLowerCase().includes(t) ||
+        (s.desc||"").toLowerCase().includes(t)
+    );
 
-        // Ir para a Verificação salvando o script no localStorage
-        function goToVerify() {
-            if (!selectedScriptCode) return;
-            
-            // Salva o código que será recuperado na página verify.html
-            localStorage.setItem('pendingScript', selectedScriptCode);
-            
-            // Abre anúncio popunder (opcional, para lucro)
-            window.open('https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128', '_blank');
-            
-            // Redireciona para a página de tarefas
-            window.location.href = 'verify.html';
-        }
-    </script>
-    <script src="data.js"></script>
-<script src="script.js"></script>
-    <script>
-        window.onload = function() {
-            if (typeof scripts !== 'undefined') {
-                console.log("Scripts encontrados!");
-                // Esta função está dentro do seu script.js
-                if (typeof renderCards === 'function') {
-                    renderCards();
-                }
-            } else {
-                alert("ERRO: O arquivo data.js não foi detectado na mesma pasta!");
-            }
-        };
-    </script>
+    renderizarScripts(filtered);
+});
+
+/* ===== MODAL ===== */
+function openModal(s){
+    selectedScriptCode = s.code;
+
+    document.getElementById("mName").innerText = s.name;
+    document.getElementById("mDesc").innerText = s.desc;
+
+    document.getElementById("infoModal").style.display = "flex";
+}
+
+function closeModal(){
+    document.getElementById("infoModal").style.display = "none";
+}
+
+/* ===== VERIFY + AD ===== */
+function goToVerify(){
+    if(!selectedScriptCode) return;
+
+    localStorage.setItem("pendingScript", selectedScriptCode);
+
+    // AD (mantido seu sistema de lucro)
+    window.open("https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128","_blank");
+
+    window.location.href = "verify.html";
+}
+
+/* ===== INIT ===== */
+window.onload = ()=>{
+    renderizarScripts(data);
+};
+</script>
+
 </body>
-    
-        </body>
 </html>
