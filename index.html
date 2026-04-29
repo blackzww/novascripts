@@ -3,63 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NovaScripts | Ultimate Script Hub</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <title>NovaScripts | O Melhor Hub de Scripts</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
+<!-- BACKGROUND ANIMADO -->
+<div class="background-animation">
+    <div class="gradient-sphere"></div>
+    <div class="gradient-sphere"></div>
+    <div class="gradient-sphere"></div>
+</div>
+
+<!-- HEADER -->
 <header>
-    <div class="logo"><h1>Nova<span>Scripts</span></h1></div>
+    <div class="logo">
+        <div class="logo-icon">⚡</div>
+        <h1>Nova<span>Scripts</span></h1>
+    </div>
+    <div class="nav-links">
+        <a href="#">Início</a>
+        <a href="#">Scripts</a>
+        <a href="#">Categorias</a>
+        <a href="#">Suporte</a>
+    </div>
     <div class="status-badge">
         <div class="status-dot"></div>
-        <span style="color:var(--primary);font-weight:600; font-size: 12px;">SERVIDOR ATIVO</span>
+        <span>Online</span>
     </div>
 </header>
 
+<!-- HERO SECTION -->
+<section class="hero">
+    <h2>O Maior Hub de Scripts do Brasil</h2>
+    <p>Mais de 150 scripts premium para os melhores jogos. Atualizado diariamente com os melhores conteúdos.</p>
+</section>
+
+<!-- STATS -->
 <div class="stats">
-    <div class="stat-item">
+    <div class="stat-card">
         <div class="stat-number">150+</div>
         <div class="stat-label">SCRIPTS</div>
     </div>
-    <div class="stat-item">
+    <div class="stat-card">
+        <div class="stat-number">50k+</div>
+        <div class="stat-label">DOWNLOADS</div>
+    </div>
+    <div class="stat-card">
         <div class="stat-number">99%</div>
         <div class="stat-label">SEGURANÇA</div>
     </div>
-    <div class="stat-item">
+    <div class="stat-card">
         <div class="stat-number">24/7</div>
         <div class="stat-label">SUPORTE</div>
     </div>
 </div>
 
+<!-- SEARCH -->
 <section class="search-section">
     <div class="search-container">
         <div class="search-icon">🔍</div>
-        <input id="searchBar" placeholder="Buscar scripts por jogo, nome ou descrição...">
+        <input id="searchBar" placeholder="Buscar script por nome, jogo ou categoria...">
     </div>
 </section>
 
+<!-- FILTERS -->
+<div class="filters">
+    <button class="filter-btn active" data-filter="all">Todos</button>
+    <button class="filter-btn" data-filter="Prison Life">🏛️ Prison Life</button>
+    <button class="filter-btn" data-filter="Blox Fruits">🍍 Blox Fruits</button>
+    <button class="filter-btn" data-filter="BedWars">⚔️ BedWars</button>
+    <button class="filter-btn" data-filter="Arsenal">🎯 Arsenal</button>
+    <button class="filter-btn" data-filter="MM2">🔪 MM2</button>
+</div>
+
+<!-- SCRIPTS GRID -->
 <main class="main-container" id="scriptGrid"></main>
 
+<!-- MODAL -->
 <div class="modal" id="infoModal">
     <div class="modal-content">
-        <h2 id="mName" style="margin-bottom: 10px;"></h2>
-        <p id="mDesc" style="color: #888; margin-bottom: 25px; line-height: 1.6;"></p>
-        <button onclick="goToVerify()" class="btn-card">🔥 DESBLOQUEAR SCRIPT 🔥</button>
-        <button onclick="closeModal()" style="background:transparent; color:#666; border:none; margin-top:20px; cursor:pointer; font-weight:600; transition:0.3s;">FECHAR</button>
+        <div class="modal-icon">🔥</div>
+        <h3 id="mName"></h3>
+        <p id="mDesc"></p>
+        <button onclick="goToVerify()" class="btn-card" style="width: 100%; margin-bottom: 15px;">DESBLOQUEAR SCRIPT</button>
+        <button onclick="closeModal()" style="background: transparent; color: #666; border: none; cursor: pointer;">Fechar</button>
     </div>
 </div>
 
+<!-- FLOATING WINDOW -->
 <div id="floatingWin">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 15px;">
-        <span style="font-weight:900; color:var(--primary); font-size:16px;">✅ SCRIPT LIBERADO!</span>
-        <span onclick="this.parentElement.parentElement.style.display='none'" style="cursor:pointer; font-size: 24px; color:#888;">&times;</span>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <span style="font-weight: 900; color: var(--success); font-size: 18px;">✅ Script Liberado!</span>
+        <span onclick="this.parentElement.parentElement.style.display='none'" style="cursor: pointer; font-size: 24px; color: #666;">&times;</span>
     </div>
-    <p style="font-size: 12px; color: #aaa;">Copie e cole no seu executor (Delta, Fluxus, etc):</p>
+    <p style="font-size: 13px; color: var(--text-secondary);">Copie o código abaixo e cole no seu executor:</p>
     <div class="code-box" id="finalCode"></div>
-    <button class="btn-card" onclick="copyResult()">📋 COPIAR PARA ÁREA DE TRANSFERÊNCIA</button>
+    <button class="btn-card" onclick="copyResult()" style="width: 100%;">📋 Copiar Código</button>
 </div>
 
+<!-- FLOATING BUTTON -->
 <div class="floating-btn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
     <span>↑</span>
 </div>
@@ -68,73 +112,112 @@
 <script>
 let selectedScriptCode = "";
 const data = typeof scripts !== "undefined" ? scripts : [];
+let currentFilter = "all";
 
 /* ===== RENDERIZAR CARDS ===== */
-function renderizarScripts(lista){
+function renderizarScripts(lista) {
     const grid = document.getElementById("scriptGrid");
     grid.innerHTML = "";
 
-    if(lista.length === 0) {
-        grid.innerHTML = '<div style="text-align: center; padding: 60px; color: #888; grid-column: 1/-1;">🔍 Nenhum script encontrado...</div>';
+    if (lista.length === 0) {
+        grid.innerHTML = `
+            <div style="grid-column: 1/-1; text-align: center; padding: 60px;">
+                <div style="font-size: 48px; margin-bottom: 20px;">🔍</div>
+                <h3 style="margin-bottom: 10px;">Nenhum script encontrado</h3>
+                <p style="color: var(--text-secondary);">Tente buscar por outro termo</p>
+            </div>
+        `;
         return;
     }
 
-    lista.forEach((s, index)=>{
+    lista.forEach((s, index) => {
         const card = document.createElement("div");
         card.className = "card";
-        card.style.animation = `fadeInCard 0.5s ease forwards ${index * 0.05}s`;
+        card.style.animation = `fadeInUp 0.5s ease forwards ${index * 0.05}s`;
         card.style.opacity = "0";
 
+        const downloads = Math.floor(Math.random() * 10000) + 1000;
+        
         card.innerHTML = `
-            <div class="badge">🎮 ${s.jogo}</div>
+            <div class="card-header">
+                <div class="badge">🎮 ${s.jogo}</div>
+                <div class="version">v${Math.floor(Math.random() * 3) + 1}.${Math.floor(Math.random() * 10)}</div>
+            </div>
             <h3>${s.nome}</h3>
             <p>${s.descricao}</p>
-            <button class="btn-card">⚡ VER DETALHES</button>
+            <div class="card-footer">
+                <div class="downloads">⬇️ ${downloads.toLocaleString()} downloads</div>
+                <button class="btn-card">Ver Detalhes</button>
+            </div>
         `;
 
-        card.querySelector("button").onclick = ()=>{
+        card.querySelector("button").onclick = () => {
             openModal(s);
         };
         grid.appendChild(card);
     });
 }
 
-/* ===== BUSCA ===== */
-document.getElementById("searchBar").addEventListener("input",(e)=>{
-    const t = e.target.value.toLowerCase();
-    const filtered = data.filter(s =>
-        (s.nome||"").toLowerCase().includes(t) ||
-        (s.jogo||"").toLowerCase().includes(t) ||
-        (s.descricao||"").toLowerCase().includes(t)
-    );
+/* ===== FILTRAR ===== */
+function filterScripts() {
+    let filtered = data;
+    
+    if (currentFilter !== "all") {
+        filtered = data.filter(s => s.jogo === currentFilter);
+    }
+    
+    const searchTerm = document.getElementById("searchBar").value.toLowerCase();
+    if (searchTerm) {
+        filtered = filtered.filter(s =>
+            (s.nome || "").toLowerCase().includes(searchTerm) ||
+            (s.jogo || "").toLowerCase().includes(searchTerm) ||
+            (s.descricao || "").toLowerCase().includes(searchTerm)
+        );
+    }
+    
     renderizarScripts(filtered);
+}
+
+/* ===== FILTER BUTTONS ===== */
+document.querySelectorAll(".filter-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+        document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentFilter = btn.dataset.filter;
+        filterScripts();
+    });
+});
+
+/* ===== BUSCA ===== */
+document.getElementById("searchBar").addEventListener("input", () => {
+    filterScripts();
 });
 
 /* ===== MODAL ===== */
-function openModal(s){
+function openModal(s) {
     selectedScriptCode = s.codigo;
     document.getElementById("mName").innerText = s.nome;
     document.getElementById("mDesc").innerText = s.descricao;
     document.getElementById("infoModal").style.display = "flex";
 }
 
-function closeModal(){
+function closeModal() {
     document.getElementById("infoModal").style.display = "none";
 }
 
-/* ===== REDIRECIONAMENTO ===== */
-function goToVerify(){
-    if(!selectedScriptCode) return;
+/* ===== VERIFICAÇÃO ===== */
+function goToVerify() {
+    if (!selectedScriptCode) return;
     localStorage.setItem("pendingScript", selectedScriptCode);
     window.location.href = "verify.html";
 }
 
-/* ===== CHECAR SE VOLTOU DA VERIFICAÇÃO ===== */
+/* ===== CHECK SUCCESS ===== */
 function checkSuccess() {
     const params = new URLSearchParams(window.location.search);
-    if(params.get('status') === 'success') {
+    if (params.get('status') === 'success') {
         const code = localStorage.getItem("pendingScript");
-        if(code) {
+        if (code) {
             document.getElementById("finalCode").innerText = code;
             document.getElementById("floatingWin").style.display = "block";
             window.history.replaceState({}, document.title, window.location.pathname);
@@ -142,6 +225,7 @@ function checkSuccess() {
     }
 }
 
+/* ===== COPY RESULT ===== */
 function copyResult() {
     const code = document.getElementById("finalCode").innerText;
     navigator.clipboard.writeText(code);
@@ -156,8 +240,8 @@ function copyResult() {
     }, 2000);
 }
 
-/* ===== INICIAR ===== */
-window.onload = ()=>{
+/* ===== INIT ===== */
+window.onload = () => {
     renderizarScripts(data);
     checkSuccess();
 };
