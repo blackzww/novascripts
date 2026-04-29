@@ -55,7 +55,7 @@
         
         // Aplica o Blur no código inicialmente
         codePreview.innerText = 'loadstring(game:HttpGet("https://novascripts.com/locked"))()';
-        codePreview.style.filter = "blur(5px)";
+        codePreview.style.filter = "blur(7px)";
         
         copyModalBtn.innerText = "🚀 DESBLOQUEAR SCRIPT";
         copyModalBtn.style.background = "linear-gradient(135deg, #8f45ff 0%, #7025e0 100%)";
@@ -64,37 +64,33 @@
     }
 
     // O PULO DO GATO: SISTEMA DE 2 CLIQUES (ADSTERRA DIRECT LINK)
-    if (copyModalBtn) {
-        copyModalBtn.addEventListener("click", () => {
-            const script = scriptsGlobal.find(s => s.id === currentScriptId);
-            
-            if (!adClicked) {
-                // PRIMEIRO CLIQUE: ABRE O ANÚNCIO
-                // SUBSTITUA O LINK ABAIXO PELO SEU DIRECT LINK DO ADSTERRA
-                window.open('https://www.profitablecpmratenetwork.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128', '_blank');
-                
-                adClicked = true;
-                copyModalBtn.innerText = "CLIQUE NOVAMENTE PARA COPIAR";
-                copyModalBtn.style.background = "linear-gradient(135deg, #00ff88 0%, #00bd65 100%)";
-                showToast("✅ Anúncio aberto! Clique novamente.");
-                return;
-            }
+if (copyModalBtn) {
+    let adClicked = false;
 
-            // SEGUNDO CLIQUE: LIBERA O SCRIPT
-            if (script) {
-                codePreview.innerText = script.codigo;
-                codePreview.style.filter = "none";
-                
-                // Copia automaticamente para a área de transferência
-                navigator.clipboard.writeText(script.codigo);
-                showToast("📋 Script copiado com sucesso!");
-                copyModalBtn.innerText = "✅ COPIADO!";
-                
-                // Opcional: Redirecionar para página de verificação após 2s
-                // setTimeout(() => { window.location.href = 'verify.html'; }, 2000);
-            }
-        });
-    }
+    copyModalBtn.addEventListener("click", () => {
+        if (!adClicked) {
+            // USANDO O SEU DIRECT LINK NOVO
+            window.open('https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128', '_blank');
+            
+            adClicked = true;
+            copyModalBtn.innerText = "CLIQUE NOVAMENTE PARA LIBERAR";
+            copyModalBtn.style.background = "#00ff88"; // Muda pra verde pra ele saber que deu certo
+            showToast("✅ Verificação iniciada! Clique de novo.");
+            return;
+        }
+
+        // SEGUNDO CLIQUE: LIBERA O SCRIPT
+        const script = scriptsGlobal.find(s => s.id === currentScriptId);
+        if (script) {
+            codePreview.innerText = script.codigo;
+            codePreview.style.filter = "none"; // Tira o blur
+            navigator.clipboard.writeText(script.codigo);
+            showToast("📋 Script copiado!");
+            copyModalBtn.innerText = "✅ COPIADO!";
+        }
+    });
+}
+
 
     // ==========================================
     // 4. RENDERIZAÇÃO E FILTROS (MANTIDOS)
