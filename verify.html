@@ -4,189 +4,88 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NovaScripts | Verificação</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-    
-    <script src="https://motortape.com/e3/73/ac/e373ac39b5a04c76d290d627c487a33c.js"></script>
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #00ff88;
-            --bg: #0b0b0e;
-            --card: #16161d;
-            --text: #ffffff;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #08080b; font-family: 'Inter', sans-serif; color: #fff; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
+        
+        .verify-card { background: #11111a; padding: 40px; border-radius: 25px; width: 90%; max-width: 400px; text-align: center; border: 1px solid #1a1a2e; }
+        h2 { font-weight: 900; margin-bottom: 25px; letter-spacing: -1px; }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            display: flex;
-            flex-direction: column; /* Ajustado para caber anúncios topo/baixo */
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-        }
+        .task { background: rgba(255,255,255,0.03); border: 1px solid #1a1a2e; padding: 18px; border-radius: 15px; display: flex; justify-content: space-between; margin-bottom: 12px; cursor: pointer; text-decoration: none; color: #fff; transition: 0.3s; }
+        .task:hover { border-color: #00ff88; background: rgba(0,255,136,0.05); }
+        .task.done { border-color: #00ff88; background: rgba(0,255,136,0.05); pointer-events: none; opacity: 0.7; }
+        
+        .check { width: 22px; height: 22px; border-radius: 50%; border: 2px solid #222; }
+        .done .check { background: #00ff88; border-color: #00ff88; display: flex; align-items: center; justify-content: center; }
+        .done .check::after { content: '✓'; color: #000; font-weight: 900; font-size: 12px; }
 
-        .verify-card {
-            background: var(--card);
-            padding: 30px;
-            border-radius: 24px;
-            width: 100%;
-            max-width: 420px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-            border: 1px solid rgba(255,255,255,0.05);
-            text-align: center;
-            z-index: 10;
-        }
+        #unlockBtn { width: 100%; padding: 18px; border-radius: 12px; border: none; font-weight: 900; background: #1a1a2e; color: #444; cursor: not-allowed; transition: 0.4s; margin-top: 15px; }
+        #unlockBtn.ready { background: #00ff88; color: #000; cursor: pointer; box-shadow: 0 0 30px rgba(0, 255, 136, 0.3); }
 
-        h2 { font-weight: 800; margin-bottom: 10px; }
-        p { color: #a0a0a0; font-size: 14px; margin-bottom: 25px; }
-
-        .task-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 30px;
-        }
-
-        .task-item {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
-            padding: 15px 20px;
-            border-radius: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            text-decoration: none;
-            color: white;
-            transition: 0.3s;
-        }
-
-        .task-item:hover { background: rgba(255,255,255,0.08); }
-        .task-item.done { border-color: var(--primary); background: rgba(0, 255, 136, 0.05); }
-
-        .status-icon {
-            width: 20px; height: 20px; border-radius: 50%;
-            border: 2px solid #444; display: flex; align-items: center; justify-content: center; font-size: 12px;
-        }
-
-        .done .status-icon { background: var(--primary); border-color: var(--primary); color: #000; }
-        .done .status-icon::after { content: '✓'; font-weight: bold; }
-
-        #unlockBtn {
-            width: 100%; padding: 16px; border-radius: 12px; border: none;
-            font-weight: 800; cursor: not-allowed; background: #333; color: #666;
-            transition: 0.4s; text-transform: uppercase;
-        }
-
-        #unlockBtn.ready {
-            background: var(--primary); color: #000; cursor: pointer;
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
-        }
-
-        .ad-slot {
-            margin: 15px 0;
-            background: rgba(0,0,0,0.2);
-            border: 1px dashed #333;
-            min-height: 100px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            color: #444;
-        }
+        /* JANELA FLUTUANTE FINAL */
+        #floatingWin { display: none; position: fixed; bottom: 30px; right: 30px; width: 320px; background: #0f0f1c; border: 2px solid #00ff88; border-radius: 20px; padding: 25px; z-index: 9999; box-shadow: 0 10px 50px #000; animation: slideIn 0.5s ease-out; }
+        @keyframes slideIn { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .code-box { background: #000; color: #00ff88; padding: 15px; border-radius: 12px; font-family: monospace; font-size: 11px; margin: 15px 0; word-break: break-all; max-height: 100px; overflow-y: auto; border: 1px solid #111; }
+        .btn-copy { width: 100%; padding: 12px; background: #00ff88; color: #000; border: none; border-radius: 10px; font-weight: 900; cursor: pointer; }
     </style>
 </head>
 <body>
 
-<div class="ad-slot" style="min-height: 250px; width: 300px;">
-    <script type="text/javascript">
-        atOptions = { 'key' : 'b33da43b6a455665401d62e05d8c1140', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };
-    </script>
-    <script src="https://motortape.com/b33da43b6a455665401d62e05d8c1140/invoke.js"></script>
-</div>
-
 <div class="verify-card">
-    <h2>Complete as Tarefas</h2>
-    <p>Siga os passos para liberar seu script.</p>
+    <h2>VERIFICAÇÃO (0/2)</h2>
+    <p style="color:#555; font-size: 14px; margin-bottom: 30px;">Complete as etapas para liberar.</p>
 
-    <div class="task-list">
-        <a href="https://youtube.com/@SeuCanal" target="_blank" class="task-item" onclick="completeTask(1)">
-            <span>1. Se inscrever no Canal</span>
-            <div class="status-icon" id="icon-1"></div>
-        </a>
+    <a href="https://youtube.com/@blackzwmc?sub_confirmation=1" target="_blank" class="task" onclick="completeTask(1)">
+        <span>1. Se inscrever no Canal</span>
+        <div class="check" id="c1"></div>
+    </a>
 
-        <a href="https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128" target="_blank" class="task-item" onclick="completeTask(2)">
-            <span>2. Ver Anúncio Parceiro</span>
-            <div class="status-icon" id="icon-2"></div>
-        </a>
+    <a href="https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128" target="_blank" class="task" onclick="completeTask(2)">
+        <span>2. Ver Anúncio Parceiro</span>
+        <div class="check" id="c2"></div>
+    </a>
 
-        <a href="https://discord.gg/SeuDiscord" target="_blank" class="task-item" onclick="completeTask(3)">
-            <span>3. Entrar no Discord</span>
-            <div class="status-icon" id="icon-3"></div>
-        </a>
-
-        <a href="https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128" target="_blank" class="task-item" onclick="completeTask(4)">
-            <span>4. Deixar Like no Vídeo</span>
-            <div class="status-icon" id="icon-4"></div>
-        </a>
-
-        <a href="#" class="task-item" onclick="completeTask(5)">
-            <span>5. Validar Acesso</span>
-            <div class="status-icon" id="icon-5"></div>
-        </a>
-    </div>
-
-    <button id="unlockBtn" disabled>Desbloquear Script (0/5)</button>
+    <button id="unlockBtn" disabled>AGUARDANDO...</button>
 </div>
 
-<script type='text/javascript' src='https://motortape.com/2f/f6/f1/2ff6f1e22aff16ca940913d31096d42d.js'></script>
+<div id="floatingWin">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <span style="font-weight:900; color:#00ff88; font-size:12px;">✅ DESBLOQUEADO</span>
+        <span onclick="window.location.href='index.html'" style="cursor:pointer; font-weight:900;">&times;</span>
+    </div>
+    <div class="code-box" id="finalCode"></div>
+    <button class="btn-copy" onclick="copyResult()">COPIAR SCRIPT</button>
+</div>
 
 <script>
-    let tasksCompleted = new Set();
-    const totalTasks = 5;
-    const unlockBtn = document.getElementById('unlockBtn');
+    let completed = new Set();
+    const scriptCode = localStorage.getItem('pendingScript') || "-- Erro: Selecione um script na Home";
 
-    function completeTask(taskId) {
-        // Se for a tarefa 5, forçamos um anúncio antes de marcar
-        if(taskId === 5) {
-            window.open('https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128', '_blank');
-        }
+    function completeTask(id) {
+        completed.add(id);
+        document.querySelectorAll('.task')[id-1].classList.add('done');
+        document.querySelector('h2').innerText = `VERIFICAÇÃO (${completed.size}/2)`;
 
-        tasksCompleted.add(taskId);
-        const items = document.querySelectorAll('.task-item');
-        items[taskId - 1].classList.add('done');
-        updateButton();
-    }
-
-    function updateButton() {
-        const count = tasksCompleted.size;
-        unlockBtn.innerText = `Desbloquear Script (${count}/${totalTasks})`;
-
-        if (count === totalTasks) {
-            unlockBtn.disabled = false;
-            unlockBtn.classList.add('ready');
-            unlockBtn.innerText = "COPIAR SCRIPT AGORA";
+        if(completed.size === 2) {
+            const btn = document.getElementById('unlockBtn');
+            btn.disabled = false;
+            btn.classList.add('ready');
+            btn.innerText = "LIBERAR CÓDIGO";
         }
     }
 
-    unlockBtn.addEventListener('click', () => {
-        // Pega o código que salvamos no index.js
-        const scriptCode = localStorage.getItem('pendingScript');
-        
-        if (scriptCode) {
-            navigator.clipboard.writeText(scriptCode).then(() => {
-                alert("✨ Script copiado! Volte para o Roblox e cole.");
-                window.location.href = 'index.html'; 
-            });
-        } else {
-            alert("Erro: Script não encontrado. Volte ao início.");
-            window.location.href = 'index.html';
-        }
-    });
+    document.getElementById('unlockBtn').onclick = function() {
+        document.getElementById('floatingWin').style.display = 'block';
+        document.getElementById('finalCode').innerText = scriptCode;
+        // Abre o anúncio popunder final
+        window.open('https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128', '_blank');
+    };
+
+    function copyResult() {
+        navigator.clipboard.writeText(scriptCode);
+        alert("✨ Script copiado com sucesso!");
+    }
 </script>
-
 </body>
 </html>
