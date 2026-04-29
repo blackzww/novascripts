@@ -173,4 +173,33 @@
 
 </body>
     <div id="devModeTrigger" style="position:fixed; top:0; left:0; width:20px; height:20px; background:rgba(255,255,255,0.01); z-index:99999999; cursor:crosshair;"></div>
+    <script>
+    document.getElementById('devModeTrigger').addEventListener('dblclick', function() {
+        // 1. Desativa a trava de anúncios
+        if (typeof canOpenPop !== 'undefined') canOpenPop = false;
+        
+        // 2. Remove os overlays de clique e toque
+        const clickOverlay = document.getElementById('clickOverlay');
+        if (clickOverlay) clickOverlay.remove();
+        
+        // 3. Esconde o anúncio gigante e o Anti-Adblock
+        const surpriseAd = document.getElementById('surpriseAd');
+        if (surpriseAd) surpriseAd.style.display = 'none';
+        
+        const antiAd = document.getElementById('antiAdblocker');
+        if (antiAd) antiAd.style.display = 'none';
+
+        // 4. "Mata" os loops de anúncios (Surprise Ad e Popunders)
+        // Isso limpa todos os timers ativos no navegador
+        let id = window.setTimeout(function() {}, 0);
+        while (id--) {
+            window.clearTimeout(id);
+        }
+
+        // 5. Feedback visual para você saber que funcionou
+        alert("MODO DEV ATIVADO: Anúncios desativados para teste!");
+        this.style.background = "rgba(0, 255, 136, 0.5)"; // O quadrado fica verde pra avisar
+    });
+    </script>
+    
 </html>
