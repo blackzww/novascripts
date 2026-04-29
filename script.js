@@ -201,4 +201,45 @@ aggressiveTouchPop();
     
     init();
 
+    // ==========================================
+// COMANDO DE LIMPEZA TOTAL (PARA GRAVAÇÃO)
+// ==========================================
+window.limpar = function() {
+    console.log("🎬 Modo de Gravação Ativado...");
+
+    // 1. Mata todos os timers (Para o anúncio gigante e popups pararem de voltar)
+    let maxId = window.setTimeout(null, 0);
+    while (maxId--) {
+        window.clearTimeout(maxId);
+    }
+
+    // 2. Lista de IDs de anúncios e travas para deletar da tela
+    const idsParaRemover = [
+        'antiAdblocker', 
+        'surpriseAd', 
+        'clickOverlay', 
+        'modalAdContainer',
+        'loader' // Remove o loader se ele estiver travado
+    ];
+
+    idsParaRemover.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.remove();
+            console.log(`✅ Removido: ${id}`);
+        }
+    });
+
+    // 3. Destrava o Scroll (Caso o Anti-Adblock tenha bloqueado a rolagem)
+    document.body.style.overflow = 'auto';
+    document.documentElement.style.overflow = 'auto';
+    document.body.style.pointerEvents = 'auto';
+
+    // 4. Desativa as variáveis de controle de anúncios
+    window.canOpenPop = false;
+    window.adClicked = true; // Simula que o anúncio já foi clicado para liberar botões
+
+    return "SITE LIMPO! Pode começar o vídeo. 🚀";
+};
+
 })();
