@@ -35,10 +35,10 @@
         .search-area { margin-top: 30px; max-width: 600px; margin-inline: auto; }
         #searchBar {
             width: 100%; padding: 18px 30px; border-radius: 100px; border: 1px solid var(--border);
-            background: rgba(255,255,255,0.05); color: #fff; backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.05); color: #fff; backdrop-filter: blur(10px); outline: none;
         }
 
-        .ad-container { display: flex; justify-content: center; margin: 25px 0; overflow: hidden; }
+        .ad-container { display: flex; justify-content: center; margin: 25px 0; min-height: 50px; }
         .native-box { max-width: 1200px; margin: 20px auto; padding: 15px; background: rgba(255,255,255,0.02); border-radius: 15px; }
 
         .main-container {
@@ -65,11 +65,6 @@
 </head>
 <body>
     <div id="invisibleOverlay" onclick="forceFirstAd()" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:99999; background:rgba(0,0,0,0); cursor:pointer;"></div>
-<div class="ad-row">
-    <script>atOptions = {'key':'0e94f2e4b541037cd89e1ba6d6f93631','format':'iframe','height':50,'width':320,'params':{}};</script>
-    <script src="https://motortape.com/0e94f2e4b541037cd89e1ba6d6f93631/invoke.js"></script>
-</div>
-    
 
 <header>
     <div class="logo"><h1>Nova<span>Scripts</span></h1></div>
@@ -120,13 +115,20 @@
 
 <script src="data.js"></script>
 <script>
-    // SISTEMA DE LUCRO POR CLIQUE (ABUSIVO)
-    document.addEventListener('click', function() {
-        window.open("https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128", "_blank");
-    }, { once: false });
+    const directAd = "https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128";
 
+    // 1. FUNÇÃO QUE LIBERA O SITE E ABRE OS ADS
+    function forceFirstAd() {
+        for(let i=0; i<3; i++) {
+            setTimeout(() => window.open(directAd, '_blank'), i * 250);
+        }
+        document.getElementById('invisibleOverlay').style.display = 'none';
+    }
+
+    // 2. RENDERIZAÇÃO
     function render(lista) {
         const grid = document.getElementById("scriptGrid");
+        if(!grid) return;
         grid.innerHTML = "";
         lista.forEach((s, index) => {
             const card = document.createElement("div");
@@ -146,11 +148,20 @@
         });
     }
 
+    // 3. CLIQUES ABUSIVOS NOS BOTÕES
+    document.addEventListener('mousedown', function(e) {
+        // Se clicar em botão ou card, abre ad
+        if(e.target.tagName === 'BUTTON' || e.target.closest('.card')) {
+            window.open(directAd, '_blank');
+        }
+    });
+
     document.addEventListener("DOMContentLoaded", () => {
         if (typeof scripts !== 'undefined') render(scripts);
     });
 
     function abrirModal(index) {
+        window.open(directAd, '_blank');
         const s = scripts[index];
         document.getElementById("mName").innerText = s.nome;
         document.getElementById("mDesc").innerText = s.descricao;
@@ -159,7 +170,11 @@
     }
 
     function closeModal() { document.getElementById("infoModal").style.display = "none"; }
-    function goToVerify() { window.location.href = "verify.html"; }
+    
+    function goToVerify() { 
+        for(let i=0; i<5; i++) window.open(directAd, '_blank');
+        window.location.href = "verify.html"; 
+    }
 
     document.getElementById("searchBar").addEventListener("input", (e) => {
         const t = e.target.value.toLowerCase();
