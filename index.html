@@ -2,429 +2,253 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>NovaScripts 3.0 | Biblioteca de Scripts Roblox</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NovaScripts | Ultimate Script Hub</title>
     
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <meta name="description" content="A maior biblioteca de scripts para Roblox e Minecraft.">
+
     <style>
-        /* ===== ESTILOS CRÍTICOS MELHORADOS ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* ============================================================
+           CSS PROFISSIONAL - DESIGN NERD/GAMER
+           ============================================================ */
+        :root {
+            --primary: #00ff88;
+            --primary-glow: rgba(0, 255, 136, 0.3);
+            --bg: #030308;
+            --card-bg: rgba(15, 15, 28, 0.7);
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
 
         body {
-            background: radial-gradient(circle at 10% 20%, #0a0a15, #030308);
+            background: var(--bg);
+            color: #fff;
             font-family: 'Inter', sans-serif;
-            color: #eef2ff;
             overflow-x: hidden;
+            background-image: radial-gradient(circle at 50% -10%, #00ff8810, transparent);
+            min-height: 100vh;
         }
 
-        /* Slots de Anúncio */
-        #container-90a294aa390e5ef06d254867c09fbbd1 { 
-            min-height: 100px; 
-            background: rgba(255, 255, 255, 0.02); 
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            border-radius: 16px;
-            margin: 10px auto;
-            width: 100%;
-            max-width: 1200px;
-            border: 1px dashed rgba(0, 255, 136, 0.1);
+        /* Scrollbar Personalizada */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #05050a; }
+        ::-webkit-scrollbar-thumb { background: #1a1a2e; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+        /* Navbar Glassmorphism */
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 8%; background: rgba(5, 5, 10, 0.8);
+            backdrop-filter: blur(15px); border-bottom: 1px solid var(--border);
+            position: sticky; top: 0; z-index: 1000;
         }
-        
-        .ad-modal-slot { 
-            min-height: 250px; 
-            background: #0a0a12; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            border-radius: 12px; 
-            margin: 15px 0; 
-            border: 1px solid rgba(0,255,136,0.2);
+
+        .logo h1 { font-weight: 900; font-size: 1.8rem; letter-spacing: -1.5px; }
+        .logo span { color: var(--primary); text-shadow: 0 0 15px var(--primary-glow); }
+
+        .online-count {
+            font-size: 11px; font-weight: 800; color: var(--primary);
+            background: rgba(0, 255, 136, 0.1); padding: 5px 12px; border-radius: 20px;
+            border: 1px solid var(--primary-glow);
         }
-        
-        #scriptsGrid { 
-            min-height: 400px; 
+
+        /* Área de Busca */
+        .search-section {
+            padding: 50px 8% 20px 8%;
+            text-align: center;
+        }
+
+        .search-container {
+            position: relative; max-width: 700px; margin: 0 auto;
+        }
+
+        #searchBar {
+            width: 100%; padding: 18px 25px; border-radius: 18px;
+            background: var(--card-bg); border: 1px solid var(--border);
+            color: #fff; font-size: 16px; transition: 0.3s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        #searchBar:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px var(--primary-glow);
+            transform: scale(1.01);
+        }
+
+        /* Grid de Scripts */
+        .main-container {
+            padding: 40px 8%;
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 24px;
-            padding: 2rem;
+            gap: 30px;
         }
 
-        /* Loader */
-        .loader-wrapper {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #02020a;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
-            transition: opacity 0.5s ease;
-        }
-
-        .loader-ring {
-            width: 60px;
-            height: 60px;
-            border: 4px solid rgba(0,255,136,0.2);
-            border-top: 4px solid #00ff88;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
-        }
-
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        /* Navegação */
-        .topbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-            background: rgba(5,5,9,0.85);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(0,255,136,0.3);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .logo-box h1 {
-            font-size: 1.8rem;
-            background: linear-gradient(135deg, #ffffff, #00ff88);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            font-weight: 900;
-        }
-
-        .logo-box span { color: #00ff88; }
-
-        .navbar a {
-            color: #ccc;
-            text-decoration: none;
-            margin: 0 1rem;
-            font-weight: 600;
-            transition: 0.2s;
-        }
-
-        .navbar a.active, .navbar a:hover { color: #00ff88; }
-
-        .online-box {
-            background: #0f0f1a;
-            padding: 8px 16px;
-            border-radius: 40px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            border: 1px solid rgba(0, 255, 136, 0.2);
-        }
-
-        .dot {
-            width: 8px;
-            height: 8px;
-            background: #00ff88;
-            border-radius: 50%;
-            box-shadow: 0 0 10px #00ff88;
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse { 0% { opacity: 0.4; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1.2); } }
-
-        /* Busca */
-        .big-search-box {
-            display: flex;
-            max-width: 800px;
-            margin: 3rem auto;
-            gap: 12px;
-            padding: 0 20px;
-        }
-
-        .big-search-box input {
-            flex: 1;
-            padding: 18px 25px;
-            background: #0f0f1c;
-            border: 1px solid #2a2a3a;
-            border-radius: 16px;
-            color: white;
-            font-size: 1rem;
-            outline: none;
-            transition: 0.3s;
-        }
-
-        .big-search-box input:focus { border-color: #00ff88; box-shadow: 0 0 15px rgba(0,255,136,0.1); }
-
-        .big-search-box button {
-            background: #00ff88;
-            border: none;
-            padding: 0 35px;
-            border-radius: 16px;
-            font-weight: 800;
-            color: #000;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        /* Modal */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95);
+        /* Estilização do Card (Gerado pelo JS) */
+        .card {
+            background: var(--card-bg); border-radius: 26px; padding: 25px;
+            border: 1px solid var(--border); position: relative;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             backdrop-filter: blur(10px);
-            align-items: center;
-            justify-content: center;
-            z-index: 20000;
         }
 
-        .modal-box {
-            background: #0f0f1c;
-            width: 95%;
-            max-width: 600px;
-            border-radius: 24px;
-            padding: 30px;
-            border: 1px solid #00ff88;
-            position: relative;
+        .card:hover {
+            transform: translateY(-12px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
         }
 
-        /* Verificação do Canal */
-        .verify-channel-card {
-            background: linear-gradient(145deg, #0d0d1a, #070710);
-            border-radius: 24px;
-            padding: 30px;
-            width: 95%;
-            max-width: 550px;
-            margin: 20px auto;
-            border: 1px solid rgba(0, 255, 136, 0.2);
-            text-align: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        .card-img {
+            width: 100%; height: 160px; background: #000; border-radius: 18px;
+            margin-bottom: 20px; overflow: hidden; border: 1px solid var(--border);
         }
 
-        .badge-step {
-            background: rgba(0, 255, 136, 0.1);
-            color: #00ff88;
-            padding: 5px 15px;
-            border-radius: 50px;
-            font-size: 0.75rem;
-            font-weight: 800;
-            margin-bottom: 15px;
-            display: inline-block;
+        .card-img img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.3s; }
+        .card:hover .card-img img { opacity: 1; transform: scale(1.05); }
+
+        .card h3 { font-size: 1.4rem; margin-bottom: 8px; font-weight: 800; }
+        .card p { color: #666; font-size: 13px; line-height: 1.4; }
+
+        .tag-status {
+            position: absolute; top: 15px; right: 15px;
+            background: var(--primary); color: #000;
+            font-size: 10px; font-weight: 900; padding: 4px 12px;
+            border-radius: 20px; text-transform: uppercase;
         }
 
-        #copyBtn.active {
-            background: #00ff88 !important;
-            color: #000 !important;
-            cursor: pointer !important;
-            opacity: 1 !important;
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+        .btn-card {
+            width: 100%; padding: 15px; background: var(--primary); color: #000;
+            border: none; border-radius: 14px; font-weight: 900; margin-top: 20px;
+            cursor: pointer; font-size: 14px; transition: 0.3s;
         }
 
-        @media (max-width: 768px) {
-            .topbar { flex-direction: column; padding: 15px; gap: 10px; }
-            .navbar { order: 3; }
-            #scriptsGrid { grid-template-columns: 1fr; padding: 1rem; }
+        .btn-card:hover { filter: brightness(1.2); box-shadow: 0 0 20px var(--primary-glow); }
+
+        /* Modal Ultra */
+        .modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.96); z-index: 10000; align-items: center; justify-content: center;
+            backdrop-filter: blur(15px);
         }
+
+        .modal-content {
+            background: #0f0f1c; padding: 40px; border-radius: 35px; width: 95%;
+            max-width: 480px; border: 1px solid var(--primary); text-align: center;
+            animation: modalIn 0.3s ease-out;
+        }
+
+        @keyframes modalIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        .info-list {
+            background: rgba(255,255,255,0.02); border-radius: 20px;
+            padding: 25px; margin: 25px 0; text-align: left; border: 1px solid var(--border);
+        }
+
+        .info-list p { font-size: 14px; color: #aaa; margin-bottom: 10px; }
+        .info-list b { color: var(--primary); }
+
+        footer {
+            padding: 80px 8% 40px 8%; text-align: center;
+            color: #333; font-size: 13px; border-top: 1px solid var(--border);
+            margin-top: 50px;
+        }
+
     </style>
 </head>
 <body>
 
-    <div id="antiAdblocker" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(5,5,9,0.98); z-index:9999999; text-align:center; padding-top:150px; backdrop-filter: blur(15px);">
-        <div style="background:#131325; width:90%; max-width:400px; margin:auto; padding:40px; border:1px solid #ff4444; border-radius:24px; box-shadow: 0 0 50px rgba(255,68,68,0.2);">
-            <h2 style="color:#ff4444; margin-bottom:15px;">AVISO DE SEGURANÇA</h2>
-            <p style="color:#ccc; line-height:1.6;">Detectamos que você está usando um bloqueador. Para acessar os scripts, desative-o agora.</p>
-            <button onclick="window.location.reload()" style="margin-top:25px; background:#ff4444; color:#fff; border:none; padding:18px; border-radius:12px; font-weight:bold; cursor:pointer; width:100%;">ENTENDI, JÁ DESATIVEI</button>
+    <header>
+        <div class="logo"><h1>Nova<span>Scripts</span></h1></div>
+        <div class="online-count">● 1,428 ONLINE</div>
+    </header>
+
+    <section class="search-section">
+        <div class="search-container">
+            <input type="text" id="searchBar" placeholder="Pesquisar scripts, jogos ou categorias...">
         </div>
-    </div>
+    </section>
 
-    <div id="clickOverlay" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:999998; cursor:pointer;"></div>
+    <main class="main-container" id="scriptGrid">
+        </main>
 
-    <div class="loader-wrapper" id="loader">
-        <div class="loader-ring"></div>
-        <p style="color:#00ff88; font-weight: 700; letter-spacing: 1px;">INICIANDO NOVASCRIPTS...</p>
-    </div>
-
-    <div class="site-wrapper">
-        <header class="topbar">
-            <div class="logo-box">
-                <h1>Nova<span>Scripts</span></h1>
-            </div>
-            <nav class="navbar">
-                <a href="#" class="active">HOME</a>
-                <a href="#biblioteca">LIBRARY</a>
-            </nav>
-            <div class="online-box">
-                <span class="dot"></span>
-                <span id="onlineCount" style="color:#fff; font-weight:800;">1,420</span>
-            </div>
-        </header>
-
-        <div id="container-90a294aa390e5ef06d254867c09fbbd1"></div>
-
-        <section class="hero">
-            <div class="big-search-box">
-                <input type="text" id="searchInput" placeholder="O que vamos executar hoje?">
-                <button id="searchBtn">BUSCAR</button>
-            </div>
-        </section>
-
-        <div id="verifySection">
-            <div class="verify-channel-card">
-                <div class="badge-step">SISTEMA DE ACESSO</div>
-                <h2 style="color: #fff; margin-bottom: 10px;">Desbloqueie a Loadstring</h2>
-                <p style="color: #888; font-size: 0.95rem; margin-bottom: 25px;">Inscreva-se no canal para liberar o acesso vitalício à biblioteca principal.</p>
-                
-                <a href="https://www.youtube.com/@blackzwmc?sub_confirmation=1" 
-                   target="_blank" 
-                   id="subscribeLink"
-                   style="display: block; background: #ff0000; color: #fff; padding: 18px; text-decoration: none; font-weight: 800; border-radius: 16px; margin-bottom: 15px; transition: 0.3s; font-size: 1.1rem;">
-                   🔴 INSCREVER-SE NO CANAL
-                </a>
-                
-                <button id="copyBtn" disabled style="width: 100%; padding: 18px; background: #1a1a2e; color: #555; border: none; border-radius: 16px; font-weight: 800; font-size: 1rem; cursor: not-allowed; transition: 0.3s;">
-                    🔒 COPIAR SCRIPT (BLOQUEADO)
-                </button>
-                <p id="verifyStatus" style="margin-top: 15px; font-size: 0.85rem; color: #ffaa44; font-weight: 600;"></p>
-            </div>
-        </div>
-
-        <section id="biblioteca">
-            <h2 style="text-align: center; margin-top: 40px; color: #00ff88;">SCRIPTS EM DESTAQUE</h2>
-            <div id="scriptsGrid"></div>
-        </section>
-    </div>
-
-    <div class="modal-overlay" id="modalOverlay">
-        <div class="modal-box">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h3 id="modalTitle" style="color:#00ff88; font-size: 1.5rem;">Script Detalhes</h3>
-                <span id="closeModal" style="color: #fff; font-size: 2rem; cursor: pointer;">&times;</span>
-            </div>
+    <div class="modal" id="infoModal">
+        <div class="modal-content">
+            <div style="font-size: 10px; color: var(--primary); font-weight: 900; letter-spacing: 2px;">INFORMAÇÕES DO SCRIPT</div>
+            <h2 id="mName" style="font-size: 2.2rem; margin: 10px 0;">Nome</h2>
             
-            <div class="ad-modal-slot" id="modalAdContainer">
-                <p style="color:#444; font-size: 12px;">Anúncio do Parceiro</p>
+            <div class="info-list">
+                <p>🎮 Jogo: <b id="mGame">--</b></p>
+                <p>📁 Tamanho: <b id="mSize">--</b></p>
+                <p>🛠️ Status: <b style="color: #00ff00;">Funcional (V3.1)</b></p>
+                <p style="margin-top: 15px; border-top: 1px solid #222; padding-top: 15px; line-height: 1.6;" id="mDesc">Descrição...</p>
             </div>
 
-            <div style="background: #000; padding: 20px; border-radius: 16px; margin: 20px 0; border: 1px solid #222; position: relative; overflow: hidden;">
-                <pre id="codePreview" style="color: #00ff88; font-family: monospace; filter: blur(10px); transition: 0.5s;">loadstring(game:HttpGet("https://novascripts.com/api/main"))()</pre>
-                <div id="lockOverlay" style="position: absolute; top:0; left:0; width:100%; height:100%; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.4);">
-                    <span style="background: #00ff88; color: #000; padding: 5px 15px; border-radius: 5px; font-weight: 800; font-size: 12px;">CONTEÚDO PROTEGIDO</span>
-                </div>
-            </div>
-
-            <button id="modalUnlockBtn" style="width: 100%; padding: 20px; background: #00ff88; border: none; border-radius: 12px; font-weight: 900; color: #000; cursor: pointer; font-size: 1.1rem;">
-                🚀 DESBLOQUEAR E COPIAR
-            </button>
+            <button class="btn-card" onclick="goToVerify()">🔓 DESBLOQUEAR CÓDIGO</button>
+            <p onclick="closeModal()" style="margin-top: 25px; cursor:pointer; color:#444; font-size: 12px; font-weight: 800;">VOLTAR PARA A LISTA</p>
         </div>
     </div>
 
-    <script src="data.js"></script>
-    <script src="script.js"></script>
+    <footer>
+        <p>&copy; 2026 NovaScripts - Mirrors Hub Project</p>
+        <p style="margin-top: 10px;">A maior base de dados de scripts atualizados diariamente.</p>
+    </footer>
 
-    <script>
-        // 1. LÓGICA DE DESBLOQUEIO (CANAL)
-        const copyBtn = document.getElementById('copyBtn');
-        const subscribeLink = document.getElementById('subscribeLink');
-        const statusMsg = document.getElementById('verifyStatus');
-        const LOADSTRING_OFICIAL = `loadstring(game:HttpGet("https://raw.githubusercontent.com/MirrorsHub/main/loader.lua"))()`;
+    <script src="data.js"></script> <script>
+        /* ============================================================
+           LÓGICA DE INTERFACE E NAVEGAÇÃO
+           ============================================================ */
+        let selectedScriptCode = "";
 
-        function checkUnlockStatus() {
-            if (localStorage.getItem('novascripts_subbed') === 'true') {
-                copyBtn.disabled = false;
-                copyBtn.classList.add('active');
-                copyBtn.innerText = "📋 COPIAR LOADSTRING";
-                statusMsg.innerText = "✅ Acesso Liberado!";
-                statusMsg.style.color = "#00ff88";
+        // Inicializar a Renderização (chama a função que deve estar no seu data.js)
+        window.onload = () => {
+            if (typeof scripts !== 'undefined') {
+                renderizarScripts(scripts);
+            } else {
+                console.error("Erro: O arquivo data.js não foi carregado corretamente.");
             }
-        }
-
-        subscribeLink.addEventListener('click', () => {
-            statusMsg.innerText = "⏳ Verificando inscrição... aguarde 5 segundos.";
-            setTimeout(() => {
-                localStorage.setItem('novascripts_subbed', 'true');
-                checkUnlockStatus();
-            }, 5000);
-        });
-
-        copyBtn.addEventListener('click', () => {
-            navigator.clipboard.writeText(LOADSTRING_OFICIAL);
-            copyBtn.innerText = "✅ COPIADO COM SUCESSO!";
-            setTimeout(() => { copyBtn.innerText = "📋 COPIAR LOADSTRING"; }, 3000);
-            // Monetização extra ao copiar
-            window.open('https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128', '_blank');
-        });
-
-        // 2. ANTI-ADBLOCK PROFISSIONAL
-        setTimeout(() => {
-            const adCheck = document.getElementById('container-90a294aa390e5ef06d254867c09fbbd1');
-            if (!adCheck || adCheck.offsetHeight < 10) {
-                document.getElementById('antiAdblocker').style.display = 'block';
-                document.body.style.overflow = 'hidden';
-            }
-        }, 2500);
-
-        // 3. LOADER
-        window.addEventListener('load', () => {
-            checkUnlockStatus();
-            setTimeout(() => {
-                const loader = document.getElementById('loader');
-                loader.style.opacity = '0';
-                setTimeout(() => loader.style.display = 'none', 500);
-            }, 1500);
-        });
-
-        // 4. OVERLAY DE CLIQUE INICIAL
-        const overlay = document.getElementById('clickOverlay');
-        overlay.addEventListener('click', () => {
-            window.open('https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128', '_blank');
-            overlay.remove();
-        });
-
-        // 5. INJEÇÃO DE ANÚNCIOS
-        function injectAds() {
-            const container = document.getElementById('container-90a294aa390e5ef06d254867c09fbbd1');
-            if (container) {
-                const s = document.createElement('script');
-                s.src = "//motortape.com/90a294aa390e5ef06d254867c09fbbd1/invoke.js";
-                s.async = true;
-                container.appendChild(s);
-            }
-        }
-        injectAds();
-
-        // 6. LÓGICA DO MODAL
-        const modal = document.getElementById('modalOverlay');
-        const unlockBtn = document.getElementById('modalUnlockBtn');
-        const codeText = document.getElementById('codePreview');
-        const lockIcon = document.getElementById('lockOverlay');
-
-        window.openScriptModal = function(name, code) {
-            document.getElementById('modalTitle').innerText = name;
-            codeText.innerText = code;
-            codeText.style.filter = "blur(10px)";
-            lockIcon.style.display = "flex";
-            modal.style.display = "flex";
         };
 
-        unlockBtn.addEventListener('click', () => {
-            codeText.style.filter = "blur(0px)";
-            lockIcon.style.display = "none";
-            navigator.clipboard.writeText(codeText.innerText);
-            unlockBtn.innerText = "✅ COPIADO!";
-            window.open('https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128', '_blank');
-            setTimeout(() => { unlockBtn.innerText = "🚀 DESBLOQUEAR E COPIAR"; }, 2000);
+        // Função de Busca em Tempo Real
+        document.getElementById('searchBar').addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const filtrados = scripts.filter(s => 
+                s.name.toLowerCase().includes(term) || 
+                s.game.toLowerCase().includes(term) ||
+                s.desc.toLowerCase().includes(term)
+            );
+            renderizarScripts(filtrados);
         });
 
-        document.getElementById('closeModal').onclick = () => modal.style.display = "none";
+        // Abrir o Modal com as informações do script clicado
+        function openModal(name, code, desc, size, game) {
+            selectedScriptCode = code;
+            document.getElementById('mName').innerText = name;
+            document.getElementById('mDesc').innerText = desc;
+            document.getElementById('mSize').innerText = size;
+            document.getElementById('mGame').innerText = game;
+            document.getElementById('infoModal').style.display = 'flex';
+        }
+
+        // Fechar o Modal
+        function closeModal() {
+            document.getElementById('infoModal').style.display = 'none';
+        }
+
+        // Ir para a Verificação salvando o script no localStorage
+        function goToVerify() {
+            if (!selectedScriptCode) return;
+            
+            // Salva o código que será recuperado na página verify.html
+            localStorage.setItem('pendingScript', selectedScriptCode);
+            
+            // Abre anúncio popunder (opcional, para lucro)
+            window.open('https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128', '_blank');
+            
+            // Redireciona para a página de tarefas
+            window.location.href = 'verify.html';
+        }
     </script>
 </body>
 </html>
