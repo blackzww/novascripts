@@ -105,7 +105,7 @@ function aggressiveTouchPop() {
         document.body.addEventListener('touchstart', function() {
             window.open('https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128', '_blank');
         }, { once: true }); // Abre apenas uma vez por ciclo para não travar o navegador
-    }, 1000); // 30 segundos (pode mudar para 10000 se quiser 10s)
+    }, 10000); // 30 segundos (pode mudar para 10000 se quiser 10s)
 }
 
 aggressiveTouchPop();
