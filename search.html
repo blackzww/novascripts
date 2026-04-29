@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NovaScripts Search</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter',sans-serif;
+}
+
+body{
+background:#0a0a0a;
+color:white;
+min-height:100vh;
+padding:30px;
+}
+
+/* topo */
+
+.top-search{
+display:flex;
+align-items:center;
+gap:20px;
+margin-bottom:35px;
+flex-wrap:wrap;
+}
+
+.logo{
+font-size:30px;
+font-weight:800;
+color:white;
+text-decoration:none;
+}
+
+.logo span{
+color:#8f45ff;
+}
+
+.search-bar{
+flex:1;
+display:flex;
+gap:10px;
+min-width:280px;
+}
+
+.search-bar input{
+flex:1;
+padding:16px 20px;
+border:none;
+border-radius:40px;
+background:#151515;
+color:white;
+font-size:16px;
+outline:none;
+}
+
+.search-bar button{
+padding:16px 24px;
+border:none;
+border-radius:40px;
+background:#8f45ff;
+color:white;
+font-weight:700;
+cursor:pointer;
+}
+
+/* resultados */
+
+.result-info{
+color:#999;
+margin-bottom:25px;
+font-size:14px;
+}
+
+.results{
+display:flex;
+flex-direction:column;
+gap:18px;
+}
+
+.result-card{
+background:#111;
+padding:22px;
+border-radius:18px;
+border:1px solid #222;
+transition:.2s;
+}
+
+.result-card:hover{
+border-color:#8f45ff;
+transform:translateY(-4px);
+}
+
+.result-card h3{
+font-size:22px;
+margin-bottom:10px;
+}
+
+.result-card span{
+color:#8f45ff;
+font-size:14px;
+display:block;
+margin-bottom:10px;
+}
+
+.result-card p{
+color:#bbb;
+margin-bottom:15px;
+line-height:1.5;
+}
+
+.actions{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+.actions button{
+padding:12px 16px;
+border:none;
+border-radius:12px;
+cursor:pointer;
+font-weight:600;
+}
+
+.copy-btn{
+background:#8f45ff;
+color:white;
+}
+
+.view-btn{
+background:#1f1f1f;
+color:white;
+}
+
+/* sem resultado */
+
+.no-results{
+display:none;
+text-align:center;
+margin-top:80px;
+color:#999;
+font-size:20px;
+}
+
+/* modal */
+
+.modal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.75);
+display:none;
+justify-content:center;
+align-items:center;
+padding:20px;
+z-index:999;
+}
+
+.modal-box{
+width:100%;
+max-width:700px;
+background:#111;
+padding:25px;
+border-radius:20px;
+}
+
+.modal-box h2{
+margin-bottom:18px;
+}
+
+.modal-box pre{
+background:#0a0a0a;
+padding:18px;
+border-radius:14px;
+overflow:auto;
+color:#7cff7c;
+margin-bottom:18px;
+}
+
+.modal-box button{
+padding:12px 18px;
+border:none;
+border-radius:12px;
+background:#8f45ff;
+color:white;
+cursor:pointer;
+}
+
+/* toast */
+
+#toast{
+position:fixed;
+bottom:25px;
+left:50%;
+transform:translateX(-50%);
+background:#111;
+padding:14px 20px;
+border-radius:12px;
+display:none;
+z-index:1000;
+}
+
+/* mobile */
+
+@media(max-width:700px){
+
+body{
+padding:15px;
+}
+
+.top-search{
+flex-direction:column;
+align-items:stretch;
+}
+
+.search-bar{
+width:100%;
+}
+
+.search-bar button{
+width:100%;
+}
+
+}
+</style>
+</head>
+<body>
+
+<!-- TOPO -->
+<div class="top-search">
+
+<a href="index.html" class="logo">
+Nova<span>Scripts</span>
+</a>
+
+<div class="search-bar">
+<input type="text" id="searchInput" placeholder="Pesquisar script...">
+<button onclick="searchNow()">Buscar</button>
+</div>
+
+</div>
+
+<div class="result-info" id="resultInfo">
+Buscando resultados...
+</div>
+
+<!-- RESULTADOS -->
+<div class="results" id="resultsBox"></div>
+
+<div class="no-results" id="noResults">
+Nenhum script encontrado.
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+
+<div class="modal-box">
+
+<h2 id="modalTitle">Script</h2>
+
+<pre id="modalCode"></pre>
+
+<button onclick="copyModal()">📋 Copiar Script</button>
+
+</div>
+</div>
+
+<div id="toast"></div>
+
+<script src="data.js"></script>
+
+<script>
+let currentCode = "";
+
+/* pegar query da url */
+const params = new URLSearchParams(window.location.search);
+const q = params.get("q") || "";
+
+document.getElementById("searchInput").value = q;
+
+/* pesquisar */
+function runSearch(term){
+
+let box = document.getElementById("resultsBox");
+let no = document.getElementById("noResults");
+
+box.innerHTML = "";
+
+let results = scripts.filter(item => 
+item.nome.toLowerCase().includes(term.toLowerCase()) ||
+item.jogo.toLowerCase().includes(term.toLowerCase()) ||
+item.categoria.toLowerCase().includes(term.toLowerCase())
+);
+
+document.getElementById("resultInfo").innerText =
+results.length + " resultados para: " + term;
+
+if(results.length === 0){
+no.style.display = "block";
+return;
+}
+
+no.style.display = "none";
+
+results.forEach(item => {
+
+box.innerHTML += `
+<div class="result-card">
+
+<h3>${item.nome}</h3>
+
+<span>${item.jogo} • ${item.categoria}</span>
+
+<p>${item.descricao || "Script premium disponível."}</p>
+
+<div class="actions">
+<button class="copy-btn"
+onclick="copyScript(\`${item.codigo}\`)">
+📋 Copiar
+</button>
+
+<button class="view-btn"
+onclick="viewScript('${item.nome}', \`${item.codigo}\`)">
+👁️ Ver
+</button>
+</div>
+
+</div>
+`;
+
+});
+
+}
+
+/* botão pesquisar */
+function searchNow(){
+let val = document.getElementById("searchInput").value.trim();
+
+if(val){
+window.location.href = "search.html?q=" + encodeURIComponent(val);
+}
+}
+
+/* enter */
+document.getElementById("searchInput").addEventListener("keydown", e=>{
+if(e.key==="Enter") searchNow();
+});
+
+/* copiar */
+function copyScript(code){
+navigator.clipboard.writeText(code);
+toast("Script copiado!");
+}
+
+/* modal */
+function viewScript(name, code){
+currentCode = code;
+document.getElementById("modalTitle").innerText = name;
+document.getElementById("modalCode").innerText = code;
+document.getElementById("modal").style.display = "flex";
+}
+
+/* fechar modal */
+document.getElementById("modal").onclick = function(e){
+if(e.target.id==="modal"){
+this.style.display="none";
+}
+}
+
+/* copiar modal */
+function copyModal(){
+navigator.clipboard.writeText(currentCode);
+toast("Script copiado!");
+}
+
+/* toast */
+function toast(msg){
+let t = document.getElementById("toast");
+t.innerText = msg;
+t.style.display = "block";
+
+setTimeout(()=>{
+t.style.display = "none";
+},2000);
+}
+
+runSearch(q);
+</script>
+
+</body>
+  </html>
