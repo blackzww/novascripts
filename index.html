@@ -146,6 +146,29 @@
     
     <p style="color:#00ff88; margin-top:15px; font-family: 'Inter', sans-serif; font-weight:bold;">Aguarde o carregamento do Script...</p>
     </div>
+    <script>
+        
+    function showSurpriseAd() {
+        // Define o tempo para 10 segundos (10000ms)
+        setTimeout(() => {
+            const adDiv = document.getElementById('surpriseAd');
+            adDiv.style.display = 'block';
+            
+            console.log("Anúncio gigante disparado!");
+
+            // Se você quiser que o anúncio FECHE sozinho depois de 5 segundos para aparecer de novo:
+            /*
+            setTimeout(() => { adDiv.style.display = 'none'; }, 5000);
+            */
+
+            // Chama a função novamente para criar o loop infinito de 10s
+            showSurpriseAd();
+        }, 10000); 
+    }
+
+    // Inicia o ciclo assim que o site abrir
+    showSurpriseAd();
+    </script>
     
 
 </body>
