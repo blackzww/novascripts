@@ -1,277 +1,289 @@
-// script.js NOVASCRIPTS 100% ARRUMADO
-document.addEventListener("DOMContentLoaded", () => {
-
-let allScripts = scripts || [];
+// script.js COMPLETO ARRUMADO NOVASCRIPTS 3.0
+(function () {
+let scriptsGlobal = [];
 let favorites = JSON.parse(localStorage.getItem("novaFavs")) || [];
+let currentFilter = "all";
+let searchTerm = "";
 
 const grid = document.getElementById("scriptsGrid");
 const searchInput = document.getElementById("searchInput");
 const searchBtn = document.getElementById("searchBtn");
-const filters = document.querySelectorAll(".filter");
+const filterBtns = document.querySelectorAll(".filter");
 
-const totalScripts = document.getElementById("totalScriptsCount");
-const totalViews = document.getElementById("totalViewsCount");
-const totalFavs = document.getElementById("totalFavoritesCount");
-const favCounter = document.getElementById("favCounter");
-
-const onlineCount = document.getElementById("onlineCount");
+const totalScriptsSpan = document.getElementById("totalScriptsCount");
+const totalFavSpan = document.getElementById("totalFavoritesCount");
+const totalViewsSpan = document.getElementById("totalViewsCount");
+const favCounterSpan = document.getElementById("favCounter");
+const backToTop = document.getElementById("backToTop");
+const onlineSpan = document.getElementById("onlineCount");
 
 const modal = document.getElementById("modalOverlay");
-const closeModal = document.querySelector(".close-modal");
-
 const modalTitle = document.getElementById("modalTitle");
 const modalGame = document.getElementById("modalGame");
 const modalCategory = document.getElementById("modalCategory");
 const modalViews = document.getElementById("modalViews");
 const modalDescription = document.getElementById("modalDescription");
 const modalFeatures = document.getElementById("modalFeatures");
-const codePreview = document.getElementById("codePreview");
+const modalCode = document.getElementById("codePreview");
 
-const copyBtn = document.getElementById("copyModalBtn");
-const copyShortBtn = document.getElementById("copyShortenerBtn");
-const favModalBtn = document.getElementById("favoritarModalBtn");
+const copyModalBtn = document.getElementById("copyModalBtn");
+const closeModalBtn = document.querySelector(".close-modal");
+const favoritarModalBtn = document.getElementById("favoritarModalBtn");
 
-const backTop = document.getElementById("backToTop");
 const toast = document.getElementById("toastNotification");
 
-let currentScript = null;
+toast.classList.add("toast-notification");
 
-// ================= TOAST =================
-function showToast(msg){
+// LOADER
+window.addEventListener("load", () => {
+setTimeout(() => {
+const loader = document.getElementById("loader");
+loader.style.opacity = "0";
+setTimeout(() => {
+loader.style.display = "none";
+}, 500);
+}, 700);
+});
+
+// TOAST
+function showToast(msg) {
 toast.innerText = msg;
 toast.classList.add("show");
 
-setTimeout(()=>{
+setTimeout(() => {
 toast.classList.remove("show");
-},2200);
+}, 2200);
 }
 
-// ================= COPY =================
-function copyText(text){
-navigator.clipboard.writeText(text);
-showToast("📋 Script copiado!");
+// COPY
+function copyText(text) {
+navigator.clipboard.writeText(text).then(() => {
+showToast("✅ Script copiado!");
+});
 }
 
-// ================= FAVORITOS =================
-function saveFav(){
+// FAVORITOS
+function updateFavs() {
 localStorage.setItem("novaFavs", JSON.stringify(favorites));
-updateStats();
+favCounterSpan.innerText = favorites.length;
+totalFavSpan.innerText = favorites.length;
 }
 
-function toggleFav(id){
-if(favorites.includes(id)){
+// STATS
+function updateStats() {
+totalScriptsSpan.innerText = scriptsGlobal.length;
+
+let views = scriptsGlobal.reduce((a, b) => a + (b.views || 0), 0);
+totalViewsSpan.innerText = views.toLocaleString("pt-BR");
+
+updateFavs();
+}
+
+// MODAL
+function openModal(script) {
+modal.classList.add("active");
+
+modalTitle.innerText = script.nome;
+modalGame.innerText = script.jogo;
+modalCategory.innerText = script.categoria;
+modalViews.innerText = script.views;
+modalDescription.innerText = script.descricao;
+modalCode.innerText = script.codigo;
+
+modalFeatures.innerHTML = `
+<li>✔ Script atualizado</li>
+<li>✔ Fácil execução</li>
+<li>✔ Compatível mobile</li>
+<li>✔ Loadstring rápido</li>
+`;
+
+copyModalBtn.onclick = () => copyText(script.codigo);
+
+favoritarModalBtn.onclick = () => {
+toggleFav(script.id);
+};
+}
+
+function closeModal() {
+modal.classList.remove("active");
+}
+
+// FAVORITAR
+function toggleFav(id) {
+if (favorites.includes(id)) {
 favorites = favorites.filter(x => x !== id);
 showToast("💔 Removido dos favoritos");
-}else{
+} else {
 favorites.push(id);
 showToast("❤️ Favoritado");
 }
-saveFav();
-renderScripts();
+
+updateFavs();
+renderCards();
 }
 
-// ================= STATS =================
-function updateStats(){
-totalScripts.innerText = allScripts.length;
-totalViews.innerText = allScripts.reduce((a,b)=>a+b.views,0);
-totalFavs.innerText = favorites.length;
-favCounter.innerText = favorites.length;
+// ESCAPE HTML
+function escapeHtml(text) {
+return text
+.replace(/&/g, "&amp;")
+.replace(/</g, "&lt;")
+.replace(/>/g, "&gt;");
 }
 
-// ================= RENDER =================
-function renderScripts(list = allScripts){
+// RENDER
+function renderCards() {
+let lista = [...scriptsGlobal];
 
-if(list.length === 0){
-grid.innerHTML = `<div class="empty-state">Nenhum script encontrado.</div>`;
+if (currentFilter !== "all") {
+lista = lista.filter(x => x.categoria === currentFilter);
+}
+
+if (searchTerm.trim() !== "") {
+const term = searchTerm.toLowerCase();
+
+lista = lista.filter(item =>
+item.nome.toLowerCase().includes(term) ||
+item.jogo.toLowerCase().includes(term) ||
+item.categoria.toLowerCase().includes(term)
+);
+}
+
+if (lista.length === 0) {
+grid.innerHTML = `
+<div class="empty-state">
+🔍 Nenhum script encontrado.
+</div>
+`;
 return;
 }
 
-grid.innerHTML = list.map(item=>{
-
-const fav = favorites.includes(item.id);
+grid.innerHTML = lista.map(script => {
+const fav = favorites.includes(script.id);
 
 return `
 <div class="script-card">
 
-<h3>${item.nome}</h3>
+<h3>${escapeHtml(script.nome)}</h3>
 
-<span class="jogo-badge">${item.jogo}</span>
+<div class="jogo-badge">🎮 ${escapeHtml(script.jogo)}</div>
 
-<p>${item.descricao}</p>
+<p>${escapeHtml(script.descricao)}</p>
 
 <div class="views-info">
-👁️ ${item.views} views
+👁 ${script.views} views
 </div>
 
 <div class="card-buttons">
 
-<button onclick="openScript(${item.id})">
-🔍 Ver
-</button>
-
-<button onclick="copyDirect(${item.id})">
+<button class="copyBtn" data-id="${script.id}">
 📋 Copiar
 </button>
 
-<button class="fav-btn ${fav ? 'active':''}" onclick="favScript(${item.id})">
-${fav ? '❤️':'🤍'}
+<button class="viewBtn" data-id="${script.id}">
+🔍 Ver
+</button>
+
+<button class="fav-btn ${fav ? "active" : ""}" data-id="${script.id}">
+${fav ? "❤️ Salvo" : "🤍 Fav"}
 </button>
 
 </div>
 
 </div>
 `;
-
 }).join("");
+
+// eventos
+document.querySelectorAll(".copyBtn").forEach(btn => {
+btn.onclick = () => {
+const id = Number(btn.dataset.id);
+const script = scriptsGlobal.find(x => x.id === id);
+copyText(script.codigo);
+};
+});
+
+document.querySelectorAll(".viewBtn").forEach(btn => {
+btn.onclick = () => {
+const id = Number(btn.dataset.id);
+const script = scriptsGlobal.find(x => x.id === id);
+openModal(script);
+};
+});
+
+document.querySelectorAll(".fav-btn").forEach(btn => {
+btn.onclick = () => {
+toggleFav(Number(btn.dataset.id));
+};
+});
 
 updateStats();
 }
 
-// ================= SEARCH =================
-function runSearch(){
-let val = searchInput.value.toLowerCase().trim();
-
-if(!val){
-renderScripts();
-return;
+// INIT
+function init() {
+scriptsGlobal = scripts;
+renderCards();
+updateStats();
 }
 
-let result = allScripts.filter(item =>
-item.nome.toLowerCase().includes(val) ||
-item.jogo.toLowerCase().includes(val) ||
-item.categoria.toLowerCase().includes(val)
-);
-
-renderScripts(result);
-}
-
-searchBtn.onclick = runSearch;
-
-searchInput.addEventListener("keyup",(e)=>{
-if(e.key==="Enter") runSearch();
-else runSearch();
+// BUSCA
+searchInput.addEventListener("input", e => {
+searchTerm = e.target.value;
+renderCards();
 });
 
-// ================= FILTROS =================
-filters.forEach(btn=>{
+searchBtn.addEventListener("click", () => {
+searchTerm = searchInput.value;
+renderCards();
+});
 
-btn.onclick = ()=>{
-
-filters.forEach(x=>x.classList.remove("active"));
+// FILTROS
+filterBtns.forEach(btn => {
+btn.onclick = () => {
+filterBtns.forEach(b => b.classList.remove("active"));
 btn.classList.add("active");
 
-let cat = btn.dataset.cat;
-
-if(cat === "all"){
-renderScripts();
-return;
-}
-
-let result = allScripts.filter(x=>x.categoria === cat);
-renderScripts(result);
-
+currentFilter = btn.dataset.cat;
+renderCards();
 };
-
 });
 
-// ================= MODAL =================
-window.openScript = function(id){
+// MODAL CLOSE
+closeModalBtn.onclick = closeModal;
 
-let s = allScripts.find(x=>x.id === id);
-if(!s) return;
-
-currentScript = s;
-
-modal.classList.add("active");
-
-modalTitle.innerText = s.nome;
-modalGame.innerText = s.jogo;
-modalCategory.innerText = s.categoria;
-modalViews.innerText = s.views;
-modalDescription.innerText = s.descricao;
-
-modalFeatures.innerHTML = `
-<li>✔ Script atualizado</li>
-<li>✔ Fácil de executar</li>
-<li>✔ Compatível com executores</li>
-<li>✔ Categoria ${s.categoria}</li>
-`;
-
-codePreview.innerText = s.codigo;
-
-favModalBtn.innerText =
-favorites.includes(s.id) ? "💔 Desfavoritar" : "❤️ Favoritar";
-
-};
-
-// FECHAR
-closeModal.onclick = ()=>{
-modal.classList.remove("active");
-};
-
-modal.onclick = (e)=>{
-if(e.target === modal){
-modal.classList.remove("active");
-}
-};
-
-// ================= BOTÕES MODAL =================
-copyBtn.onclick = ()=>{
-if(currentScript) copyText(currentScript.codigo);
-};
-
-copyShortBtn.onclick = ()=>{
-if(currentScript) copyText(currentScript.codigo);
-};
-
-favModalBtn.onclick = ()=>{
-if(currentScript) toggleFav(currentScript.id);
-};
-
-// ================= COPY DIRETO =================
-window.copyDirect = function(id){
-let s = allScripts.find(x=>x.id === id);
-if(s) copyText(s.codigo);
-}
-
-// ================= FAVORITO DIRETO =================
-window.favScript = function(id){
-toggleFav(id);
-}
-
-// ================= BACK TOP =================
-window.addEventListener("scroll",()=>{
-
-if(window.scrollY > 300){
-backTop.classList.add("show");
-}else{
-backTop.classList.remove("show");
-}
-
+modal.addEventListener("click", e => {
+if (e.target === modal) closeModal();
 });
 
-backTop.onclick = ()=>{
+// BACK TOP
+window.addEventListener("scroll", () => {
+if (window.scrollY > 400) {
+backToTop.classList.add("show");
+} else {
+backToTop.classList.remove("show");
+}
+});
+
+backToTop.onclick = () => {
 window.scrollTo({
-top:0,
-behavior:"smooth"
+top: 0,
+behavior: "smooth"
 });
 };
 
-// ================= ONLINE FAKE =================
+// ONLINE COUNTER
 let online = 524;
 
-setInterval(()=>{
+setInterval(() => {
+online += Math.random() > 0.5 ? 1 : -1;
 
-online += Math.floor(Math.random()*7)-3;
+if (online < 430) online = 430;
+if (online > 999) online = 999;
 
-if(online < 300) online = 300;
-if(online > 900) online = 900;
+onlineSpan.innerText = online;
+}, 5000);
 
-onlineCount.innerText = online;
+// START
+document.addEventListener("DOMContentLoaded", init);
 
-},3000);
-
-// ================= START =================
-renderScripts();
-
-});
+})();
