@@ -1,5 +1,5 @@
-// script.js
-(function() {
+// script.js COMPLETO + REDIRECIONA PARA script-page.html
+(function () {
     let scriptsGlobal = [];
     let favorites = JSON.parse(localStorage.getItem("novaFavs")) || [];
     let currentFilter = "all";
@@ -7,11 +7,11 @@
     let sortPopular = false;
     let sortNew = false;
 
-    // DOM elements
+    /* ELEMENTOS */
     const grid = document.getElementById("scriptsGrid");
     const searchInput = document.getElementById("searchInput");
     const searchBtn = document.getElementById("searchBtn");
-    const filterBtns = document.querySelectorAll(".filter-cat");
+    const filterBtns = document.querySelectorAll(".filter-cat, .filter");
     const totalScriptsSpan = document.getElementById("totalScriptsCount");
     const totalFavSpan = document.getElementById("totalFavoritesCount");
     const totalViewsSpan = document.getElementById("totalViewsCount");
@@ -19,227 +19,331 @@
     const popularLink = document.getElementById("popularLink");
     const newLink = document.getElementById("newLink");
     const backToTop = document.getElementById("backToTop");
-    const modal = document.getElementById("modalOverlay");
-    const modalTitle = document.getElementById("modalTitle");
-    const modalCode = document.getElementById("modalCodeContent");
-    const copyModalBtn = document.getElementById("copyModalBtn");
-    const closeModalBtn = document.querySelector(".close-modal");
+
     const onlineSpan = document.getElementById("onlineCount");
 
-    // Loader
+    /* LOADER */
     window.addEventListener("load", () => {
+        const loader = document.getElementById("loader");
+        if (!loader) return;
+
         setTimeout(() => {
-            const loader = document.getElementById("loader");
             loader.style.opacity = "0";
-            setTimeout(() => loader.style.display = "none", 500);
-        }, 600);
+            setTimeout(() => {
+                loader.style.display = "none";
+            }, 500);
+        }, 700);
     });
 
-    // Atualizar contador de favoritos
-    function updateFavUI() {
-        const totalFav = favorites.length;
-        if (totalFavSpan) totalFavSpan.innerText = totalFav;
-        if (favCounterSpan) favCounterSpan.innerText = totalFav;
+    /* FAVORITOS */
+    function saveFavs() {
         localStorage.setItem("novaFavs", JSON.stringify(favorites));
     }
 
-    function showToastMessage(msg) {
-        const toastDiv = document.getElementById("toastNotification");
-        toastDiv.innerText = msg;
-        toastDiv.style.opacity = "1";
+    function updateFavUI() {
+        const total = favorites.length;
+
+        if (favCounterSpan) favCounterSpan.innerText = total;
+        if (totalFavSpan) totalFavSpan.innerText = total;
+
+        saveFavs();
+    }
+
+    /* TOAST */
+    function toast(msg) {
+        const toast = document.getElementById("toastNotification");
+        if (!toast) return;
+
+        toast.innerText = msg;
+        toast.classList.add("show");
+
         setTimeout(() => {
-            toastDiv.style.opacity = "0";
-        }, 2000);
+            toast.classList.remove("show");
+        }, 2200);
     }
 
-    function copyToClipboard(text, scriptName) {
+    /* COPIAR */
+    function copyText(text, name = "Script") {
         navigator.clipboard.writeText(text).then(() => {
-            showToastMessage(`✅ ${scriptName || "Script"} copiado com sucesso!`);
-        }).catch(() => showToastMessage("Erro ao copiar"));
+            toast("📋 " + name + " copiado!");
+        }).catch(() => {
+            toast("Erro ao copiar.");
+        });
     }
 
+    /* ESCAPAR HTML */
+    function esc(str) {
+        if (!str) return "";
+        return str
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;");
+    }
+
+    /* STATS */
     function updateStats() {
-        if (scriptsGlobal.length) {
-            totalScriptsSpan.innerText = scriptsGlobal.length;
-            let totalViews = scriptsGlobal.reduce((acc, s) => acc + (s.views || 0), 0);
-            totalViewsSpan.innerText = totalViews;
-        }
+        if (totalScriptsSpan) totalScriptsSpan.innerText = scriptsGlobal.length;
+
+        let totalViews = scriptsGlobal.reduce((acc, item) => {
+            return acc + (item.views || 0);
+        }, 0);
+
+        if (totalViewsSpan) totalViewsSpan.innerText = totalViews;
+
         updateFavUI();
     }
 
-    function openModal(script) {
-        modalTitle.innerText = `${script.nome} - ${script.jogo}`;
-        modalCode.innerText = script.codigo || "loadstring(...)";
-        modal.classList.add("active");
-        copyModalBtn.onclick = () => {
-            copyToClipboard(script.codigo, script.nome);
-        };
-    }
-
-    function closeModalFunc() {
-        modal.classList.remove("active");
-    }
-
-    function renderCards() {
-        let filtered = [...scriptsGlobal];
-        if (sortPopular) {
-            filtered.sort((a,b) => (b.views || 0) - (a.views || 0));
-        } else if (sortNew) {
-            filtered.sort((a,b) => (b.id || 0) - (a.id || 0));
-        } else {
-            filtered.sort((a,b) => (a.id || 0) - (b.id || 0));
-        }
+    /* FILTRAR */
+    function getFiltered() {
+        let arr = [...scriptsGlobal];
 
         if (currentFilter !== "all") {
-            filtered = filtered.filter(s => s.categoria === currentFilter);
-        }
-        if (searchTerm.trim() !== "") {
-            const term = searchTerm.toLowerCase();
-            filtered = filtered.filter(s => s.nome.toLowerCase().includes(term) || 
-                s.jogo.toLowerCase().includes(term) || 
-                (s.categoria && s.categoria.toLowerCase().includes(term)));
+            arr = arr.filter(item =>
+                item.categoria &&
+                item.categoria.toLowerCase() === currentFilter.toLowerCase()
+            );
         }
 
-        if (filtered.length === 0) {
-            grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1; text-align:center; padding:50px;">🔍 Nenhum script encontrado... tente outra pesquisa.</div>`;
+        if (searchTerm.trim() !== "") {
+            const t = searchTerm.toLowerCase();
+
+            arr = arr.filter(item =>
+                item.nome.toLowerCase().includes(t) ||
+                item.jogo.toLowerCase().includes(t) ||
+                item.categoria.toLowerCase().includes(t)
+            );
+        }
+
+        if (sortPopular) {
+            arr.sort((a, b) => (b.views || 0) - (a.views || 0));
+        } else if (sortNew) {
+            arr.sort((a, b) => (b.id || 0) - (a.id || 0));
+        }
+
+        return arr;
+    }
+
+    /* RENDER */
+    function renderCards() {
+        if (!grid) return;
+
+        const data = getFiltered();
+
+        if (data.length === 0) {
+            grid.innerHTML = `
+                <div class="empty-state">
+                    🔍 Nenhum script encontrado.
+                </div>
+            `;
             return;
         }
 
-        grid.innerHTML = filtered.map(script => {
-            const isFav = favorites.includes(script.id);
+        grid.innerHTML = data.map(script => {
+            const fav = favorites.includes(script.id);
+
             return `
-                <div class="script-card" data-id="${script.id}">
-                    <div class="card-header">
-                        <h3>${escapeHtml(script.nome)}</h3>
-                        <span class="badge-jogo">🎮 ${escapeHtml(script.jogo)}</span>
-                    </div>
-                    <div class="categoria-badge">📁 ${escapeHtml(script.categoria)}</div>
-                    <div class="desc-script">${escapeHtml(script.descricao || "Sem descrição adicional")}</div>
-                    <div class="views-count">👁️ ${script.views || 0} visualizações</div>
-                    <div class="card-buttons">
-                        <button class="copy-script" data-code="${escapeHtml(script.codigo)}" data-name="${escapeHtml(script.nome)}">📋 Copiar Script</button>
-                        <button class="view-script" data-id="${script.id}">🔍 Ver Script</button>
-                        <button class="fav-btn ${isFav ? 'active' : ''}" data-id="${script.id}">❤️ ${isFav ? 'Favoritado' : 'Favoritar'}</button>
-                    </div>
+            <div class="script-card">
+
+                <div class="card-top">
+                    <h3>${esc(script.nome)}</h3>
+                    <span class="game-badge">🎮 ${esc(script.jogo)}</span>
                 </div>
+
+                <div class="cat-badge">
+                    📁 ${esc(script.categoria)}
+                </div>
+
+                <p class="card-desc">
+                    ${esc(script.descricao || "Script premium disponível.")}
+                </p>
+
+                <div class="views-box">
+                    👁️ ${script.views || 0} views
+                </div>
+
+                <div class="card-actions">
+
+                    <button class="copy-btn"
+                        data-code="${esc(script.codigo)}"
+                        data-name="${esc(script.nome)}">
+                        📋 Copiar
+                    </button>
+
+                    <button class="view-btn"
+                        data-id="${script.id}">
+                        🔍 Ver Página
+                    </button>
+
+                    <button class="fav-btn ${fav ? "active" : ""}"
+                        data-id="${script.id}">
+                        ❤️
+                    </button>
+
+                </div>
+
+            </div>
             `;
         }).join("");
 
-        // Eventos nos botoes dinâmicos
-        document.querySelectorAll(".copy-script").forEach(btn => {
-            btn.addEventListener("click", (e) => {
-                const code = btn.getAttribute("data-code");
-                const name = btn.getAttribute("data-name");
-                copyToClipboard(code, name);
-                updatePopularCounter(name);
-            });
-        });
-
-        document.querySelectorAll(".view-script").forEach(btn => {
-            btn.addEventListener("click", (e) => {
-                const id = parseInt(btn.getAttribute("data-id"));
-                const script = scriptsGlobal.find(s => s.id === id);
-                if(script) openModal(script);
-            });
-        });
-
-        document.querySelectorAll(".fav-btn").forEach(btn => {
-            btn.addEventListener("click", (e) => {
-                const id = parseInt(btn.getAttribute("data-id"));
-                if (favorites.includes(id)) {
-                    favorites = favorites.filter(f => f !== id);
-                } else {
-                    favorites.push(id);
-                }
-                updateFavUI();
-                renderCards();
-            });
-        });
+        bindEvents();
         updateStats();
     }
 
-    function updatePopularCounter(scriptName) {
-        // apenas efeito visual: incrementa views no script (simulacao leve)
-        const found = scriptsGlobal.find(s => s.nome === scriptName);
-        if(found && found.views !== undefined) {
-            found.views += 1;
-            updateStats();
-            renderCards();
-        }
-    }
+    /* EVENTOS DOS CARDS */
+    function bindEvents() {
+        document.querySelectorAll(".copy-btn").forEach(btn => {
+            btn.onclick = () => {
+                copyText(
+                    btn.dataset.code,
+                    btn.dataset.name
+                );
+            };
+        });
 
-    function escapeHtml(str) {
-        if(!str) return '';
-        return str.replace(/[&<>]/g, function(m) {
-            if(m === '&') return '&amp;';
-            if(m === '<') return '&lt;';
-            if(m === '>') return '&gt;';
-            return m;
+        /* ABRIR PÁGINA INTERNA */
+        document.querySelectorAll(".view-btn").forEach(btn => {
+            btn.onclick = () => {
+                const id = btn.dataset.id;
+
+                window.location.href =
+                    "script-page.html?id=" + id;
+            };
+        });
+
+        document.querySelectorAll(".fav-btn").forEach(btn => {
+            btn.onclick = () => {
+                const id = Number(btn.dataset.id);
+
+                if (favorites.includes(id)) {
+                    favorites = favorites.filter(x => x !== id);
+                } else {
+                    favorites.push(id);
+                }
+
+                updateFavUI();
+                renderCards();
+            };
         });
     }
 
-    // Inicializar dados do data.js (aguardar window.load e scriptsGlobal)
-    function initApp() {
-        if (typeof scripts !== "undefined" && Array.isArray(scripts)) {
-            scriptsGlobal = scripts.map((s, idx) => ({ ...s, id: s.id || idx+1, views: s.views || Math.floor(Math.random() * 800) + 100 }));
-            updateStats();
+    /* SEARCH */
+    if (searchInput) {
+        searchInput.addEventListener("input", e => {
+            searchTerm = e.target.value;
             renderCards();
-        } else {
-            grid.innerHTML = "<div style='padding:50px; text-align:center;'>Erro: dados não carregados. Verifique data.js</div>";
-        }
+        });
+
+        searchInput.addEventListener("keydown", e => {
+            if (e.key === "Enter") {
+                const q = searchInput.value.trim();
+
+                if (q) {
+                    window.location.href =
+                        "search.html?q=" +
+                        encodeURIComponent(q);
+                }
+            }
+        });
     }
 
-    // Eventos globais
-    searchInput.addEventListener("input", (e) => { searchTerm = e.target.value; sortPopular=false; sortNew=false; renderCards(); });
-    searchBtn.addEventListener("click", () => { searchTerm = searchInput.value; sortPopular=false; sortNew=false; renderCards(); });
-    
+    if (searchBtn) {
+        searchBtn.onclick = () => {
+            const q = searchInput.value.trim();
+
+            if (q) {
+                window.location.href =
+                    "search.html?q=" +
+                    encodeURIComponent(q);
+            }
+        };
+    }
+
+    /* FILTROS */
     filterBtns.forEach(btn => {
-        btn.addEventListener("click", () => {
+        btn.onclick = () => {
             filterBtns.forEach(b => b.classList.remove("active"));
+
             btn.classList.add("active");
-            currentFilter = btn.getAttribute("data-cat");
-            sortPopular = false;
-            sortNew = false;
+
+            currentFilter = btn.dataset.cat || "all";
+
             renderCards();
-        });
+        };
     });
 
-    if(popularLink) {
-        popularLink.addEventListener("click", (e) => {
+    /* POPULARES */
+    if (popularLink) {
+        popularLink.onclick = e => {
             e.preventDefault();
+
             sortPopular = true;
             sortNew = false;
+
             renderCards();
-        });
+        };
     }
-    if(newLink) {
-        newLink.addEventListener("click", (e) => {
+
+    /* NOVOS */
+    if (newLink) {
+        newLink.onclick = e => {
             e.preventDefault();
-            sortNew = true;
+
             sortPopular = false;
+            sortNew = true;
+
             renderCards();
-        });
+        };
     }
 
-    closeModalBtn.addEventListener("click", closeModalFunc);
-    modal.addEventListener("click", (e) => { if(e.target === modal) closeModalFunc(); });
+    /* BACK TOP */
+    if (backToTop) {
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 300) {
+                backToTop.style.display = "flex";
+            } else {
+                backToTop.style.display = "none";
+            }
+        });
 
-    window.addEventListener("scroll", () => {
-        if (window.scrollY > 400) backToTop.style.display = "flex";
-        else backToTop.style.display = "none";
-    });
-    backToTop.addEventListener("click", () => window.scrollTo({top:0, behavior:"smooth"}));
+        backToTop.onclick = () => {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        };
+    }
 
-    // fake online counter
-    let onlineCount = 342;
+    /* ONLINE COUNTER */
+    let online = 524;
+
     setInterval(() => {
-        onlineCount = Math.max(120, onlineCount + (Math.random() > 0.5 ? 1 : -1));
-        if(onlineSpan) onlineSpan.innerText = onlineCount;
-    }, 7000);
+        online += Math.random() > 0.5 ? 1 : -1;
 
-    window.initApp = initApp;
-    document.addEventListener("DOMContentLoaded", () => {
-        if (typeof scripts !== "undefined") initApp();
-        else console.warn("data.js não carregado corretamente");
-    });
+        if (online < 200) online = 200;
+
+        if (onlineSpan) onlineSpan.innerText = online;
+    }, 5000);
+
+    /* INIT */
+    function initApp() {
+        if (typeof scripts === "undefined") {
+            if (grid) {
+                grid.innerHTML =
+                    "<p>Erro ao carregar data.js</p>";
+            }
+            return;
+        }
+
+        scriptsGlobal = scripts.map((item, i) => ({
+            ...item,
+            id: item.id || i + 1,
+            views:
+                item.views ||
+                Math.floor(Math.random() * 5000) + 100
+        }));
+
+        renderCards();
+    }
+
+    document.addEventListener("DOMContentLoaded", initApp);
 })();
