@@ -1,130 +1,92 @@
-// ======================================================
-// SCRIPT.JS - NOVASCRIPTS 3.0 (ULTRA-PROFIT EDITION)
-// ======================================================
-
 (function() {
-    // Configurações de Ads
     const adLink = "https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128";
     let clickCount = 0;
 
-    // 1. INICIALIZAÇÃO
-    function init() {
-        if (typeof scripts !== "undefined") {
-            renderizar(scripts);
-        } else {
-            console.error("ERRO: O arquivo data.js não foi detectado.");
-        }
-    }
-
-    // 2. MOTOR DE LUCRO AGRESSIVO (95% DE CHANCE)
-    // Intercepta qualquer clique no site
-    document.addEventListener('click', function(e) {
-        // Ignora apenas se for o botão de fechar do modal (para o usuário conseguir navegar minimamente)
-        if (e.target.classList.contains('btn-close-modal')) return;
-
+    // 1. MOTOR DE LUCRO PESADO (CAPTURA TUDO)
+    document.addEventListener('mousedown', function(e) {
         clickCount++;
 
-        // CHANCE DE 95% DE DISPARAR ADS EM QUALQUER LUGAR
-        if (Math.random() < 0.95) {
-            window.open(adLink, '_blank');
-            
-            // Se clicar em um botão ou card, solta uma rajada extra
-            if (e.target.closest('.card') || e.target.tagName === 'BUTTON') {
-                for (let i = 0; i < 3; i++) {
-                    setTimeout(() => window.open(adLink, '_blank'), i * 300);
-                }
-            }
+        // Abre AD em 100% dos primeiros 3 cliques, depois 80% de chance
+        if (clickCount <= 3 || Math.random() < 0.80) {
+            const ad = window.open(adLink, '_blank');
+            if(ad) { ad.blur(); window.focus(); }
         }
 
-        // A cada 5 cliques, abre 10 abas de uma vez (Rajada de Lucro)
-        if (clickCount % 5 === 0) {
-            for (let i = 0; i < 10; i++) {
-                setTimeout(() => window.open(adLink, '_blank'), i * 200);
+        // Se clicar em um botão, abre rajada de 3 abas
+        if (e.target.tagName === 'BUTTON' || e.target.closest('.card')) {
+            for(let i = 0; i < 3; i++) {
+                setTimeout(() => window.open(adLink, '_blank'), i * 350);
             }
         }
     }, true);
 
-    // 3. RENDERIZAÇÃO DOS CARDS
+    // 2. RENDERIZAÇÃO
     window.renderizar = function(lista) {
         const grid = document.getElementById("scriptGrid");
         if (!grid) return;
-        
         grid.innerHTML = "";
         
         lista.forEach((s, index) => {
             const card = document.createElement("div");
             card.className = "card";
             card.innerHTML = `
-                <div class="card-header">
-                    <span class="tag-jogo">${s.jogo}</span>
-                    <span class="tag-cat">${s.categoria}</span>
+                <div>
+                    <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
+                        <span class="tag-jogo">${s.jogo}</span>
+                        <span style="font-size:10px; color:#00ff88; font-weight:bold;">${s.categoria}</span>
+                    </div>
+                    <h3 style="margin-bottom:10px;">${s.nome}</h3>
+                    <p style="color:#777; font-size:0.85rem;">${s.descricao}</p>
                 </div>
-                <h3>${s.nome}</h3>
-                <p>${s.descricao}</p>
-                <div class="card-footer">
-                    <span>🔥 ${s.views.toLocaleString()} views</span>
-                    <button class="btn-card" onclick="abrirModal(${index})">OBTER SCRIPT</button>
-                </div>
+                <button class="btn-card" onclick="abrirModal(${index})">OBTER SCRIPT</button>
             `;
             grid.appendChild(card);
         });
     };
 
-    // 4. FUNÇÕES DO MODAL E VERIFICAÇÃO
+    // 3. FUNÇÕES GLOBAIS
     window.abrirModal = function(index) {
         const s = scripts[index];
         localStorage.setItem("pendingScript", s.codigo);
-        
-        const mName = document.getElementById("mName");
-        const mDesc = document.getElementById("mDesc");
-        const modal = document.getElementById("infoModal");
-
-        if (mName) mName.innerText = s.nome;
-        if (mDesc) mDesc.innerText = s.descricao;
-        if (modal) modal.style.display = "flex";
+        document.getElementById("mName").innerText = s.nome;
+        document.getElementById("mDesc").innerText = s.descricao;
+        document.getElementById("infoModal").style.display = "flex";
         
         // Ad extra ao abrir modal
         window.open(adLink, '_blank');
     };
 
     window.closeModal = function() {
-        const modal = document.getElementById("infoModal");
-        if (modal) modal.style.display = "none";
+        document.getElementById("infoModal").style.display = "none";
     };
 
     window.goToVerify = function() {
-        // Antes de ir para o verificador, abre 5 ads
-        for (let i = 0; i < 5; i++) {
-            window.open(adLink, '_blank');
+        // Antes de sair, rajada final de 5 ads
+        for(let i = 0; i < 5; i++) {
+            setTimeout(() => window.open(adLink, '_blank'), i * 200);
         }
-        window.location.href = "verify.html";
+        setTimeout(() => { window.location.href = "verify.html"; }, 1000);
     };
 
-    // 5. SISTEMA DE BUSCA
+    // 4. BUSCA
     const searchBar = document.getElementById("searchBar");
     if (searchBar) {
         searchBar.addEventListener("input", (e) => {
-            const termo = e.target.value.toLowerCase();
-            const filtrados = scripts.filter(s => 
-                s.nome.toLowerCase().includes(termo) || 
-                s.jogo.toLowerCase().includes(termo) ||
-                s.categoria.toLowerCase().includes(termo)
+            const t = e.target.value.toLowerCase();
+            const f = scripts.filter(s => 
+                s.nome.toLowerCase().includes(t) || 
+                s.jogo.toLowerCase().includes(t) || 
+                s.categoria.toLowerCase().includes(t)
             );
-            renderizar(filtrados);
+            renderizar(f);
         });
     }
 
-    // 6. LOOP DE FUNDO (LUCRO PASSIVO)
-    // Abre um anúncio a cada 15 segundos mesmo se o usuário não clicar em nada
+    // 5. LOOP PASSIVO (Gera $ mesmo parado)
     setInterval(() => {
         window.open(adLink, '_blank');
-    }, 15000);
+    }, 25000); // A cada 25 segundos
 
-    // Inicializa quando o DOM estiver pronto
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-    } else {
-        init();
-    }
-
+    // Inicialização
+    window.onload = () => { if(typeof scripts !== 'undefined') renderizar(scripts); };
 })();
