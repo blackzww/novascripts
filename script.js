@@ -1,11 +1,9 @@
-// INÍCIO DO SCRIPT.JS - NOVASCRIPTS 3.0 (ULTRA MONETIZADO)
+// SCRIPT.JS - NOVASCRIPTS 3.0 (ULTRA MONETIZADO & ZERO LAG)
 (function() {
     let scriptsGlobal = [];
-    let favorites = JSON.parse(localStorage.getItem("novaFavs")) || [];
     let currentFilter = "all";
     let searchTerm = "";
     let currentScriptId = null;
-    let adClicked = false; // Controle para o sistema de 2 cliques
 
     // DOM Elements
     const grid = document.getElementById("scriptsGrid");
@@ -15,130 +13,116 @@
     const modal = document.getElementById("modalOverlay");
     const codePreview = document.getElementById("codePreview");
     const copyModalBtn = document.getElementById("copyModalBtn");
-    const toast = document.getElementById("toastNotification");
 
     // ==========================================
-    // 1. SISTEMA DE LOADER (ANTI-TRAVAMENTO)
+    // 1. SISTEMA DE LOADER (BLINDADO)
     // ==========================================
-// Função blindada para remover o Loader
-function hideLoader() {
-    const loader = document.getElementById('loader');
-    if (loader) {
-        loader.style.opacity = '0';
-        setTimeout(() => {
-            loader.style.display = 'none';
-        }, 500);
-    }
-}
-
-// 1. Tenta esconder quando tudo carregar
-window.addEventListener('load', hideLoader);
-
-// 2. FORÇA esconder após 4 segundos (caso os anúncios travem o 'load')
-setTimeout(hideLoader, 4000); 
-
-    window.addEventListener("load", hideLoader);
-    setTimeout(hideLoader, 3000); // Garantia de 3 segundos
-
-    // ==========================================
-    // 2. NOTIFICAÇÕES (TOAST)
-    // ==========================================
-    function showToast(msg, isError = false) {
-        if (!toast) return;
-        toast.innerText = msg;
-        toast.classList.add("show");
-        setTimeout(() => toast.classList.remove("show"), 2500);
-    }
-
-    // ==========================================
-    // 3. LÓGICA DO MODAL & DESBLOQUEIO
-    // ==========================================
-    function openModal(script) {
-        if (!script) return;
-        currentScriptId = script.id;
-        adClicked = false; // Reseta o estado do anúncio ao abrir novo script
-        
-        document.getElementById("modalTitle").innerText = script.nome;
-        document.getElementById("modalGame").innerText = script.jogo;
-        document.getElementById("modalCategory").innerText = script.categoria;
-        document.getElementById("modalDescription").innerText = script.descricao || "Sem descrição.";
-        
-        // Aplica o Blur no código inicialmente
-        codePreview.innerText = 'loadstring(game:HttpGet("https://novascripts.com/locked"))()';
-        codePreview.style.filter = "blur(7px)";
-        
-        copyModalBtn.innerText = "🚀 DESBLOQUEAR SCRIPT";
-        copyModalBtn.style.background = "linear-gradient(135deg, #8f45ff 0%, #7025e0 100%)";
-        
-        modal.classList.add("active");
-    }
-
-    // O PULO DO GATO: SISTEMA DE 2 CLIQUES (ADSTERRA DIRECT LINK)
-// No seu script.js
-const copyModalBtn = document.getElementById('copyModalBtn');
-
-if (copyModalBtn) {
-    copyModalBtn.addEventListener("click", () => {
-        // 1. Pega o script atual
-        const script = scriptsGlobal.find(s => s.id === currentScriptId);
-        
-        if (script) {
-            // Salva o script que ele quer no localStorage
-            localStorage.setItem('pendingScript', script.codigo);
-            
-            // 2. SISTEMA DE CHANCE DE FALHA (50% de chance de erro)
-            // Isso força o usuário a fazer o verify.html de novo
-            let attempts = localStorage.getItem('verifyAttempts') || 0;
-
-            if (attempts < 1) { 
-                // Na primeira tentativa, sempre manda para o verify
-                localStorage.setItem('verifyAttempts', 1);
-                window.location.href = 'verify.html';
-            } else {
-                // Se ele já voltou do verify uma vez, vamos simular o erro
-                // Geramos um número aleatório. Se for menor que 0.5 (50%), ele falha
-                if (Math.random() < 0.5) {
-                    alert("ERRO DE VALIDAÇÃO: Sua sessão expirou ou o anúncio não foi visualizado corretamente. Tente novamente.");
-                    localStorage.setItem('verifyAttempts', 0); // Reseta para ele ter que ir de novo
-                    window.location.href = 'verify.html';
-                } else {
-                    // SUCESSO: Se passar na sorte, ele finalmente libera o código
-                    window.location.href = 'verify.html?status=success';
-                }
-            }
+    function hideLoader() {
+        const loader = document.getElementById('loader');
+        if (loader && loader.style.display !== 'none') {
+            loader.style.opacity = '0';
+            setTimeout(() => {
+                loader.style.display = 'none';
+            }, 500);
         }
-    });
-}
+    }
+
+    // Tenta esconder no load, mas garante em 3 segundos
+    window.addEventListener('load', hideLoader);
+    setTimeout(hideLoader, 3000); 
+
     // ==========================================
-    // 4. RENDERIZAÇÃO E FILTROS (MANTIDOS)
+    // 2. RENDERIZAÇÃO DOS CARDS (SISTEMA DE GRAÇA)
     // ==========================================
     function renderCards() {
         if (!grid) return;
-        let lista = [...scriptsGlobal];
+        
+        // Verifica se o data.js carregou a variável 'scripts'
+        const listaFonte = (typeof scripts !== 'undefined') ? scripts : scriptsGlobal;
+        let lista = [...listaFonte];
 
-        if (currentFilter !== "all") lista = lista.filter(x => x.categoria === currentFilter);
+        if (currentFilter !== "all") {
+            lista = lista.filter(x => x.categoria === currentFilter);
+        }
+        
         if (searchTerm) {
             const t = searchTerm.toLowerCase();
             lista = lista.filter(i => i.nome.toLowerCase().includes(t) || i.jogo.toLowerCase().includes(t));
+        }
+
+        if (lista.length === 0) {
+            grid.innerHTML = `<p style="color: #666; text-align: center; grid-column: 1/-1;">Nenhum script encontrado...</p>`;
+            return;
         }
 
         grid.innerHTML = lista.map(s => `
             <div class="script-card" onclick="window.openModalById(${s.id})">
                 <div class="jogo-badge">🎮 ${s.jogo}</div>
                 <h3>${s.nome}</h3>
-                <p>${s.descricao?.substring(0, 60)}...</p>
+                <p>${s.descricao ? s.descricao.substring(0, 60) : "Script premium atualizado."}...</p>
                 <button class="view-script-btn">🚀 Ver Script</button>
             </div>
         `).join("");
     }
 
-    // Helpers globais para os cards
+    // Helper Global para os cliques nos cards
     window.openModalById = (id) => {
-        const script = scriptsGlobal.find(s => s.id === id);
+        const listaFonte = (typeof scripts !== 'undefined') ? scripts : scriptsGlobal;
+        const script = listaFonte.find(s => s.id === id);
         if (script) openModal(script);
     };
 
-    // Filtros
+    // ==========================================
+    // 3. LÓGICA DO MODAL & CHANCE DE FALHA
+    // ==========================================
+    function openModal(script) {
+        currentScriptId = script.id;
+        
+        document.getElementById("modalTitle").innerText = script.nome;
+        // Verifica se os elementos existem antes de preencher
+        if(document.getElementById("modalGame")) document.getElementById("modalGame").innerText = script.jogo;
+        
+        codePreview.innerText = 'loadstring(game:HttpGet("https://novascripts.com/api/verify"))()';
+        codePreview.style.filter = "blur(10px)";
+        
+        copyModalBtn.innerText = "🚀 DESBLOQUEAR AGORA";
+        modal.classList.add("active");
+    }
+
+    // SISTEMA DE REDIRECIONAMENTO COM CHANCE DE ERRO (LUCRO+)
+    if (copyModalBtn) {
+        copyModalBtn.onclick = () => {
+            const listaFonte = (typeof scripts !== 'undefined') ? scripts : scriptsGlobal;
+            const script = listaFonte.find(s => s.id === currentScriptId);
+            
+            if (script) {
+                // Salva o código para ser usado no verify.html
+                localStorage.setItem('pendingScript', script.codigo);
+                
+                let attempts = parseInt(localStorage.getItem('verifyAttempts') || 0);
+
+                if (attempts < 1) { 
+                    // Primeira vez: Manda direto pro anúncio
+                    localStorage.setItem('verifyAttempts', 1);
+                    window.location.href = 'verify.html';
+                } else {
+                    // SEGUNDA VEZ EM DIANTE: 60% de chance de dar "Erro" e mandar de volta
+                    if (Math.random() < 0.6) { 
+                        alert("ERRO DE SINCRONIZAÇÃO: O sistema não detectou a visualização do anúncio. Tente novamente.");
+                        localStorage.setItem('verifyAttempts', 0); // Reseta para ele ter que ir de novo
+                        window.location.href = 'verify.html';
+                    } else {
+                        // SUCESSO (Sorte do usuário)
+                        window.location.href = 'verify.html?status=success';
+                    }
+                }
+            }
+        };
+    }
+
+    // ==========================================
+    // 4. EVENTOS E FILTROS
+    // ==========================================
     filterBtns.forEach(btn => {
         btn.addEventListener("click", () => {
             filterBtns.forEach(b => b.classList.remove("active"));
@@ -148,19 +132,33 @@ if (copyModalBtn) {
         });
     });
 
-    if (searchInput) searchInput.addEventListener("input", e => { searchTerm = e.target.value; renderCards(); });
+    if (searchInput) {
+        searchInput.addEventListener("input", e => {
+            searchTerm = e.target.value;
+            renderCards();
+        });
+    }
 
-    // Inicialização
+    // Fechar Modal
+    const closeBtn = document.querySelector(".close-modal");
+    if (closeBtn) closeBtn.onclick = () => modal.classList.remove("active");
+    
+    window.onclick = (e) => { 
+        if (e.target == modal) modal.classList.remove("active"); 
+    };
+
+    // Inicialização forçada
     function init() {
+        // Tenta carregar os scripts imediatamente
         if (typeof scripts !== "undefined") {
             scriptsGlobal = scripts;
             renderCards();
+        } else {
+            // Se o data.js demorar, tenta de novo em 500ms
+            setTimeout(init, 500);
         }
     }
+    
     init();
-
-    // Fechar Modal
-    document.querySelector(".close-modal").onclick = () => modal.classList.remove("active");
-    window.onclick = (e) => { if (e.target == modal) modal.classList.remove("active"); };
 
 })();
