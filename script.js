@@ -1,349 +1,277 @@
-// script.js COMPLETO + REDIRECIONA PARA script-page.html
-(function () {
-    let scriptsGlobal = [];
-    let favorites = JSON.parse(localStorage.getItem("novaFavs")) || [];
-    let currentFilter = "all";
-    let searchTerm = "";
-    let sortPopular = false;
-    let sortNew = false;
-
-    /* ELEMENTOS */
-    const grid = document.getElementById("scriptsGrid");
-    const searchInput = document.getElementById("searchInput");
-    const searchBtn = document.getElementById("searchBtn");
-    const filterBtns = document.querySelectorAll(".filter-cat, .filter");
-    const totalScriptsSpan = document.getElementById("totalScriptsCount");
-    const totalFavSpan = document.getElementById("totalFavoritesCount");
-    const totalViewsSpan = document.getElementById("totalViewsCount");
-    const favCounterSpan = document.getElementById("favCounter");
-    const popularLink = document.getElementById("popularLink");
-    const newLink = document.getElementById("newLink");
-    const backToTop = document.getElementById("backToTop");
-
-    const onlineSpan = document.getElementById("onlineCount");
-
-    /* LOADER */
-    window.addEventListener("load", () => {
-        const loader = document.getElementById("loader");
-        if (!loader) return;
-
-        setTimeout(() => {
-            loader.style.opacity = "0";
-            setTimeout(() => {
-                loader.style.display = "none";
-            }, 500);
-        }, 700);
-    });
-
-    /* FAVORITOS */
-    function saveFavs() {
-        localStorage.setItem("novaFavs", JSON.stringify(favorites));
-    }
-
-    function updateFavUI() {
-        const total = favorites.length;
-
-        if (favCounterSpan) favCounterSpan.innerText = total;
-        if (totalFavSpan) totalFavSpan.innerText = total;
-
-        saveFavs();
-    }
-
-    /* TOAST */
-    function toast(msg) {
-        const toast = document.getElementById("toastNotification");
-        if (!toast) return;
-
-        toast.innerText = msg;
-        toast.classList.add("show");
-
-        setTimeout(() => {
-            toast.classList.remove("show");
-        }, 2200);
-    }
-
-    /* COPIAR */
-    function copyText(text, name = "Script") {
-        navigator.clipboard.writeText(text).then(() => {
-            toast("📋 " + name + " copiado!");
-        }).catch(() => {
-            toast("Erro ao copiar.");
-        });
-    }
-
-    /* ESCAPAR HTML */
-    function esc(str) {
-        if (!str) return "";
-        return str
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;");
-    }
-
-    /* STATS */
-    function updateStats() {
-        if (totalScriptsSpan) totalScriptsSpan.innerText = scriptsGlobal.length;
-
-        let totalViews = scriptsGlobal.reduce((acc, item) => {
-            return acc + (item.views || 0);
-        }, 0);
-
-        if (totalViewsSpan) totalViewsSpan.innerText = totalViews;
-
-        updateFavUI();
-    }
-
-    /* FILTRAR */
-    function getFiltered() {
-        let arr = [...scriptsGlobal];
-
-        if (currentFilter !== "all") {
-            arr = arr.filter(item =>
-                item.categoria &&
-                item.categoria.toLowerCase() === currentFilter.toLowerCase()
-            );
-        }
-
-        if (searchTerm.trim() !== "") {
-            const t = searchTerm.toLowerCase();
-
-            arr = arr.filter(item =>
-                item.nome.toLowerCase().includes(t) ||
-                item.jogo.toLowerCase().includes(t) ||
-                item.categoria.toLowerCase().includes(t)
-            );
-        }
-
-        if (sortPopular) {
-            arr.sort((a, b) => (b.views || 0) - (a.views || 0));
-        } else if (sortNew) {
-            arr.sort((a, b) => (b.id || 0) - (a.id || 0));
-        }
-
-        return arr;
-    }
-
-    /* RENDER */
-    function renderCards() {
-        if (!grid) return;
-
-        const data = getFiltered();
-
-        if (data.length === 0) {
-            grid.innerHTML = `
-                <div class="empty-state">
-                    🔍 Nenhum script encontrado.
-                </div>
-            `;
-            return;
-        }
-
-        grid.innerHTML = data.map(script => {
-            const fav = favorites.includes(script.id);
-
-            return `
-            <div class="script-card">
-
-                <div class="card-top">
-                    <h3>${esc(script.nome)}</h3>
-                    <span class="game-badge">🎮 ${esc(script.jogo)}</span>
-                </div>
-
-                <div class="cat-badge">
-                    📁 ${esc(script.categoria)}
-                </div>
-
-                <p class="card-desc">
-                    ${esc(script.descricao || "Script premium disponível.")}
-                </p>
-
-                <div class="views-box">
-                    👁️ ${script.views || 0} views
-                </div>
-
-                <div class="card-actions">
-
-                    <button class="copy-btn"
-                        data-code="${esc(script.codigo)}"
-                        data-name="${esc(script.nome)}">
-                        📋 Copiar
-                    </button>
-
-                    <button class="view-btn"
-                        data-id="${script.id}">
-                        🔍 Ver Página
-                    </button>
-
-                    <button class="fav-btn ${fav ? "active" : ""}"
-                        data-id="${script.id}">
-                        ❤️
-                    </button>
-
-                </div>
-
-            </div>
-            `;
-        }).join("");
-
-        bindEvents();
-        updateStats();
-    }
-
-    /* EVENTOS DOS CARDS */
-    function bindEvents() {
-        document.querySelectorAll(".copy-btn").forEach(btn => {
-            btn.onclick = () => {
-                copyText(
-                    btn.dataset.code,
-                    btn.dataset.name
-                );
-            };
-        });
-
-        /* ABRIR PÁGINA INTERNA */
-        document.querySelectorAll(".view-btn").forEach(btn => {
-            btn.onclick = () => {
-                const id = btn.dataset.id;
-
-                window.location.href =
-                    "script-page.html?id=" + id;
-            };
-        });
-
-        document.querySelectorAll(".fav-btn").forEach(btn => {
-            btn.onclick = () => {
-                const id = Number(btn.dataset.id);
-
-                if (favorites.includes(id)) {
-                    favorites = favorites.filter(x => x !== id);
-                } else {
-                    favorites.push(id);
-                }
-
-                updateFavUI();
-                renderCards();
-            };
-        });
-    }
-
-    /* SEARCH */
-    if (searchInput) {
-        searchInput.addEventListener("input", e => {
-            searchTerm = e.target.value;
-            renderCards();
-        });
-
-        searchInput.addEventListener("keydown", e => {
-            if (e.key === "Enter") {
-                const q = searchInput.value.trim();
-
-                if (q) {
-                    window.location.href =
-                        "search.html?q=" +
-                        encodeURIComponent(q);
-                }
-            }
-        });
-    }
-
-    if (searchBtn) {
-        searchBtn.onclick = () => {
-            const q = searchInput.value.trim();
-
-            if (q) {
-                window.location.href =
-                    "search.html?q=" +
-                    encodeURIComponent(q);
-            }
-        };
-    }
-
-    /* FILTROS */
-    filterBtns.forEach(btn => {
-        btn.onclick = () => {
-            filterBtns.forEach(b => b.classList.remove("active"));
-
-            btn.classList.add("active");
-
-            currentFilter = btn.dataset.cat || "all";
-
-            renderCards();
-        };
-    });
-
-    /* POPULARES */
-    if (popularLink) {
-        popularLink.onclick = e => {
-            e.preventDefault();
-
-            sortPopular = true;
-            sortNew = false;
-
-            renderCards();
-        };
-    }
-
-    /* NOVOS */
-    if (newLink) {
-        newLink.onclick = e => {
-            e.preventDefault();
-
-            sortPopular = false;
-            sortNew = true;
-
-            renderCards();
-        };
-    }
-
-    /* BACK TOP */
-    if (backToTop) {
-        window.addEventListener("scroll", () => {
-            if (window.scrollY > 300) {
-                backToTop.style.display = "flex";
-            } else {
-                backToTop.style.display = "none";
-            }
-        });
-
-        backToTop.onclick = () => {
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
-        };
-    }
-
-    /* ONLINE COUNTER */
-    let online = 524;
-
-    setInterval(() => {
-        online += Math.random() > 0.5 ? 1 : -1;
-
-        if (online < 200) online = 200;
-
-        if (onlineSpan) onlineSpan.innerText = online;
-    }, 5000);
-
-    /* INIT */
-    function initApp() {
-        if (typeof scripts === "undefined") {
-            if (grid) {
-                grid.innerHTML =
-                    "<p>Erro ao carregar data.js</p>";
-            }
-            return;
-        }
-
-        scriptsGlobal = scripts.map((item, i) => ({
-            ...item,
-            id: item.id || i + 1,
-            views:
-                item.views ||
-                Math.floor(Math.random() * 5000) + 100
-        }));
-
-        renderCards();
-    }
-
-    document.addEventListener("DOMContentLoaded", initApp);
-})();
+// script.js NOVASCRIPTS 100% ARRUMADO
+document.addEventListener("DOMContentLoaded", () => {
+
+let allScripts = scripts || [];
+let favorites = JSON.parse(localStorage.getItem("novaFavs")) || [];
+
+const grid = document.getElementById("scriptsGrid");
+const searchInput = document.getElementById("searchInput");
+const searchBtn = document.getElementById("searchBtn");
+const filters = document.querySelectorAll(".filter");
+
+const totalScripts = document.getElementById("totalScriptsCount");
+const totalViews = document.getElementById("totalViewsCount");
+const totalFavs = document.getElementById("totalFavoritesCount");
+const favCounter = document.getElementById("favCounter");
+
+const onlineCount = document.getElementById("onlineCount");
+
+const modal = document.getElementById("modalOverlay");
+const closeModal = document.querySelector(".close-modal");
+
+const modalTitle = document.getElementById("modalTitle");
+const modalGame = document.getElementById("modalGame");
+const modalCategory = document.getElementById("modalCategory");
+const modalViews = document.getElementById("modalViews");
+const modalDescription = document.getElementById("modalDescription");
+const modalFeatures = document.getElementById("modalFeatures");
+const codePreview = document.getElementById("codePreview");
+
+const copyBtn = document.getElementById("copyModalBtn");
+const copyShortBtn = document.getElementById("copyShortenerBtn");
+const favModalBtn = document.getElementById("favoritarModalBtn");
+
+const backTop = document.getElementById("backToTop");
+const toast = document.getElementById("toastNotification");
+
+let currentScript = null;
+
+// ================= TOAST =================
+function showToast(msg){
+toast.innerText = msg;
+toast.classList.add("show");
+
+setTimeout(()=>{
+toast.classList.remove("show");
+},2200);
+}
+
+// ================= COPY =================
+function copyText(text){
+navigator.clipboard.writeText(text);
+showToast("📋 Script copiado!");
+}
+
+// ================= FAVORITOS =================
+function saveFav(){
+localStorage.setItem("novaFavs", JSON.stringify(favorites));
+updateStats();
+}
+
+function toggleFav(id){
+if(favorites.includes(id)){
+favorites = favorites.filter(x => x !== id);
+showToast("💔 Removido dos favoritos");
+}else{
+favorites.push(id);
+showToast("❤️ Favoritado");
+}
+saveFav();
+renderScripts();
+}
+
+// ================= STATS =================
+function updateStats(){
+totalScripts.innerText = allScripts.length;
+totalViews.innerText = allScripts.reduce((a,b)=>a+b.views,0);
+totalFavs.innerText = favorites.length;
+favCounter.innerText = favorites.length;
+}
+
+// ================= RENDER =================
+function renderScripts(list = allScripts){
+
+if(list.length === 0){
+grid.innerHTML = `<div class="empty-state">Nenhum script encontrado.</div>`;
+return;
+}
+
+grid.innerHTML = list.map(item=>{
+
+const fav = favorites.includes(item.id);
+
+return `
+<div class="script-card">
+
+<h3>${item.nome}</h3>
+
+<span class="jogo-badge">${item.jogo}</span>
+
+<p>${item.descricao}</p>
+
+<div class="views-info">
+👁️ ${item.views} views
+</div>
+
+<div class="card-buttons">
+
+<button onclick="openScript(${item.id})">
+🔍 Ver
+</button>
+
+<button onclick="copyDirect(${item.id})">
+📋 Copiar
+</button>
+
+<button class="fav-btn ${fav ? 'active':''}" onclick="favScript(${item.id})">
+${fav ? '❤️':'🤍'}
+</button>
+
+</div>
+
+</div>
+`;
+
+}).join("");
+
+updateStats();
+}
+
+// ================= SEARCH =================
+function runSearch(){
+let val = searchInput.value.toLowerCase().trim();
+
+if(!val){
+renderScripts();
+return;
+}
+
+let result = allScripts.filter(item =>
+item.nome.toLowerCase().includes(val) ||
+item.jogo.toLowerCase().includes(val) ||
+item.categoria.toLowerCase().includes(val)
+);
+
+renderScripts(result);
+}
+
+searchBtn.onclick = runSearch;
+
+searchInput.addEventListener("keyup",(e)=>{
+if(e.key==="Enter") runSearch();
+else runSearch();
+});
+
+// ================= FILTROS =================
+filters.forEach(btn=>{
+
+btn.onclick = ()=>{
+
+filters.forEach(x=>x.classList.remove("active"));
+btn.classList.add("active");
+
+let cat = btn.dataset.cat;
+
+if(cat === "all"){
+renderScripts();
+return;
+}
+
+let result = allScripts.filter(x=>x.categoria === cat);
+renderScripts(result);
+
+};
+
+});
+
+// ================= MODAL =================
+window.openScript = function(id){
+
+let s = allScripts.find(x=>x.id === id);
+if(!s) return;
+
+currentScript = s;
+
+modal.classList.add("active");
+
+modalTitle.innerText = s.nome;
+modalGame.innerText = s.jogo;
+modalCategory.innerText = s.categoria;
+modalViews.innerText = s.views;
+modalDescription.innerText = s.descricao;
+
+modalFeatures.innerHTML = `
+<li>✔ Script atualizado</li>
+<li>✔ Fácil de executar</li>
+<li>✔ Compatível com executores</li>
+<li>✔ Categoria ${s.categoria}</li>
+`;
+
+codePreview.innerText = s.codigo;
+
+favModalBtn.innerText =
+favorites.includes(s.id) ? "💔 Desfavoritar" : "❤️ Favoritar";
+
+};
+
+// FECHAR
+closeModal.onclick = ()=>{
+modal.classList.remove("active");
+};
+
+modal.onclick = (e)=>{
+if(e.target === modal){
+modal.classList.remove("active");
+}
+};
+
+// ================= BOTÕES MODAL =================
+copyBtn.onclick = ()=>{
+if(currentScript) copyText(currentScript.codigo);
+};
+
+copyShortBtn.onclick = ()=>{
+if(currentScript) copyText(currentScript.codigo);
+};
+
+favModalBtn.onclick = ()=>{
+if(currentScript) toggleFav(currentScript.id);
+};
+
+// ================= COPY DIRETO =================
+window.copyDirect = function(id){
+let s = allScripts.find(x=>x.id === id);
+if(s) copyText(s.codigo);
+}
+
+// ================= FAVORITO DIRETO =================
+window.favScript = function(id){
+toggleFav(id);
+}
+
+// ================= BACK TOP =================
+window.addEventListener("scroll",()=>{
+
+if(window.scrollY > 300){
+backTop.classList.add("show");
+}else{
+backTop.classList.remove("show");
+}
+
+});
+
+backTop.onclick = ()=>{
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+};
+
+// ================= ONLINE FAKE =================
+let online = 524;
+
+setInterval(()=>{
+
+online += Math.floor(Math.random()*7)-3;
+
+if(online < 300) online = 300;
+if(online > 900) online = 900;
+
+onlineCount.innerText = online;
+
+},3000);
+
+// ================= START =================
+renderScripts();
+
+});
