@@ -300,7 +300,7 @@ categoria:"Hub",
 descricao:"Nossa versão exclusiva com bypass de anti-cheat.",
 codigo:'loadstring(game:HttpGet("https://raw.pastebin.com/raw/mIrR0RsX"))()',
 views:9850
-}
+},
 
 // --- CONTINUAÇÃO DATA.JS (SCRIPTS 31 A 80) ---
 
