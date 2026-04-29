@@ -11,6 +11,39 @@
 
     <script async="async" data-cfasync="false" src="https://motortape.com/90a294aa390e5ef06d254867c09fbbd1/invoke.js"></script>
 </head>
+<div id="antiAdblocker" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(5,5,9,0.98); z-index:9999999; text-align:center; padding-top:100px; backdrop-filter: blur(10px);">
+    <div style="background:#1a1a2e; width:90%; max-width:450px; margin:auto; padding:40px; border:2px solid #8f45ff; border-radius:15px; box-shadow: 0 0 30px rgba(143,69,255,0.3);">
+        <span style="font-size:60px;">🚫</span>
+        <h2 style="color:#fff; margin:20px 0; font-family:'Inter', sans-serif;">ADBLOCK DETECTADO!</h2>
+        <p style="color:#ccc; font-family:'Inter', sans-serif; line-height:1.6;">Detectamos que você está usando um bloqueador de anúncios. Para manter a <strong>NovaScripts</strong> gratuita, por favor, desative o Adblock e atualize a página.</p>
+        <button onclick="window.location.reload()" style="margin-top:25px; background:#8f45ff; color:#fff; border:none; padding:12px 30px; border-radius:8px; font-weight:bold; cursor:pointer; width:100%;">JÁ DESATIVEI, RECARREGAR!</button>
+    </div>
+</div>
+
+<script>
+    // Função para verificar se o anúncio carregou
+    window.addEventListener('load', function() {
+        setTimeout(function() {
+            // Tenta encontrar um dos containers de anúncio ou o script do Adsterra
+            var adDisplayed = false;
+            var testAd = document.getElementById('container-90a294aa390e5ef06d254867c09fbbd1');
+            
+            // Se o container estiver vazio ou com altura 0, o Adblock agiu
+            if (testAd && (testAd.offsetHeight === 0 || testAd.innerHTML.trim() === "")) {
+                adDisplayed = false;
+            } else {
+                adDisplayed = true;
+            }
+
+            // Se o Adblock for detectado, mostra o aviso
+            if (!adDisplayed) {
+                document.getElementById('antiAdblocker').style.display = 'block';
+                document.body.style.overflow = 'hidden'; // Impede o scroll
+            }
+        }, 2000); // Espera 2 segundos para dar tempo do ad carregar
+    });
+                   </script>
+    
 <body>
 
     <div id="clickOverlay" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:999999; cursor:pointer;"></div>
