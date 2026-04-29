@@ -71,7 +71,7 @@
             if (!adClicked) {
                 // PRIMEIRO CLIQUE: ABRE O ANÚNCIO
                 // SUBSTITUA O LINK ABAIXO PELO SEU DIRECT LINK DO ADSTERRA
-                window.open('https://www.seu-direct-link-aqui.com', '_blank');
+                window.open('https://www.profitablecpmratenetwork.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128', '_blank');
                 
                 adClicked = true;
                 copyModalBtn.innerText = "CLIQUE NOVAMENTE PARA COPIAR";
