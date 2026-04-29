@@ -140,16 +140,33 @@
             this.remove();
         });
 
-        // Anti-Adblock (Aumentei o tempo para 5s para não bugar no carregamento)
-        setTimeout(function() {
-            var testAd = document.getElementById('container-90a294aa390e5ef06d254867c09fbbd1');
-            if (!testAd || testAd.offsetHeight === 0 || testAd.innerHTML.trim() === "") {
+<script>
+    // Função para verificar Adblock sem falsos positivos
+    function checkAdblock() {
+        // Tenta encontrar o container do banner
+        const testAd = document.getElementById('container-90a294aa390e5ef06d254867c09fbbd1');
+        
+        // Só bloqueia se o container estiver REALMENTE vazio e já tiver passado o tempo de sobra
+        if (!testAd || testAd.offsetHeight === 0 || testAd.innerHTML.length < 10) {
+            // Segunda chance: tenta ver se algum script de anúncio externo falhou
+            if (!window.adsbygoogle && !window.pp_gem_loaded) { 
                 document.getElementById('antiAdblocker').style.display = 'block';
                 document.body.style.overflow = 'hidden';
             }
-        }, 5000);
-    </script>
+        }
+    }
 
+    // Não checa assim que carrega! Espera o usuário interagir ou passar 6 segundos
+    window.addEventListener('load', () => {
+        setTimeout(checkAdblock, 6000); // Dá 6 segundos para os anúncios carregarem com calma
+    });
+
+    // Se o usuário clicar em qualquer lugar e o anúncio ainda não apareceu, checa de novo
+    document.addEventListener('click', () => {
+        setTimeout(checkAdblock, 1000);
+    });
+</script>
+    
     <script async src="https://motortape.com/e3/73/ac/e373ac39b5a04c76d290d627c487a33c.js"></script>
     <script async src="https://motortape.com/90a294aa390e5ef06d254867c09fbbd1/invoke.js"></script>
     <script type='text/javascript' src='https://pl29290457.profitablecpmratenetwork.com/2f/f6/f1/2ff6f1e22aff16ca940913d31096d42d.js'></script>
