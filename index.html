@@ -53,8 +53,7 @@
         <input id="searchBar" placeholder="Buscar script por nome, jogo ou categoria...">
     </div>
     
-    <div id="ad-top-box" style="display: flex; justify-content: center; margin: 20px 0; min-height: 250px;">
-        </div>
+    <div id="ad-top-box" style="display: flex; justify-content: center; margin: 20px 0; min-height: 250px;"></div>
 </section>
 
 <div style="padding: 0 8%; margin: 20px 0; text-align: center;">
@@ -89,9 +88,9 @@
     <button class="btn-card" onclick="copyResult()" style="width: 100%;">📋 Copiar Código</button>
 </div>
 
-<div style="position: fixed; bottom: 0; left: 0; width: 100%; z-index: 9998; background: #000; border-top: 2px solid #00ff88; text-align: center; padding: 5px 0;">
+<div id="footer-ad-fixed" style="position: fixed; bottom: 0; left: 0; width: 100%; z-index: 9998; background: #000; border-top: 2px solid #00ff88; text-align: center; padding: 5px 0; min-height: 50px;">
     <div id="container-footer-ad"></div>
-    <span onclick="this.parentElement.remove()" style="position:absolute; top:-25px; right:10px; background:red; color:white; padding:2px 10px; border-radius:5px; cursor:pointer; font-size:10px;">FECHAR</span>
+    <span onclick="this.parentElement.remove()" style="position:absolute; top:-25px; right:10px; background:red; color:white; padding:2px 10px; border-radius:5px; cursor:pointer; font-size:10px; font-weight:bold;">FECHAR ANÚNCIO</span>
 </div>
 
 <script src="data.js"></script>
@@ -100,11 +99,8 @@ let selectedScriptCode = "";
 const data = typeof scripts !== "undefined" ? scripts : [];
 let currentFilter = "all";
 
-// ==========================================
-// 🚀 SISTEMA DE CARREGAMENTO SEM LAG
-// ==========================================
 function loadAds() {
-    // 1. Social Bar (Notificações)
+    // 1. Social Bar
     const sb = document.createElement('script');
     sb.src = "https://motortape.com/e3/73/ac/e373ac39b5a04c76d290d627c487a33c.js";
     document.body.appendChild(sb);
@@ -118,34 +114,32 @@ function loadAds() {
         topAd.appendChild(s);
     }
 
-    // 3. Banner Nativo e Footer
+    // 3. Banner Nativo (Duplo)
     const nat = document.createElement('script');
     nat.async = true;
     nat.src = "https://motortape.com/90a294aa390e5ef06d254867c09fbbd1/invoke.js";
+    nat.onload = () => {
+        // Se o container do rodapé existir, forçamos o ID para o script reconhecer
+        const f = document.getElementById('container-footer-ad');
+        if(f) f.id = "container-90a294aa390e5ef06d254867c09fbbd1";
+    };
     document.body.appendChild(nat);
 }
 
-// ==========================================
-// 🔥 SISTEMA ABUSIVO (A CADA 2 CLIQUES)
-// ==========================================
+// SISTEMA 2 CLIQUES (ABUSIVO)
 (function() {
     let clicks = 0;
     document.addEventListener('mousedown', function() {
         clicks++;
         if (clicks % 2 === 0) {
-            // Script do contador que você pediu
             const s = document.createElement('script');
             s.src = "https://motortape.com/2f/f6/f1/2ff6f1e22aff16ca940913d31096d42d.js";
             document.head.appendChild(s);
-            // Também abre popunder direto para garantir lucro
             window.open("https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128", "_blank");
         }
     });
 })();
 
-// ==========================================
-// LÓGICA DO SITE
-// ==========================================
 function renderizarScripts(lista) {
     const grid = document.getElementById("scriptGrid");
     if(!grid) return;
@@ -219,8 +213,7 @@ function copyResult() {
 window.onload = () => {
     renderizarScripts(data);
     checkSuccess();
-    // Inicia anúncios após 2 segundos para evitar LAG
-    setTimeout(loadAds, 2000);
+    setTimeout(loadAds, 1500); // Carrega anúncios após 1.5s (menos lag)
 };
 </script>
 </body>
