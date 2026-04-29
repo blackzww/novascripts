@@ -181,4 +181,19 @@
         return "✅ Anúncios pausados.";
     };
 
+
+    // FORÇAR RENDERIZAÇÃO MESMO SEM FILTROS
+document.addEventListener('DOMContentLoaded', () => {
+    if (typeof scripts !== 'undefined') {
+        console.log("Scripts carregados: " + scripts.length);
+        // Chama a função global que já criamos
+        if(typeof renderCards === 'function') {
+            renderCards();
+        }
+    } else {
+        console.error("ERRO: data.js não encontrado!");
+    }
+});
+    
+
 })();
