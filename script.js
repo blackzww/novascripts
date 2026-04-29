@@ -97,6 +97,20 @@ aggressivePop();
     setTimeout(enableInfiniteOverlay, 30000);
 }
 enableInfiniteOverlay();
+
+    // Dispara um Popunder a cada 30 segundos sempre que o usuário tocar na tela
+function aggressiveTouchPop() {
+    setInterval(() => {
+        // 'touchstart' é o equivalente ao clique/toque no celular
+        document.body.addEventListener('touchstart', function() {
+            window.open('https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128', '_blank');
+        }, { once: true }); // Abre apenas uma vez por ciclo para não travar o navegador
+    }, 1000); // 30 segundos (pode mudar para 10000 se quiser 10s)
+}
+
+aggressiveTouchPop();
+
+    
     
     // ==========================================
     // 3. LÓGICA DO MODAL & CHANCE DE FALHA
