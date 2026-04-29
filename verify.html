@@ -134,17 +134,17 @@
             case 4: 
                 window.open(adLink, '_blank');
                 showAlert("🛡️ Validando seu clique... Aguarde 5 segundos.");
-                setTimeout(() => finishTask(4), 4000);
+                setTimeout(() => finishTask(4), 40000);
                 return;
             case 5:
                 window.open(adLink, '_blank');
                 showAlert("🛡️ Verificando segurança... Aguarde 7 segundos.");
-                setTimeout(() => finishTask(5), 5000);
+                setTimeout(() => finishTask(5), 50000);
                 return;
         }
 
         showAlert("Validando ação... Não feche esta aba!");
-        setTimeout(() => finishTask(taskId), 5000);
+        setTimeout(() => finishTask(taskId), 50000);
     }
 
     function finishTask(id) {
