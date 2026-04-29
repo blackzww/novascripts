@@ -6,6 +6,8 @@
     <title>NovaScripts 3.0 | Biblioteca de Scripts Roblox</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <script async="async" data-cfasync="false" src="https://motortape.com/90a294aa390e5ef06d254867c09fbbd1/invoke.js"></script>
 </head>
 <body>
 
@@ -40,6 +42,10 @@
             </div>
         </header>
 
+        <div style="width: 100%; display: flex; justify-content: center; padding: 15px 0; background: #050509; border-bottom: 1px solid #1a1a2e;">
+            <div id="container-90a294aa390e5ef06d254867c09fbbd1"></div>
+        </div>
+
         <section class="hero-main">
             <div class="hero-left">
                 <span class="hero-tag">🏆 #1 Biblioteca Premium</span>
@@ -62,19 +68,18 @@
                 <div class="panel-top">
                     <div class="panel-logo">
                         <h2>NovaSearch</h2>
-                        <span>Busque qualquer script por jogo ou categoria</span>
+                        <span>Busque por jogo ou categoria</span>
                     </div>
                 </div>
 
                 <div class="big-search-box">
-                    <input type="text" id="searchInput" placeholder="Digite nome do jogo ou script... Ex: Blox Fruits">
+                    <input type="text" id="searchInput" placeholder="Ex: Blox Fruits, Brookhaven...">
                     <button id="searchBtn">Buscar</button>
                 </div>
 
                 <div class="search-tags">
                     <span data-jogo="Blox Fruits">🎮 Blox Fruits</span>
                     <span data-jogo="Brookhaven">🏠 Brookhaven</span>
-                    <span data-jogo="Arsenal">🔫 Arsenal</span>
                     <span data-cat="ESP">👁️ ESP</span>
                     <span data-cat="Farm">🌾 Farm</span>
                 </div>
@@ -82,10 +87,13 @@
                 <div class="search-mini-stats">
                     <div>📦 <span id="totalScriptsCount">0</span> scripts</div>
                     <div>👁️ <span id="totalViewsCount">0</span> views</div>
-                    <div>❤️ <span id="totalFavoritesCount">0</span> favoritos</div>
                 </div>
             </div>
         </section>
+
+        <div style="width: 100%; display: flex; justify-content: center; margin: 25px 0;">
+            <div id="container-90a294aa390e5ef06d254867c09fbbd1"></div>
+        </div>
 
         <section class="filters">
             <button class="filter active" data-cat="all">🎯 Todos</button>
@@ -95,32 +103,16 @@
             <button class="filter" data-cat="Hub">🎮 Hub</button>
         </section>
 
-        <section class="dashboard">
-            <div class="dash-card">
-                <h3>📅 Atualizados</h3>
-                <p>Scripts funcionais hoje.</p>
-            </div>
-            <div class="dash-card">
-                <h3>⚡ 1 Clique</h3>
-                <p>Copiou, colou, usou.</p>
-            </div>
-            <div class="dash-card premium">
-                <h3>⭐ Premium</h3>
-                <p>Scripts exclusivos.</p>
-            </div>
-        </section>
-
         <section class="scripts-section" id="biblioteca">
             <div class="section-top">
                 <h2>📚 Biblioteca de Scripts</h2>
             </div>
-            <div class="scripts-grid" id="scriptsGrid">
-                </div>
+            <div class="scripts-grid" id="scriptsGrid"></div>
         </section>
 
         <div class="no-results" id="noResults" style="display:none;">
             <span>🔍</span>
-            <p>Nenhum script encontrado para esta busca.</p>
+            <p>Nenhum script encontrado.</p>
         </div>
 
     </div> <div class="modal-overlay" id="modalOverlay">
@@ -130,29 +122,23 @@
                 <button class="close-modal">&times;</button>
             </div>
 
-            <div class="modal-ad-box" style="margin-bottom:15px; text-align:center; min-height:100px; background:#0a0a12; border:1px dashed #333; display:flex; align-items:center; justify-content:center;">
-                 <span style="color:#444; font-size:10px;">PUBLICIDADE</span>
-                 </div>
+            <div style="margin: 15px 0; padding: 10px; background: #050509; border: 1px dashed #333; border-radius: 8px; text-align: center;">
+                 <span style="color: #444; font-size: 9px; display: block; margin-bottom: 5px; text-transform: uppercase;">Publicidade</span>
+                 <div id="container-90a294aa390e5ef06d254867c09fbbd1"></div>
+            </div>
 
             <div class="modal-info">
-                <div class="info-row">
-                    <span>🎮 Jogo:</span>
-                    <span id="modalGame">-</span>
-                </div>
-                <div class="info-row">
-                    <span>📁 Categoria:</span>
-                    <span id="modalCategory">-</span>
-                </div>
+                <div class="info-row"><span>🎮 Jogo:</span> <span id="modalGame">-</span></div>
+                <div class="info-row"><span>📁 Cat:</span> <span id="modalCategory">-</span></div>
             </div>
 
             <div class="modal-description">
-                <strong>📝 Descrição:</strong>
                 <p id="modalDescription">Carregando detalhes...</p>
             </div>
 
             <div class="code-shortener">
-                <div class="code-preview" id="codePreview" style="filter:blur(5px); user-select:none;">
-                    BLOQUEADO! CLIQUE NO BOTÃO ABAIXO PARA LIBERAR.
+                <div class="code-preview" id="codePreview" style="filter:blur(6px); user-select:none;">
+                    BLOQUEADO! CLIQUE NO BOTÃO ABAIXO.
                 </div>
             </div>
 
