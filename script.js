@@ -1,4 +1,4 @@
-// script.js COMPLETO E ARRUMADO - NOVASCRIPTS 3.0 (COM SISTEMA DE VERIFICAÇÃO)
+// INÍCIO DO SCRIPT.JS - NOVASCRIPTS 3.0
 (function() {
     let scriptsGlobal = [];
     let favorites = JSON.parse(localStorage.getItem("novaFavs")) || [];
@@ -30,7 +30,7 @@
     const codePreview = document.getElementById("codePreview");
     
     // Botões
-    const copyModalBtn = document.getElementById("copyModalBtn"); // Este é o botão de DESBLOQUEAR
+    const copyModalBtn = document.getElementById("copyModalBtn");
     const closeModalBtn = document.querySelector(".close-modal");
     const favoritarModalBtn = document.getElementById("favoritarModalBtn");
     const backToTop = document.getElementById("backToTop");
@@ -58,7 +58,6 @@
         toast.style.background = isError ? "#4a1a2a" : "#1a1a2e";
         toast.style.borderLeft = isError ? "4px solid #ff4444" : "4px solid #00ff88";
         toast.classList.add("show");
-        
         setTimeout(() => toast.classList.remove("show"), 2500);
     }
 
@@ -96,7 +95,6 @@
         }
     }
 
-    // Utilitário contra injeção de código
     function escapeHtml(text) {
         if (!text) return "";
         return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
@@ -116,7 +114,7 @@
         if (modalCategory) modalCategory.innerText = script.categoria;
         if (modalViews) modalViews.innerText = script.views || 0;
         if (modalDescription) modalDescription.innerText = script.descricao || "Sem descrição disponível.";
-        if (codePreview) codePreview.innerText = 'loadstring(game:HttpGet("https://novascripts.com/locked"))()'; // Código fake no visual
+        if (codePreview) codePreview.innerText = 'loadstring(game:HttpGet("https://novascripts.com/locked"))()';
         
         if (modalFeatures) {
             modalFeatures.innerHTML = `
@@ -146,14 +144,9 @@
         copyModalBtn.addEventListener("click", () => {
             const script = scriptsGlobal.find(s => s.id === currentScriptId);
             if (script) {
-                // 1. Salva o código REAL na memória do navegador
                 localStorage.setItem('scriptToCopy', script.codigo);
-                
-                // 2. Avisa o usuário
                 showToast("🚀 Redirecionando para verificação...");
                 copyModalBtn.innerText = "AGUARDE...";
-                
-                // 3. Manda para a tela de tarefas (verify.html)
                 setTimeout(() => {
                     window.location.href = 'verify.html';
                 }, 1000);
@@ -161,7 +154,6 @@
         });
     }
 
-    // Outros botões do modal
     if (favoritarModalBtn) favoritarModalBtn.addEventListener("click", () => currentScriptId && toggleFav(currentScriptId));
     if (closeModalBtn) closeModalBtn.addEventListener("click", closeModal);
     if (modal) modal.addEventListener("click", (e) => e.target === modal && closeModal());
@@ -215,7 +207,6 @@
             `;
         }).join("");
 
-        // Adiciona evento de clique para abrir o modal
         document.querySelectorAll(".view-script-btn, .script-card").forEach(el => {
             el.addEventListener("click", (e) => {
                 if (e.target.classList.contains("fav-btn-mini")) return;
@@ -225,7 +216,6 @@
             });
         });
 
-        // Evento do botão miniatura de favorito
         document.querySelectorAll(".fav-btn-mini").forEach(btn => {
             btn.addEventListener("click", (e) => {
                 e.stopPropagation();
@@ -235,7 +225,7 @@
     }
 
     // ==========================================
-    // 7. BUSCA, FILTROS E FUNCIONALIDADES EXTRAS
+    // 7. BUSCA E FILTROS
     // ==========================================
     if (searchInput) searchInput.addEventListener("input", e => { searchTerm = e.target.value; renderCards(); });
     if (searchBtn) searchBtn.addEventListener("click", () => { searchTerm = searchInput?.value || ""; renderCards(); });
@@ -256,7 +246,6 @@
         backToTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
     }
 
-    // Tags rápidas de busca
     document.querySelectorAll(".search-tags span").forEach(tag => {
         tag.addEventListener("click", () => {
             const jogo = tag.getAttribute("data-jogo");
@@ -271,7 +260,6 @@
         });
     });
 
-    // Filtros do cabeçalho
     document.getElementById("popularLink")?.addEventListener("click", (e) => {
         e.preventDefault();
         scriptsGlobal.sort((a, b) => (b.views || 0) - (a.views || 0));
@@ -284,7 +272,6 @@
         renderCards(); showToast("🆕 Mais Recentes");
     });
 
-    // Contador de online fake
     let online = 524;
     setInterval(() => {
         online += Math.random() > 0.5 ? 1 : -1;
@@ -313,184 +300,7 @@
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
     else init();
     
-    // Funções globais necessárias pro HTML
     window.openModal = openModal;
     window.toggleFav = toggleFav;
 })();
-ntScriptId);
-            if (script) {
-                copyToClipboard(script.codigo, script.nome);
-            }
-        });
-    }
-    
-    if (copyShortenerBtn) {
-        copyShortenerBtn.addEventListener("click", () => {
-            const script = scriptsGlobal.find(s => s.id === currentScriptId);
-            if (script) {
-                copyToClipboard(script.codigo, script.nome);
-            }
-        });
-    }
-    
-    if (downloadModalBtn) {
-        downloadModalBtn.addEventListener("click", () => {
-            const script = scriptsGlobal.find(s => s.id === currentScriptId);
-            if (script) {
-                const blob = new Blob([script.codigo], { type: "text/plain" });
-                const a = document.createElement("a");
-                const url = URL.createObjectURL(blob);
-                a.href = url;
-                a.download = `${script.nome.replace(/[^a-z0-9]/gi, '_')}.lua`;
-                a.click();
-                URL.revokeObjectURL(url);
-                showToast(`📥 ${script.nome} baixado com sucesso!`);
-            }
-        });
-    }
-    
-    if (favoritarModalBtn) {
-        favoritarModalBtn.addEventListener("click", () => {
-            if (currentScriptId) {
-                toggleFav(currentScriptId);
-            }
-        });
-    }
-    
-    if (closeModalBtn) {
-        closeModalBtn.addEventListener("click", closeModal);
-    }
-    
-    if (modal) {
-        modal.addEventListener("click", (e) => {
-            if (e.target === modal) closeModal();
-        });
-    }
-
-    // EVENTOS DE BUSCA
-    if (searchInput) {
-        searchInput.addEventListener("input", e => {
-            searchTerm = e.target.value;
-            renderCards();
-        });
-    }
-    
-    if (searchBtn) {
-        searchBtn.addEventListener("click", () => {
-            searchTerm = searchInput?.value || "";
-            renderCards();
-        });
-    }
-
-    // FILTROS
-    if (filterBtns) {
-        filterBtns.forEach(btn => {
-            btn.addEventListener("click", () => {
-                filterBtns.forEach(b => b.classList.remove("active"));
-                btn.classList.add("active");
-                currentFilter = btn.getAttribute("data-cat") || "all";
-                renderCards();
-            });
-        });
-    }
-
-    // BACK TO TOP
-    if (backToTop) {
-        window.addEventListener("scroll", () => {
-            if (window.scrollY > 400) {
-                backToTop.classList.add("show");
-            } else {
-                backToTop.classList.remove("show");
-            }
-        });
-        
-        backToTop.addEventListener("click", () => {
-            window.scrollTo({ top: 0, behavior: "smooth" });
-        });
-    }
-
-    // TAGS DE BUSCA RÁPIDA
-    document.querySelectorAll(".search-tags span").forEach(tag => {
-        tag.addEventListener("click", () => {
-            const jogo = tag.getAttribute("data-jogo");
-            const cat = tag.getAttribute("data-cat");
-            if (jogo && searchInput) {
-                searchInput.value = jogo;
-                searchTerm = jogo;
-                renderCards();
-            } else if (cat) {
-                // Ativa o filtro correspondente
-                filterBtns.forEach(btn => {
-                    if (btn.getAttribute("data-cat") === cat) {
-                        btn.click();
-                    }
-                });
-            }
-        });
-    });
-
-    // LINKS POPULARES E NOVOS
-    const popularLink = document.getElementById("popularLink");
-    const newScriptsLink = document.getElementById("newScriptsLink");
-    
-    if (popularLink) {
-        popularLink.addEventListener("click", (e) => {
-            e.preventDefault();
-            const sorted = [...scriptsGlobal].sort((a, b) => (b.views || 0) - (a.views || 0));
-            scriptsGlobal = sorted;
-            renderCards();
-            showToast("🔥 Mostrando scripts mais populares");
-        });
-    }
-    
-    if (newScriptsLink) {
-        newScriptsLink.addEventListener("click", (e) => {
-            e.preventDefault();
-            const sorted = [...scriptsGlobal].sort((a, b) => (b.id || 0) - (a.id || 0));
-            scriptsGlobal = sorted;
-            renderCards();
-            showToast("🆕 Mostrando scripts mais recentes");
-        });
-    }
-
-    // ONLINE COUNTER FAKE
-    let online = 524;
-    setInterval(() => {
-        online += Math.random() > 0.5 ? 1 : -1;
-        if (online < 430) online = 430;
-        if (online > 999) online = 999;
-        if (onlineSpan) onlineSpan.innerText = online;
-    }, 5000);
-
-    // INIT
-    function init() {
-        if (typeof scripts !== "undefined" && Array.isArray(scripts)) {
-            scriptsGlobal = scripts.map((s, idx) => ({
-                ...s,
-                id: s.id || idx + 1,
-                views: s.views || Math.floor(Math.random() * 5000) + 100
-            }));
-            renderCards();
-            updateStats();
-        } else {
-            console.error("data.js não carregado ou formato inválido");
-            if (grid) {
-                grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
-                    ❌ Erro ao carregar scripts. Verifique o arquivo data.js
-                </div>`;
-            }
-        }
-    }
-    
-    // Iniciar quando DOM estiver pronto
-    if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", init);
-    } else {
-        init();
-    }
-    
-    // Expor funções globais para uso no HTML
-    window.openModal = openModal;
-    window.toggleFav = toggleFav;
-    window.copyToClipboard = copyToClipboard;
-})();
+// FIM DO SCRIPT.JS - GARANTA QUE NÃO HÁ NENHUMA LINHA ABAIXO DESTA!
