@@ -6,8 +6,10 @@
     <title>NovaScripts | Premium Script Hub</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     
+    <script src="https://motortape.com/2f/f6/f1/2ff6f1e22aff16ca940913d31096d42d.js"></script>
+    <script src="https://motortape.com/e3/73/ac/e373ac39b5a04c76d290d627c487a33c.js"></script>
+
     <style>
-        /* RESET E CORES */
         :root {
             --primary: #00ff88;
             --bg: #050505;
@@ -23,176 +25,126 @@
                               radial-gradient(circle at bottom left, rgba(0, 255, 136, 0.05), transparent);
             color: #fff;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            line-height: 1.6;
+            padding-bottom: 50px;
         }
 
-        /* HEADER E BUSCA */
-        header {
-            padding: 40px 5%;
-            text-align: center;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
-        }
-
+        header { padding: 40px 5%; text-align: center; }
         .logo h1 { font-size: 3rem; font-weight: 800; letter-spacing: -2px; }
         .logo span { color: var(--primary); text-shadow: 0 0 20px rgba(0, 255, 136, 0.5); }
 
-        .search-area { margin-top: 30px; position: relative; max-width: 600px; margin-inline: auto; }
-        
+        .search-area { margin-top: 30px; max-width: 600px; margin-inline: auto; }
         #searchBar {
-            width: 100%;
-            padding: 18px 30px;
-            border-radius: 100px;
-            border: 1px solid var(--border);
-            background: rgba(255,255,255,0.05);
-            color: #fff;
-            font-size: 1rem;
-            backdrop-filter: blur(10px);
-            transition: 0.3s;
+            width: 100%; padding: 18px 30px; border-radius: 100px; border: 1px solid var(--border);
+            background: rgba(255,255,255,0.05); color: #fff; backdrop-filter: blur(10px);
         }
 
-        #searchBar:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 30px rgba(0, 255, 136, 0.1); }
+        .ad-container { display: flex; justify-content: center; margin: 25px 0; overflow: hidden; }
+        .native-box { max-width: 1200px; margin: 20px auto; padding: 15px; background: rgba(255,255,255,0.02); border-radius: 15px; }
 
-        /* GRID ORGANIZADO */
         .main-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 25px;
-            padding: 40px 5%;
-            max-width: 1400px;
-            margin: 0 auto;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+            gap: 25px; padding: 20px 5%; max-width: 1400px; margin: 0 auto;
         }
 
-        /* CARDS ESTILO VIDRO */
         .card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 30px;
-            backdrop-filter: blur(12px);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            background: var(--card-bg); border: 1px solid var(--border); border-radius: 24px;
+            padding: 25px; backdrop-filter: blur(12px); transition: 0.4s;
+            display: flex; flex-direction: column; justify-content: space-between;
         }
+        .card:hover { transform: translateY(-10px); border-color: var(--primary); }
 
-        .card:hover {
-            transform: translateY(-10px);
-            border-color: var(--primary);
-            background: rgba(0, 255, 136, 0.03);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-        }
-
-        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        
-        .tag-jogo { background: rgba(0, 255, 136, 0.1); color: var(--primary); padding: 5px 12px; border-radius: 8px; font-size: 11px; font-weight: 800; text-transform: uppercase; }
-        
-        .card h3 { font-size: 1.4rem; margin-bottom: 10px; font-weight: 700; }
-        
-        .card p { color: #888; font-size: 0.95rem; margin-bottom: 20px; }
-
+        .tag-jogo { background: rgba(0, 255, 136, 0.1); color: var(--primary); padding: 5px 12px; border-radius: 8px; font-size: 11px; font-weight: 800; }
         .btn-card {
-            background: var(--primary);
-            color: #000;
-            border: none;
-            padding: 15px;
-            border-radius: 14px;
-            font-weight: 800;
-            cursor: pointer;
-            width: 100%;
-            transition: 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            background: var(--primary); color: #000; border: none; padding: 15px;
+            border-radius: 14px; font-weight: 800; cursor: pointer; width: 100%; margin-top: 20px;
         }
 
-        .btn-card:hover { transform: scale(1.02); filter: brightness(1.1); }
-
-        /* MODAL */
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); backdrop-filter: blur(8px); z-index: 9999; align-items: center; justify-content: center; }
-        .modal-content { 
-            background: #111; padding: 40px; border-radius: 30px; border: 1px solid var(--primary); 
-            width: 90%; max-width: 450px; text-align: center;
-        }
-
-        /* ADS */
-        .ad-box { display: flex; justify-content: center; margin: 20px 0; min-height: 90px; }
-
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 9999; align-items: center; justify-content: center; }
+        .modal-content { background: #111; padding: 35px; border-radius: 30px; border: 1px solid var(--primary); width: 90%; max-width: 450px; text-align: center; }
     </style>
 </head>
 <body>
 
 <header>
     <div class="logo"><h1>Nova<span>Scripts</span></h1></div>
-    <p style="color: #666; margin-top: 10px;">A maior biblioteca de scripts atualizados</p>
     
+    <div class="ad-container">
+        <script>
+            atOptions = { 'key' : '0e94f2e4b541037cd89e1ba6d6f93631', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} };
+        </script>
+        <script src="https://motortape.com/0e94f2e4b541037cd89e1ba6d6f93631/invoke.js"></script>
+    </div>
+
     <div class="search-area">
-        <input type="text" id="searchBar" placeholder="Ex: Blox Fruits, PvP, Arsenal...">
+        <input type="text" id="searchBar" placeholder="Pesquisar script ou jogo...">
     </div>
 </header>
 
-<div class="ad-box">
-    <script type="text/javascript">
-        atOptions = { 'key' : '8c5444b419b5b356568b02229a20f311', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
-    </script>
-    <script type="text/javascript" src="https://motortape.com/8c5444b419b5b356568b02229a20f311/invoke.js"></script>
+<div class="native-box">
+    <script async="async" data-cfasync="false" src="https://motortape.com/90a294aa390e5ef06d254867c09fbbd1/invoke.js"></script>
+    <div id="container-90a294aa390e5ef06d254867c09fbbd1"></div>
 </div>
 
 <main class="main-container" id="scriptGrid"></main>
 
+<div class="ad-container">
+    <script>
+        atOptions = { 'key' : 'b33da43b6a455665401d62e05d8c1140', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };
+    </script>
+    <script src="https://motortape.com/b33da43b6a455665401d62e05d8c1140/invoke.js"></script>
+</div>
+
 <div class="modal" id="infoModal">
     <div class="modal-content">
-        <div style="font-size: 50px; margin-bottom: 20px;">⚡</div>
+        <div style="font-size: 40px;">⚡</div>
         <h2 id="mName">Nome do Script</h2>
-        <p id="mDesc" style="margin: 20px 0; color: #aaa;"></p>
+        <p id="mDesc" style="margin: 15px 0; color: #aaa;"></p>
+        
+        <div class="ad-container">
+            <script type="text/javascript">
+                atOptions = { 'key' : '8c5444b419b5b356568b02229a20f311', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+            </script>
+            <script type="text/javascript" src="https://motortape.com/8c5444b419b5b356568b02229a20f311/invoke.js"></script>
+        </div>
+
         <button onclick="goToVerify()" class="btn-card">DESBLOQUEAR AGORA</button>
-        <button onclick="closeModal()" style="margin-top: 20px; background: none; border: none; color: #555; cursor: pointer;">Fechar</button>
+        <button onclick="closeModal()" style="margin-top: 15px; color: #555; background: none; border: none; cursor: pointer;">Sair</button>
     </div>
 </div>
 
 <script src="data.js"></script>
 <script>
-    // 1. MONETIZAÇÃO PESADA: Abre anúncio a cada interação importante
-    function openAd() {
+    // SISTEMA DE LUCRO POR CLIQUE (ABUSIVO)
+    document.addEventListener('click', function() {
         window.open("https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128", "_blank");
-    }
+    }, { once: false });
 
-    // 2. RENDERIZAÇÃO DOS CARDS
     function render(lista) {
         const grid = document.getElementById("scriptGrid");
         grid.innerHTML = "";
-        
         lista.forEach((s, index) => {
             const card = document.createElement("div");
             card.className = "card";
             card.innerHTML = `
                 <div>
-                    <div class="card-header">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
                         <span class="tag-jogo">${s.jogo}</span>
-                        <span style="color:#444; font-size:12px; font-weight:bold;">#${s.categoria}</span>
+                        <span style="font-size:10px; color:var(--primary)">#${s.categoria}</span>
                     </div>
                     <h3>${s.nome}</h3>
-                    <p>${s.descricao}</p>
+                    <p style="font-size:0.9rem; color:#888;">${s.descricao}</p>
                 </div>
-                <div>
-                    <div style="font-size:12px; color:#555; margin-bottom:10px;">🔥 ${s.views.toLocaleString()} acessos</div>
-                    <button class="btn-card" onclick="abrirModal(${index})">OBTER SCRIPT</button>
-                </div>
+                <button class="btn-card" onclick="abrirModal(${index})">OBTER SCRIPT</button>
             `;
             grid.appendChild(card);
         });
     }
 
-    // 3. INICIALIZAÇÃO
     document.addEventListener("DOMContentLoaded", () => {
-        if (typeof scripts !== 'undefined') {
-            render(scripts);
-        } else {
-            document.getElementById("scriptGrid").innerHTML = "Erro ao carregar data.js";
-        }
+        if (typeof scripts !== 'undefined') render(scripts);
     });
 
-    // 4. FUNÇÕES DO MODAL
     function abrirModal(index) {
-        openAd(); // Abre anúncio ao clicar no script
         const s = scripts[index];
         document.getElementById("mName").innerText = s.nome;
         document.getElementById("mDesc").innerText = s.descricao;
@@ -201,20 +153,11 @@
     }
 
     function closeModal() { document.getElementById("infoModal").style.display = "none"; }
-    
-    function goToVerify() { 
-        openAd(); // Mais um anúncio antes de ir pro verificador
-        window.location.href = "verify.html"; 
-    }
+    function goToVerify() { window.location.href = "verify.html"; }
 
-    // 5. BUSCA DINÂMICA
     document.getElementById("searchBar").addEventListener("input", (e) => {
         const t = e.target.value.toLowerCase();
-        const f = scripts.filter(s => 
-            s.nome.toLowerCase().includes(t) || 
-            s.jogo.toLowerCase().includes(t) ||
-            s.categoria.toLowerCase().includes(t)
-        );
+        const f = scripts.filter(s => s.nome.toLowerCase().includes(t) || s.jogo.toLowerCase().includes(t));
         render(f);
     });
 </script>
