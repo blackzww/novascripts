@@ -1,22 +1,20 @@
-<!-- index.html MODIFICADO PROFISSIONAL -->
+<!-- INDEX.HTML COMPLETO ARRUMADO NOVASCRIPTS 3.0 -->
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NovaScripts | Biblioteca Premium</title>
-
+<title>NovaScripts 3.0</title>
 <link rel="stylesheet" href="style.css">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
 <!-- LOADER -->
 <div class="loader-wrapper" id="loader">
-    <div class="loader-ring"></div>
-    <p>Carregando NovaScripts...</p>
+<div class="loader-ring"></div>
+<p>Carregando NovaScripts...</p>
 </div>
 
 <div class="site-wrapper">
@@ -24,31 +22,30 @@
 <!-- HEADER -->
 <header class="topbar">
 
-    <div class="logo-box">
-        <h1>Nova<span>Scripts</span></h1>
-        <small>Biblioteca profissional de scripts Roblox</small>
-    </div>
+<div class="logo-box">
+<h1>Nova<span>Scripts</span></h1>
+<small>Biblioteca premium de scripts Roblox</small>
+</div>
 
-    <nav class="navbar">
-        <a href="#" class="active">Início</a>
-        <a href="#biblioteca">Biblioteca</a>
-        <a href="#trending">Em Alta</a>
-        <a href="#novos">Novos</a>
-        <a href="#">Discord</a>
-    </nav>
+<nav class="navbar">
+<a href="#" class="active">Início</a>
+<a href="#biblioteca">Biblioteca</a>
+<a href="#">Novos</a>
+<a href="#">Em Alta</a>
+</nav>
 
-    <div class="user-stats">
+<div class="user-stats">
 
-        <div class="online-box">
-            <span class="dot"></span>
-            <span id="onlineCount">524</span>
-        </div>
+<div class="online-box">
+<span class="dot"></span>
+<span id="onlineCount">524</span>
+</div>
 
-        <div class="fav-box">
-            ❤️ <span id="favCounter">0</span>
-        </div>
+<div class="fav-box">
+❤️ <span id="favCounter">0</span>
+</div>
 
-    </div>
+</div>
 
 </header>
 
@@ -60,37 +57,20 @@
 <span class="hero-tag">#1 Biblioteca Premium</span>
 
 <h2>
-Encontre Scripts Atualizados Para Qualquer Jogo Roblox
+Encontre Scripts Atualizados Para Roblox
 </h2>
 
 <p>
-Pesquise por nome do jogo, categoria ou script e encontre códigos prontos para copiar.
+Pesquise qualquer script e copie rapidamente.
 </p>
 
 <div class="hero-buttons">
-<button class="btn-main" onclick="document.getElementById('biblioteca').scrollIntoView({behavior:'smooth'})">
+
+<button class="btn-main"
+onclick="document.getElementById('biblioteca').scrollIntoView({behavior:'smooth'})">
 Explorar
 </button>
 
-<button class="btn-alt">
-Discord
-</button>
-</div>
-
-</div>
-
-<div class="hero-right">
-
-<div class="hero-card">
-<h3>🔥 Em Alta</h3>
-<p>Blox Fruits Hub Premium</p>
-<span>12.391 acessos</span>
-</div>
-
-<div class="hero-card purple">
-<h3>⚡ Novo</h3>
-<p>Grow a Garden Auto Farm</p>
-<span>Atualizado hoje</span>
 </div>
 
 </div>
@@ -106,13 +86,7 @@ Discord
 
 <div class="panel-logo">
 <h2>NovaSearch</h2>
-<span>busque qualquer script</span>
-</div>
-
-<div class="panel-tabs">
-<button class="search-tab active">🔍 Buscar</button>
-<button class="search-tab">🔥 Em Alta</button>
-<button class="search-tab">🆕 Novos</button>
+<span>Busque qualquer script</span>
 </div>
 
 </div>
@@ -122,7 +96,7 @@ Discord
 <input
 type="text"
 id="searchInput"
-placeholder="Digite nome do jogo, script ou categoria...">
+placeholder="Digite nome do jogo ou script...">
 
 <button id="searchBtn">
 Buscar
@@ -131,18 +105,19 @@ Buscar
 </div>
 
 <div class="search-tags">
-<span data-jogo="Blox Fruits">Blox Fruits</span>
-<span data-jogo="Brookhaven">Brookhaven</span>
-<span data-jogo="Grow a Garden">Grow a Garden</span>
-<span data-jogo="Rivals">Rivals</span>
+<span>Blox Fruits</span>
+<span>Brookhaven</span>
 <span>ESP</span>
-<span>Auto Farm</span>
+<span>Farm</span>
+<span>Hub</span>
 </div>
 
 <div class="search-mini-stats">
+
 <div>📦 <span id="totalScriptsCount">0</span> scripts</div>
 <div>👁️ <span id="totalViewsCount">0</span> views</div>
 <div>❤️ <span id="totalFavoritesCount">0</span> favoritos</div>
+
 </div>
 
 </div>
@@ -158,11 +133,10 @@ Buscar
 <button class="filter" data-cat="ESP">ESP</button>
 <button class="filter" data-cat="Hub">Hub</button>
 <button class="filter" data-cat="Admin">Admin</button>
-<button class="filter" data-cat="Visual">Visual</button>
 
 </section>
 
-<!-- BENEFICIOS -->
+<!-- DASHBOARD -->
 <section class="dashboard">
 
 <div class="dash-card">
@@ -176,21 +150,10 @@ Buscar
 </div>
 
 <div class="dash-card">
-<h3>Organizado</h3>
-<p>Navegação fácil e limpa.</p>
+<h3>Seguro</h3>
+<p>Interface limpa.</p>
 </div>
 
-<div class="dash-card premium">
-<h3>Premium</h3>
-<p>Sem anúncios futuramente.</p>
-</div>
-
-</section>
-
-<!-- ANUNCIO -->
-<section class="banner-ad">
-<p>📢 Espaço publicitário disponível</p>
-<button>Anunciar</button>
 </section>
 
 <!-- BIBLIOTECA -->
@@ -198,17 +161,12 @@ Buscar
 
 <div class="section-top">
 <h2>Biblioteca de Scripts</h2>
-<p>Clique em um script para abrir detalhes completos.</p>
+<p>Escolha qualquer script abaixo.</p>
 </div>
 
 <div class="scripts-grid" id="scriptsGrid"></div>
 
 </section>
-
-<!-- SEM RESULTADO -->
-<div class="no-results" id="noResults">
-Nenhum script encontrado.
-</div>
 
 <!-- VOLTAR TOPO -->
 <button class="back-top" id="backToTop">↑</button>
@@ -220,77 +178,52 @@ Nenhum script encontrado.
 
 <div class="modal-box">
 
-<!-- TOPO -->
 <div class="modal-top">
-<h3 id="modalTitle">Nome do Script</h3>
+<h3 id="modalTitle">Script</h3>
 <button class="close-modal">&times;</button>
 </div>
 
-<!-- INFO -->
-<div class="modal-info" id="modalInfo">
+<div class="modal-info">
 
 <div class="info-row">
-<span class="info-label">🎮 Jogo:</span>
-<span class="info-value" id="modalGame">-</span>
-</div>
-
-<div class="info-row">
-<span class="info-label">📁 Categoria:</span>
-<span class="info-value" id="modalCategory">-</span>
+<span>🎮 Jogo:</span>
+<span id="modalGame">-</span>
 </div>
 
 <div class="info-row">
-<span class="info-label">👁️ Views:</span>
-<span class="info-value" id="modalViews">-</span>
+<span>📁 Categoria:</span>
+<span id="modalCategory">-</span>
 </div>
 
 <div class="info-row">
-<span class="info-label">⭐ Status:</span>
-<span class="info-value online-status">Online</span>
+<span>👁 Views:</span>
+<span id="modalViews">-</span>
 </div>
 
 </div>
 
-<!-- DESCRIÇÃO -->
 <div class="modal-description">
-<strong>📝 Descrição:</strong>
-<p id="modalDescription">Carregando...</p>
+<p id="modalDescription"></p>
 </div>
 
-<!-- FUNÇÕES -->
 <div class="script-features">
-<strong>⚙️ Funções:</strong>
-<ul id="modalFeatures">
-<li>Carregando...</li>
-</ul>
-</div>
-
-<!-- LOADSTRING -->
-<div class="code-shortener">
-
-<div class="shortener-header">
-<span>🔗 SCRIPT LOADSTRING</span>
-
-<button id="copyShortenerBtn" class="shortener-copy-btn">
-📋 Copiar
-</button>
+<ul id="modalFeatures"></ul>
 </div>
 
 <div class="code-preview" id="codePreview">
-loadstring(game:HttpGet("https://site.com/script"))()
+loadstring(...)
 </div>
 
-<div class="shortener-footer">
-<small>Copie e execute no seu executor.</small>
-</div>
-
-</div>
-
-<!-- BOTÕES -->
 <div class="modal-buttons">
-<button id="copyModalBtn" class="btn-copy-primary">📋 Copiar Script</button>
-<button id="downloadBtn">⬇️ Baixar .txt</button>
-<button id="favoritarModalBtn">❤️ Favoritar</button>
+
+<button id="copyModalBtn">
+📋 Copiar
+</button>
+
+<button id="favoritarModalBtn">
+❤️ Favoritar
+</button>
+
 </div>
 
 </div>
