@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NovaScripts | Verificação</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <script src="https://motortape.com/e3/73/ac/e373ac39b5a04c76d290d627c487a33c.js"></script>
+
     <style>
         :root {
             --primary: #00ff88;
@@ -18,10 +21,12 @@
             background-color: var(--bg);
             color: var(--text);
             display: flex;
+            flex-direction: column; /* Ajustado para caber anúncios topo/baixo */
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
+            padding: 20px;
         }
 
         .verify-card {
@@ -33,6 +38,7 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.4);
             border: 1px solid rgba(255,255,255,0.05);
             text-align: center;
+            z-index: 10;
         }
 
         h2 { font-weight: 800; margin-bottom: 10px; }
@@ -59,57 +65,52 @@
         }
 
         .task-item:hover { background: rgba(255,255,255,0.08); }
-
-        .task-item.done {
-            border-color: var(--primary);
-            background: rgba(0, 255, 136, 0.05);
-        }
+        .task-item.done { border-color: var(--primary); background: rgba(0, 255, 136, 0.05); }
 
         .status-icon {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            border: 2px solid #444;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
+            width: 20px; height: 20px; border-radius: 50%;
+            border: 2px solid #444; display: flex; align-items: center; justify-content: center; font-size: 12px;
         }
 
-        .done .status-icon {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: #000;
-        }
-
+        .done .status-icon { background: var(--primary); border-color: var(--primary); color: #000; }
         .done .status-icon::after { content: '✓'; font-weight: bold; }
 
         #unlockBtn {
-            width: 100%;
-            padding: 16px;
-            border-radius: 12px;
-            border: none;
-            font-weight: 800;
-            cursor: not-allowed;
-            background: #333;
-            color: #666;
-            transition: 0.4s;
-            text-transform: uppercase;
+            width: 100%; padding: 16px; border-radius: 12px; border: none;
+            font-weight: 800; cursor: not-allowed; background: #333; color: #666;
+            transition: 0.4s; text-transform: uppercase;
         }
 
         #unlockBtn.ready {
-            background: var(--primary);
-            color: #000;
-            cursor: pointer;
+            background: var(--primary); color: #000; cursor: pointer;
             box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+        }
+
+        .ad-slot {
+            margin: 15px 0;
+            background: rgba(0,0,0,0.2);
+            border: 1px dashed #333;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: #444;
         }
     </style>
 </head>
 <body>
 
+<div class="ad-slot" style="min-height: 250px; width: 300px;">
+    <script type="text/javascript">
+        atOptions = { 'key' : 'b33da43b6a455665401d62e05d8c1140', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };
+    </script>
+    <script src="https://motortape.com/b33da43b6a455665401d62e05d8c1140/invoke.js"></script>
+</div>
+
 <div class="verify-card">
     <h2>Complete as Tarefas</h2>
-    <p>Siga os passos abaixo para desbloquear seu script.</p>
+    <p>Siga os passos para liberar seu script.</p>
 
     <div class="task-list">
         <a href="https://youtube.com/@SeuCanal" target="_blank" class="task-item" onclick="completeTask(1)">
@@ -117,23 +118,23 @@
             <div class="status-icon" id="icon-1"></div>
         </a>
 
-        <a href="https://discord.gg/SeuDiscord" target="_blank" class="task-item" onclick="completeTask(2)">
-            <span>2. Entrar no Discord</span>
+        <a href="https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128" target="_blank" class="task-item" onclick="completeTask(2)">
+            <span>2. Ver Anúncio Parceiro</span>
             <div class="status-icon" id="icon-2"></div>
         </a>
 
-        <a href="https://instagram.com/seuinsta" target="_blank" class="task-item" onclick="completeTask(3)">
-            <span>3. Seguir no Instagram</span>
+        <a href="https://discord.gg/SeuDiscord" target="_blank" class="task-item" onclick="completeTask(3)">
+            <span>3. Entrar no Discord</span>
             <div class="status-icon" id="icon-3"></div>
         </a>
 
-        <a href="#" class="task-item" onclick="completeTask(4)">
+        <a href="https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128" target="_blank" class="task-item" onclick="completeTask(4)">
             <span>4. Deixar Like no Vídeo</span>
             <div class="status-icon" id="icon-4"></div>
         </a>
 
         <a href="#" class="task-item" onclick="completeTask(5)">
-            <span>5. Ver Anúncio Parceiro</span>
+            <span>5. Validar Acesso</span>
             <div class="status-icon" id="icon-5"></div>
         </a>
     </div>
@@ -141,19 +142,22 @@
     <button id="unlockBtn" disabled>Desbloquear Script (0/5)</button>
 </div>
 
+<script type='text/javascript' src='https://motortape.com/2f/f6/f1/2ff6f1e22aff16ca940913d31096d42d.js'></script>
+
 <script>
     let tasksCompleted = new Set();
     const totalTasks = 5;
     const unlockBtn = document.getElementById('unlockBtn');
 
     function completeTask(taskId) {
-        // Marca a tarefa como feita
+        // Se for a tarefa 5, forçamos um anúncio antes de marcar
+        if(taskId === 5) {
+            window.open('https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128', '_blank');
+        }
+
         tasksCompleted.add(taskId);
-        
-        // Atualiza visualmente
         const items = document.querySelectorAll('.task-item');
         items[taskId - 1].classList.add('done');
-
         updateButton();
     }
 
@@ -169,18 +173,17 @@
     }
 
     unlockBtn.addEventListener('click', () => {
-        const scriptCode = localStorage.getItem('scriptToCopy');
+        // Pega o código que salvamos no index.js
+        const scriptCode = localStorage.getItem('pendingScript');
         
         if (scriptCode) {
             navigator.clipboard.writeText(scriptCode).then(() => {
-                alert("✨ Script copiado com sucesso! Agora é só colar no seu Executor.");
-                window.location.href = 'index.html'; // Redireciona de volta
-            }).catch(err => {
-                console.error('Erro ao copiar: ', err);
-                alert("Erro ao copiar. Tente selecionar o texto manualmente.");
+                alert("✨ Script copiado! Volte para o Roblox e cole.");
+                window.location.href = 'index.html'; 
             });
         } else {
             alert("Erro: Script não encontrado. Volte ao início.");
+            window.location.href = 'index.html';
         }
     });
 </script>
