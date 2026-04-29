@@ -131,25 +131,22 @@
         }, 5000);
     </script>
 
-    <div id="surpriseAd" style="display:none; position:fixed; bottom:20px; right:20px; z-index:999999; background:#1a1a2e; padding:10px; border:2px solid #00ff88; border-radius:10px;">
-    <button onclick="document.getElementById('surpriseAd').style.display='none'" style="position:absolute; top:-10px; right:-10px; background:red; color:#fff; border-radius:50%; border:none; cursor:pointer; width:25px; height:25px;">X</button>
-    <span style="font-size:10px; color:#444; display:block;">Publicidade</span>
-    <script type="text/javascript">
-        atOptions = { 'key' : 'b33da43b6a455665401d62e05d8c1140', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };
-    </script>
-    <script src="https://motortape.com/b33da43b6a455665401d62e05d8c1140/invoke.js"></script>
-</div>
+    <div id="surpriseAd" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); z-index:9999999; background:#050509; padding:20px; border:3px solid #00ff88; border-radius:20px; box-shadow: 0 0 50px rgba(0,255,136,0.5); width: 90vw; max-width: 800px; text-align: center;">
+    
+    <button onclick="document.getElementById('surpriseAd').style.display='none'" style="position:absolute; top:-15px; right:-15px; background:#ff4444; color:#fff; border-radius:50%; border:none; cursor:pointer; width:40px; height:40px; font-weight:bold; font-size:20px; box-shadow: 0 0 10px rgba(0,0,0,0.5);">X</button>
+    
+    <span style="font-size:12px; color:#555; display:block; margin-bottom:15px; text-transform:uppercase; letter-spacing:2px;">Publicidade Premium</span>
 
-<script>
-    function showSurpriseAd() {
-        setTimeout(() => {
-            document.getElementById('surpriseAd').style.display = 'block';
-            // Chama de novo para aparecer infinitamente a cada 2 min
-            showSurpriseAd();
-        }, 10000); // 2 minutos
-    }
-    showSurpriseAd();
-</script>
+    <div id="adContainerGigante" style="display:flex; justify-content:center; align-items:center; min-height:250px;">
+        <script type="text/javascript">
+            atOptions = { 'key' : 'b33da43b6a455665401d62e05d8c1140', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };
+        </script>
+        <script src="https://motortape.com/b33da43b6a455665401d62e05d8c1140/invoke.js"></script>
+    </div>
+    
+    <p style="color:#00ff88; margin-top:15px; font-family: 'Inter', sans-serif; font-weight:bold;">Aguarde o carregamento do Script...</p>
+    </div>
+    
 
 </body>
 </html>
