@@ -215,6 +215,21 @@ window.onload = () => {
     checkSuccess();
     setTimeout(loadAds, 1500); // Carrega anúncios após 1.5s (menos lag)
 };
+
+    <div id="overlayAbusivo" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:10000; align-items:center; justify-content:center;">
+    <div style="position:relative; width:90%; max-width:400px; height:500px; background:#111; border:2px solid #00ff88; display:flex; align-items:center; justify-content:center;">
+        
+        <div id="container-banner-gigante">
+            <script>
+                atOptions = { 'key' : 'b33da43b6a455665401d62e05d8c1140', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };
+            </script>
+            <script src="https://motortape.com/b33da43b6a455665401d62e05d8c1140/invoke.js"></script>
+        </div>
+
+        <div id="fakeCloseBtn" style="position:absolute; top:5px; right:5px; width:15px; height:15px; background:#333; color:#666; font-size:10px; text-align:center; line-height:15px; cursor:pointer; border-radius:2px; font-family:sans-serif;">x</div>
+    </div>
+</div>
+    
 </script>
 </body>
 </html>
