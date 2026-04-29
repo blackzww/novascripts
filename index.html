@@ -1,160 +1,194 @@
-<!-- index.html MODIFICADO -->
+<!-- INDEX.HTML COMPLETO COM NOVA BARRA DE PESQUISA PROFISSIONAL -->
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NovaScripts | Scripts Premium</title>
+<title>NovaScripts | Premium Scripts</title>
 <link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
 <!-- Loader -->
 <div class="loader-wrapper" id="loader">
-    <div class="neon-loader"></div>
+    <div class="loader-ring"></div>
     <p>Carregando NovaScripts...</p>
 </div>
 
-<div class="container">
+<div class="site-wrapper">
 
-    <!-- Header -->
-    <header class="header">
-        <div class="logo-area">
-            <h1>NovaScripts<span class="glow-dot">⚡</span></h1>
-            <p>loadstring • scripts premium</p>
-        </div>
+<!-- HEADER -->
+<header class="topbar">
 
-        <nav class="main-nav">
-            <a href="#" class="nav-link active">Início</a>
-            <a href="#scriptsGrid">Scripts</a>
-            <a href="#" id="popularLink">Populares</a>
-            <a href="#" id="newLink">Novos</a>
-            <a href="#">Discord</a>
-        </nav>
-
-        <div class="header-info">
-            <div class="online-badge">
-                <span class="pulse"></span>
-                <span id="onlineCount">342</span>
-            </div>
-
-            <div class="favorite-badge">
-                ❤️ <span id="favCounter">0</span>
-            </div>
-
-            <!-- NOVO BOTÃO -->
-            <button class="theme-btn" id="themeBtn">🌙</button>
-        </div>
-    </header>
-
-    <!-- Hero Pesquisa -->
-    <section class="hero-search">
-        <h2>Encontre os melhores scripts</h2>
-        <p>Pesquise por jogo, nome ou categoria</p>
-
-        <div class="search-wrapper">
-            <input type="text" id="searchInput" placeholder="Pesquisar scripts...">
-            <button id="searchBtn">🔍</button>
-        </div>
-    </section>
-
-    <!-- Filtros -->
-    <div class="category-filters">
-        <button class="filter-cat active" data-cat="all">🎯 Todos</button>
-        <button class="filter-cat" data-cat="Farm">🌾 Farm</button>
-        <button class="filter-cat" data-cat="PvP">⚔️ PvP</button>
-        <button class="filter-cat" data-cat="Troll">🤡 Troll</button>
-        <button class="filter-cat" data-cat="ESP">👁️ ESP</button>
-        <button class="filter-cat" data-cat="Admin">👑 Admin</button>
-        <button class="filter-cat" data-cat="Hub">🎮 Hub</button>
+    <div class="logo-box">
+        <h1>Nova<span>Scripts</span></h1>
+        <small>premium loadstrings</small>
     </div>
 
-    <!-- Painel Stats -->
-    <div class="stats-container">
+    <nav class="navbar">
+        <a href="#" class="active">Home</a>
+        <a href="#scriptsGrid">Scripts</a>
+        <a href="#">Populares</a>
+        <a href="#">Novos</a>
+        <a href="#">Discord</a>
+    </nav>
 
-        <div class="stat-item">
-            <span class="stat-emoji">📦</span>
-            <div>
-                <span class="stat-number" id="totalScriptsCount">0</span>
-                <span class="stat-label">Scripts</span>
-            </div>
+    <div class="user-stats">
+        <div class="online-box">
+            <span class="dot"></span>
+            <span id="onlineCount">342</span>
         </div>
 
-        <div class="stat-item">
-            <span class="stat-emoji">❤️</span>
-            <div>
-                <span class="stat-number" id="totalFavoritesCount">0</span>
-                <span class="stat-label">Favoritos</span>
+        <div class="fav-box">
+            ❤️ <span id="favCounter">0</span>
+        </div>
+    </div>
+
+</header>
+
+<!-- NOVA ÁREA DE PESQUISA -->
+<section class="search-page">
+
+    <div class="search-panel">
+
+        <!-- topo -->
+        <div class="panel-top">
+
+            <div class="panel-logo">
+                <h2>NovaSearch</h2>
+                <span>encontre qualquer script</span>
             </div>
+
+            <div class="panel-tabs">
+                <button class="search-tab active">🔍 Scripts</button>
+                <button class="search-tab">🔥 Em Alta</button>
+                <button class="search-tab">🆕 Novos</button>
+            </div>
+
         </div>
 
-        <div class="stat-item">
-            <span class="stat-emoji">👁️</span>
-            <div>
-                <span class="stat-number" id="totalViewsCount">0</span>
-                <span class="stat-label">Views</span>
-            </div>
+        <!-- barra -->
+        <div class="big-search-box">
+
+            <input 
+            type="text"
+            id="searchInput"
+            placeholder="Pesquisar script, jogo ou categoria...">
+
+            <button id="searchBtn">
+                Buscar
+            </button>
+
         </div>
 
-        <!-- NOVO -->
-        <div class="stat-item">
-            <span class="stat-emoji">🔥</span>
-            <div>
-                <span class="stat-number" id="onlineUsers">127</span>
-                <span class="stat-label">Online</span>
-            </div>
+        <!-- tags -->
+        <div class="search-tags">
+            <span>Blox Fruits</span>
+            <span>Grow a Garden</span>
+            <span>Auto Farm</span>
+            <span>ESP</span>
+            <span>Hub</span>
+            <span>Brookhaven</span>
+        </div>
+
+        <!-- mini info -->
+        <div class="search-mini-stats">
+            <div>📦 <span id="totalScriptsCount">0</span> scripts</div>
+            <div>👁️ <span id="totalViewsCount">0</span> views</div>
+            <div>❤️ <span id="totalFavoritesCount">0</span> favoritos</div>
         </div>
 
     </div>
 
-    <!-- Banner anúncio -->
-    <div class="ad-banner">
-        <p>📢 Espaço para anúncio</p>
-    </div>
+</section>
 
-    <!-- Grid -->
-    <div class="scripts-grid" id="scriptsGrid"></div>
+<!-- FILTROS -->
+<section class="filters">
 
-    <!-- Nenhum resultado -->
-    <div class="no-results" id="noResults" style="display:none;">
-        😢 Nenhum script encontrado.
-    </div>
+<button class="filter active">Todos</button>
+<button class="filter">Farm</button>
+<button class="filter">PvP</button>
+<button class="filter">ESP</button>
+<button class="filter">Hub</button>
+<button class="filter">Admin</button>
 
-    <!-- Botão Topo -->
-    <button class="back-to-top" id="backToTop">↑</button>
+</section>
+
+<!-- DASHBOARD -->
+<section class="dashboard">
+
+<div class="dash-card">
+<h3>Atualizações</h3>
+<p>Novos scripts toda semana</p>
+</div>
+
+<div class="dash-card">
+<h3>Rápido</h3>
+<p>Copie com 1 clique</p>
+</div>
+
+<div class="dash-card">
+<h3>Seguro</h3>
+<p>Scripts revisados</p>
+</div>
+
+<div class="dash-card premium">
+<h3>Premium</h3>
+<p>Sem anúncios</p>
+</div>
+
+</section>
+
+<!-- ANUNCIO -->
+<section class="banner-ad">
+<p>📢 Espaço Publicitário Disponível</p>
+<button>Anunciar</button>
+</section>
+
+<!-- SCRIPTS -->
+<section class="scripts-section">
+
+<h2>Biblioteca de Scripts</h2>
+
+<div class="scripts-grid" id="scriptsGrid"></div>
+
+</section>
+
+<!-- sem resultado -->
+<div class="no-results" id="noResults">
+Nenhum script encontrado.
+</div>
+
+<!-- botão topo -->
+<button class="back-top" id="backToTop">↑</button>
 
 </div>
 
-<!-- Modal -->
+<!-- MODAL -->
 <div class="modal-overlay" id="modalOverlay">
-    <div class="modal-window">
 
-        <div class="modal-header">
-            <h3 id="modalTitle">Código do Script</h3>
-            <button class="close-modal">&times;</button>
-        </div>
+<div class="modal-box">
 
-        <div class="modal-body">
-            <pre id="modalCodeContent"></pre>
-
-            <div class="modal-actions">
-                <button class="copy-modal-btn" id="copyModalBtn">
-                    📋 Copiar
-                </button>
-
-                <button class="download-btn" id="downloadBtn">
-                    ⬇️ Baixar
-                </button>
-            </div>
-        </div>
-
-    </div>
+<div class="modal-top">
+<h3 id="modalTitle">Nome do Script</h3>
+<button class="close-modal">&times;</button>
 </div>
 
-<!-- Toast -->
+<pre id="modalCodeContent"></pre>
+
+<div class="modal-buttons">
+<button id="copyModalBtn">📋 Copiar</button>
+<button id="downloadBtn">⬇️ Baixar</button>
+</div>
+
+</div>
+</div>
+
+<!-- toast -->
 <div id="toastNotification"></div>
 
-<!-- Scripts -->
 <script src="data.js"></script>
 <script src="script.js"></script>
 
