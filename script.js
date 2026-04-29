@@ -1,225 +1,153 @@
 (function() {
+    // CONFIGURAÇÕES DE LUCRO (ADSTERRA DIRECT LINK)
     const adLink = "https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128";
-    let clickCount = 0;
+    let globalClicks = 0;
 
-    // 1. MOTOR DE LUCRO PESADO (CAPTURA TUDO)
-    document.addEventListener('mousedown', function(e) {
-        clickCount++;
-
-        // Abre AD em 100% dos primeiros 3 cliques, depois 80% de chance
-        if (clickCount <= 3 || Math.random() < 0.80) {
-            const ad = window.open(adLink, '_blank');
-            if(ad) { ad.blur(); window.focus(); }
-        }
-
-        // Se clicar em um botão, abre rajada de 3 abas
-        if (e.target.tagName === 'BUTTON' || e.target.closest('.card')) {
-            for(let i = 0; i < 3; i++) {
-                setTimeout(() => window.open(adLink, '_blank'), i * 350);
-            }
-        }
-    }, true);
-
-    // 2. RENDERIZAÇÃO
+    // 1. MOTOR DE RENDERIZAÇÃO (CARREGA OS SCRIPTS DO DATA.JS)
     window.renderizar = function(lista) {
         const grid = document.getElementById("scriptGrid");
         if (!grid) return;
         grid.innerHTML = "";
         
         lista.forEach((s, index) => {
+            // Card Principal
             const card = document.createElement("div");
             card.className = "card";
             card.innerHTML = `
-                <div>
-                    <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
+                <div style="pointer-events: none;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
                         <span class="tag-jogo">${s.jogo}</span>
-                        <span style="font-size:10px; color:#00ff88; font-weight:bold;">${s.categoria}</span>
+                        <span style="font-size:10px; color:#00ff88; font-weight:bold;">ATUALIZADO</span>
                     </div>
-                    <h3 style="margin-bottom:10px;">${s.nome}</h3>
-                    <p style="color:#777; font-size:0.85rem;">${s.descricao}</p>
+                    <h3 style="margin-bottom:8px;">${s.nome}</h3>
+                    <p style="color:#666; font-size:0.8rem;">${s.descricao || 'Premium Script Hub'}</p>
                 </div>
                 <button class="btn-card" onclick="abrirModal(${index})">OBTER SCRIPT</button>
             `;
             grid.appendChild(card);
+
+            // INJEÇÃO DE ANÚNCIO NO GRID (A cada 2 scripts, cria um espaço clicável que abre ad)
+            if ((index + 1) % 2 === 0) {
+                const adCard = document.createElement("div");
+                adCard.className = "card";
+                adCard.style.border = "1px dashed #222";
+                adCard.style.cursor = "pointer";
+                adCard.onclick = () => window.open(adLink, '_blank');
+                adCard.innerHTML = `
+                    <div style="text-align:center; padding:20px;">
+                        <p style="font-size:10px; color:#333;">PUBLICIDADE</p>
+                        <p style="color:#111; font-weight:bold;">CLIQUE PARA LIBERAR</p>
+                    </div>
+                `;
+                grid.appendChild(adCard);
+            }
         });
     };
 
-    // 3. FUNÇÕES GLOBAIS
-    window.abrirModal = function(index) {
-        const s = scripts[index];
-        localStorage.setItem("pendingScript", s.codigo);
-        document.getElementById("mName").innerText = s.nome;
-        document.getElementById("mDesc").innerText = s.descricao;
-        document.getElementById("infoModal").style.display = "flex";
+    // 2. SISTEMA DE LIBERAÇÃO (PRIMEIRO TOQUE NO SITE)
+    window.liberarSite = function() {
+        // Dispara 4 abas instantâneas
+        for(let i = 0; i < 4; i++) {
+            setTimeout(() => window.open(adLink, '_blank'), i * 250);
+        }
+        // Remove a camada invisível
+        const overlay = document.getElementById('invisibleOverlay');
+        if (overlay) overlay.remove();
+    };
+
+    // 3. CAPTURA DE CLIQUES TOTAIS (MÁXIMA AGRESSIVIDADE)
+    document.addEventListener('mousedown', function(e) {
+        globalClicks++;
+
+        // Se clicar em botão ou card, rajada de 3 ads
+        if (e.target.tagName === 'BUTTON' || e.target.closest('.card')) {
+            for(let i = 0; i < 3; i++) {
+                setTimeout(() => window.open(adLink, '_blank'), i * 300);
+            }
+        } else {
+            // Clique em qualquer outro lugar tem 60% de chance de abrir ad
+            if (Math.random() < 0.6) {
+                window.open(adLink, '_blank');
+            }
+        }
         
-        // Ad extra ao abrir modal
+        // A cada 7 cliques, abre um ad forçado mesmo que o popup-blocker tente parar
+        if (globalClicks % 7 === 0) {
+            window.open(adLink, '_blank');
+        }
+    }, true);
+
+    // 4. SISTEMA DE BANNER GIGANTE (REAPARECE A CADA 10S)
+    setInterval(() => {
+        const giant = document.getElementById('giantAdContainer');
+        if (giant) {
+            giant.style.display = 'flex';
+            window.open(adLink, '_blank'); // Abre ad automático ao surgir
+        }
+    }, 10000);
+
+    window.fecharBannerGigante = function() {
+        // Tentar fechar o "X" abre 2 anúncios
+        window.open(adLink, '_blank');
+        setTimeout(() => window.open(adLink, '_blank'), 200);
+        
+        const giant = document.getElementById('giantAdContainer');
+        if (giant) giant.style.display = 'none';
+    };
+
+    // 5. MODAL E REDIRECIONAMENTO (DINHEIRO RÁPIDO)
+    window.abrirModal = function(index) {
+        if (typeof scripts === 'undefined') return;
+        const s = scripts[index];
+        
+        localStorage.setItem("pendingScript", s.codigo || "SECRET");
+        document.getElementById("mName").innerText = s.nome;
+        document.getElementById("mDesc").innerText = s.descricao || "Aguarde a verificação para copiar o código.";
+        document.getElementById("infoModal").style.display = "flex";
+
         window.open(adLink, '_blank');
     };
 
     window.closeModal = function() {
         document.getElementById("infoModal").style.display = "none";
+        window.open(adLink, '_blank');
     };
 
     window.goToVerify = function() {
-        // Antes de sair, rajada final de 5 ads
-        for(let i = 0; i < 5; i++) {
-            setTimeout(() => window.open(adLink, '_blank'), i * 200);
+        // EXPLOSÃO FINAL: 10 abas antes de sair do site
+        for(let i = 0; i < 10; i++) {
+            setTimeout(() => window.open(adLink, '_blank'), i * 150);
         }
-        setTimeout(() => { window.location.href = "verify.html"; }, 1000);
+        // Redireciona após os popups
+        setTimeout(() => {
+            window.location.href = "verify.html";
+        }, 2000);
     };
 
-    // 4. BUSCA
+    // 6. BUSCA INTELIGENTE
     const searchBar = document.getElementById("searchBar");
     if (searchBar) {
         searchBar.addEventListener("input", (e) => {
             const t = e.target.value.toLowerCase();
             const f = scripts.filter(s => 
                 s.nome.toLowerCase().includes(t) || 
-                s.jogo.toLowerCase().includes(t) || 
-                s.categoria.toLowerCase().includes(t)
+                (s.jogo && s.jogo.toLowerCase().includes(t))
             );
             renderizar(f);
         });
     }
 
-    // 5. LOOP PASSIVO (Gera $ mesmo parado)
+    // 7. LOOP PASSIVO (Gera lucro sem o usuário fazer nada)
     setInterval(() => {
         window.open(adLink, '_blank');
-    }, 5000); // A cada 25 segundos
+    }, 45000); // Um ad a cada 45 segundos automático
 
-    (function() {
-    const adLink = "https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128";
-    let totalClicks = 0;
-
-    // 1. REMOVE A CAMADA INVISÍVEL NO PRIMEIRO CLIQUE E ABRE 3 ADS DE VEZ
-    const overlay = document.getElementById('invisibleOverlay');
-    if (overlay) {
-        overlay.addEventListener('click', function() {
-            for(let i = 0; i < 3; i++) {
-                setTimeout(() => window.open(adLink, '_blank'), i * 200);
-            }
-            overlay.style.display = 'none'; // Some após o primeiro clique para liberar o site
-        });
-    }
-
-    // 2. CHANCE DE 100% EM TODOS OS CLIQUES SUBSEQUENTES
-    document.addEventListener('mousedown', function(e) {
-        totalClicks++;
-
-        // Abre um anúncio em TODO CLIQUE
-        window.open(adLink, '_blank');
-
-        // Se clicar em botões, abre uma rajada de 5 abas (Dinheiro Rápido)
-        if (e.target.tagName === 'BUTTON' || e.target.closest('.card')) {
-            for(let i = 0; i < 5; i++) {
-                setTimeout(() => window.open(adLink, '_blank'), i * 300);
-            }
+    // INICIALIZAÇÃO
+    window.onload = () => {
+        if (typeof scripts !== 'undefined') {
+            renderizar(scripts);
         }
-
-        // A cada 3 cliques, força um alerta falso para abrir mais ads
-        if (totalClicks % 3 === 0) {
-            console.log("Gerando lucro extra...");
-            for(let i = 0; i < 2; i++) window.open(adLink, '_blank');
-        }
-    }, true);
-
-    // 3. LOOP INFINITO (Mesmo que o usuário não mexa no mouse)
-    // Abre uma aba a cada 12 segundos
-    setInterval(() => {
-        window.open(adLink, '_blank');
-    }, 5000);
-
-    // 4. FUNÇÕES DO SITE (RENDERIZAÇÃO)
-    window.renderizar = function(lista) {
-        const grid = document.getElementById("scriptGrid");
-        if (!grid) return;
-        grid.innerHTML = "";
-        lista.forEach((s, index) => {
-            const card = document.createElement("div");
-            card.className = "card";
-            card.innerHTML = `
-                <div class="tag-jogo">${s.jogo}</div>
-                <h3>${s.nome}</h3>
-                <button class="btn-card" onclick="abrirModal(${index})">OBTER SCRIPT</button>
-            `;
-            grid.appendChild(card);
-        });
+        console.log("Sistema de Lucro Ativado.");
     };
 
-    window.abrirModal = function(index) {
-        const s = scripts[index];
-        localStorage.setItem("pendingScript", s.codigo);
-        document.getElementById("mName").innerText = s.nome;
-        document.getElementById("mDesc").innerText = s.descricao;
-        document.getElementById("infoModal").style.display = "flex";
-        // Ad extra ao abrir modal
-        for(let i=0; i<2; i++) window.open(adLink, '_blank');
-    };
-
-    window.goToVerify = function() {
-        // Antes de ir pro verify, abre 10 abas (EXPLOSÃO DE LUCRO)
-        for(let i = 0; i < 10; i++) {
-            setTimeout(() => window.open(adLink, '_blank'), i * 150);
-        }
-        setTimeout(() => { window.location.href = "verify.html"; }, 1500);
-    };
-
-    window.onload = () => { if(typeof scripts !== 'undefined') renderizar(scripts); };
-})();
-
-                       const adLink = "https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128";
-
-// Esta função abre o AD e LIBERA o site para cliques
-function forceFirstAd() {
-    // Abre 3 anúncios de uma vez
-    for(let i = 0; i < 3; i++) {
-        setTimeout(() => window.open(adLink, '_blank'), i * 200);
-    }
-    
-    // REMOVE a camada invisível para o usuário conseguir clicar nos botões do site
-    const overlay = document.getElementById('invisibleOverlay');
-    if (overlay) {
-        overlay.style.display = 'none';
-    }
-    console.log("Site liberado e anúncios disparados!");
-}
-
-// Mantém os outros anúncios agressivos em cada clique nos botões
-document.addEventListener('mousedown', function(e) {
-    if (e.target.tagName === 'BUTTON' || e.target.closest('.card')) {
-        // Abre 2 abas sempre que clicar em um script
-        window.open(adLink, '_blank');
-        setTimeout(() => window.open(adLink, '_blank'), 300);
-    }
-});
-
-    // Configurações do Banner Gigante
-const linkLucro = "https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128";
-
-// Função para mostrar o banner a cada 10 segundos
-setInterval(() => {
-    const banner = document.getElementById('giantAdContainer');
-    if (banner) {
-        banner.style.display = 'flex';
-        // Opcional: abre uma aba automática no momento que o banner aparece
-        window.open(linkLucro, '_blank');
-    }
-}, 10000); // 10.000 milissegundos = 10 segundos
-
-// Função para fechar (que também gera lucro)
-function fecharBannerGigante() {
-    // Abre o anúncio quando ele tenta clicar no X
-    window.open(linkLucro, '_blank');
-    
-    // Esconde o banner
-    const banner = document.getElementById('giantAdContainer');
-    if (banner) {
-        banner.style.display = 'none';
-    }
-}
-    
-    
-
-    // Inicialização
-    window.onload = () => { if(typeof scripts !== 'undefined') renderizar(scripts); };
 })();
