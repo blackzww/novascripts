@@ -4,6 +4,9 @@
     let currentFilter = "all";
     let searchTerm = "";
     let currentScriptId = null;
+    let scriptSelecionado = "";
+    let codigoSelecionado = "";
+
 
     // DOM Elements
     const grid = document.getElementById("scriptsGrid");
@@ -231,6 +234,58 @@ window.limpar = function() {
 
     return "✅ Site limpo! Pode gravar.";
 };
+
+
+// 1. Ao clicar no card de "Ver Script"
+window.openScriptInfo = function(name, code, description) {
+    scriptSelecionado = name;
+    codigoSelecionado = code;
+    
+    document.getElementById('infoTitle').innerText = name;
+    document.getElementById('scriptDesc').innerText = description || "Script otimizado para mobile e PC.";
+    document.getElementById('infoModal').style.display = "flex";
+};
+
+// 2. Ao clicar em "Desbloquear" no Modal de Informações
+document.getElementById('startVerifyBtn').addEventListener('click', () => {
+    // Abre anúncio antes de ir para a verificação
+    window.open('https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128', '_blank');
+    
+    // Esconde o modal de info
+    document.getElementById('infoModal').style.display = "none";
+    
+    // Se você tiver uma página verify.html separada:
+    // window.location.href = "verify.html?script=" + scriptSelecionado;
+    
+    // Se for na mesma página, mostramos a seção de verificação (que você deve mover para um ID oculto)
+    document.getElementById('verifySection').style.display = "flex";
+    document.getElementById('biblioteca').style.display = "none";
+});
+
+// 3. Lógica de Sucesso na Verificação (Chame isso quando o cara clicar no botão do canal)
+function onVerifySuccess() {
+    document.getElementById('verifySection').style.display = "none";
+    document.getElementById('biblioteca').style.display = "grid";
+    
+    // Mostra a Janela Flutuante com o script
+    const floating = document.getElementById('floatingScriptWindow');
+    document.getElementById('finalScriptCode').innerText = codigoSelecionado;
+    floating.style.display = "block";
+    
+    // Alerta de Sucesso
+    alert("Script Desbloqueado com Sucesso!");
+}
+
+// 4. Copiar na Flutuante
+document.getElementById('copyFinalBtn').addEventListener('click', () => {
+    navigator.clipboard.writeText(codigoSelecionado);
+    document.getElementById('copyFinalBtn').innerText = "✅ COPIADO!";
+    setTimeout(() => { document.getElementById('copyFinalBtn').innerText = "COPIAR AGORA"; }, 2000);
+});
+
+function closeInfoModal() {
+    document.getElementById('infoModal').style.display = "none";
+}
     
     
 })();
