@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NovaScripts | Verificação</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00ff88;
+            --bg: #0b0b0e;
+            --card: #16161d;
+            --text: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .verify-card {
+            background: var(--card);
+            padding: 30px;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.05);
+            text-align: center;
+        }
+
+        h2 { font-weight: 800; margin-bottom: 10px; }
+        p { color: #a0a0a0; font-size: 14px; margin-bottom: 25px; }
+
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .task-item {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 15px 20px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+            transition: 0.3s;
+        }
+
+        .task-item:hover { background: rgba(255,255,255,0.08); }
+
+        .task-item.done {
+            border-color: var(--primary);
+            background: rgba(0, 255, 136, 0.05);
+        }
+
+        .status-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .done .status-icon {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #000;
+        }
+
+        .done .status-icon::after { content: '✓'; font-weight: bold; }
+
+        #unlockBtn {
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 800;
+            cursor: not-allowed;
+            background: #333;
+            color: #666;
+            transition: 0.4s;
+            text-transform: uppercase;
+        }
+
+        #unlockBtn.ready {
+            background: var(--primary);
+            color: #000;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+<div class="verify-card">
+    <h2>Complete as Tarefas</h2>
+    <p>Siga os passos abaixo para desbloquear seu script.</p>
+
+    <div class="task-list">
+        <a href="https://youtube.com/@SeuCanal" target="_blank" class="task-item" onclick="completeTask(1)">
+            <span>1. Se inscrever no Canal</span>
+            <div class="status-icon" id="icon-1"></div>
+        </a>
+
+        <a href="https://discord.gg/SeuDiscord" target="_blank" class="task-item" onclick="completeTask(2)">
+            <span>2. Entrar no Discord</span>
+            <div class="status-icon" id="icon-2"></div>
+        </a>
+
+        <a href="https://instagram.com/seuinsta" target="_blank" class="task-item" onclick="completeTask(3)">
+            <span>3. Seguir no Instagram</span>
+            <div class="status-icon" id="icon-3"></div>
+        </a>
+
+        <a href="#" class="task-item" onclick="completeTask(4)">
+            <span>4. Deixar Like no Vídeo</span>
+            <div class="status-icon" id="icon-4"></div>
+        </a>
+
+        <a href="#" class="task-item" onclick="completeTask(5)">
+            <span>5. Ver Anúncio Parceiro</span>
+            <div class="status-icon" id="icon-5"></div>
+        </a>
+    </div>
+
+    <button id="unlockBtn" disabled>Desbloquear Script (0/5)</button>
+</div>
+
+<script>
+    let tasksCompleted = new Set();
+    const totalTasks = 5;
+    const unlockBtn = document.getElementById('unlockBtn');
+
+    function completeTask(taskId) {
+        // Marca a tarefa como feita
+        tasksCompleted.add(taskId);
+        
+        // Atualiza visualmente
+        const items = document.querySelectorAll('.task-item');
+        items[taskId - 1].classList.add('done');
+
+        updateButton();
+    }
+
+    function updateButton() {
+        const count = tasksCompleted.size;
+        unlockBtn.innerText = `Desbloquear Script (${count}/${totalTasks})`;
+
+        if (count === totalTasks) {
+            unlockBtn.disabled = false;
+            unlockBtn.classList.add('ready');
+            unlockBtn.innerText = "COPIAR SCRIPT AGORA";
+        }
+    }
+
+    unlockBtn.addEventListener('click', () => {
+        const scriptCode = localStorage.getItem('scriptToCopy');
+        
+        if (scriptCode) {
+            navigator.clipboard.writeText(scriptCode).then(() => {
+                alert("✨ Script copiado com sucesso! Agora é só colar no seu Executor.");
+                window.location.href = 'index.html'; // Redireciona de volta
+            }).catch(err => {
+                console.error('Erro ao copiar: ', err);
+                alert("Erro ao copiar. Tente selecionar o texto manualmente.");
+            });
+        } else {
+            alert("Erro: Script não encontrado. Volte ao início.");
+        }
+    });
+</script>
+
+</body>
+</html>
