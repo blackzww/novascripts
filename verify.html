@@ -3,89 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NovaScripts | Verificação</title>
+    <title>NovaScripts | Verificação Segura</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
+        :root { --primary: #00ff88; --bg: #050508; --card: #0f0f1c; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #08080b; font-family: 'Inter', sans-serif; color: #fff; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
         
-        .verify-card { background: #11111a; padding: 40px; border-radius: 25px; width: 90%; max-width: 400px; text-align: center; border: 1px solid #1a1a2e; }
-        h2 { font-weight: 900; margin-bottom: 25px; letter-spacing: -1px; }
+        body { 
+            background: var(--bg); 
+            font-family: 'Inter', sans-serif; 
+            color: #fff; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            min-height: 100vh; 
+            overflow: hidden;
+        }
 
-        .task { background: rgba(255,255,255,0.03); border: 1px solid #1a1a2e; padding: 18px; border-radius: 15px; display: flex; justify-content: space-between; margin-bottom: 12px; cursor: pointer; text-decoration: none; color: #fff; transition: 0.3s; }
-        .task:hover { border-color: #00ff88; background: rgba(0,255,136,0.05); }
-        .task.done { border-color: #00ff88; background: rgba(0,255,136,0.05); pointer-events: none; opacity: 0.7; }
+        /* EFEITO DE FUNDO */
+        .glow {
+            position: absolute; width: 300px; height: 300px;
+            background: var(--primary); filter: blur(150px);
+            opacity: 0.1; z-index: -1;
+        }
+
+        .verify-card { 
+            background: var(--card); 
+            padding: 40px; 
+            border-radius: 30px; 
+            width: 90%; 
+            max-width: 420px; 
+            text-align: center; 
+            border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        h2 { font-weight: 900; font-size: 24px; margin-bottom: 10px; letter-spacing: -1px; }
+        .steps-info { color: #666; font-size: 14px; margin-bottom: 30px; font-weight: 600; }
+
+        .task { 
+            background: rgba(255,255,255,0.02); 
+            border: 1px solid rgba(255,255,255,0.05); 
+            padding: 20px; 
+            border-radius: 18px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            margin-bottom: 15px; 
+            cursor: pointer; 
+            text-decoration: none; 
+            color: #fff; 
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+        }
+
+        .task:hover { 
+            background: rgba(0, 255, 136, 0.05); 
+            border-color: var(--primary);
+            transform: scale(1.02);
+        }
+
+        .task.done { 
+            border-color: var(--primary); 
+            background: rgba(0, 255, 136, 0.08); 
+            pointer-events: none; 
+        }
         
-        .check { width: 22px; height: 22px; border-radius: 50%; border: 2px solid #222; }
-        .done .check { background: #00ff88; border-color: #00ff88; display: flex; align-items: center; justify-content: center; }
-        .done .check::after { content: '✓'; color: #000; font-weight: 900; font-size: 12px; }
+        .check { 
+            width: 26px; height: 26px; border-radius: 8px; 
+            border: 2px solid #222; background: #000;
+            transition: 0.3s;
+        }
 
-        #unlockBtn { width: 100%; padding: 18px; border-radius: 12px; border: none; font-weight: 900; background: #1a1a2e; color: #444; cursor: not-allowed; transition: 0.4s; margin-top: 15px; }
-        #unlockBtn.ready { background: #00ff88; color: #000; cursor: pointer; box-shadow: 0 0 30px rgba(0, 255, 136, 0.3); }
+        .done .check { 
+            background: var(--primary); 
+            border-color: var(--primary); 
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+        }
+        .done .check::after { content: '✓'; color: #000; font-weight: 900; font-size: 14px; }
 
-        /* JANELA FLUTUANTE FINAL */
-        #floatingWin { display: none; position: fixed; bottom: 30px; right: 30px; width: 320px; background: #0f0f1c; border: 2px solid #00ff88; border-radius: 20px; padding: 25px; z-index: 9999; box-shadow: 0 10px 50px #000; animation: slideIn 0.5s ease-out; }
-        @keyframes slideIn { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        .code-box { background: #000; color: #00ff88; padding: 15px; border-radius: 12px; font-family: monospace; font-size: 11px; margin: 15px 0; word-break: break-all; max-height: 100px; overflow-y: auto; border: 1px solid #111; }
-        .btn-copy { width: 100%; padding: 12px; background: #00ff88; color: #000; border: none; border-radius: 10px; font-weight: 900; cursor: pointer; }
+        #unlockBtn { 
+            width: 100%; padding: 20px; border-radius: 15px; border: none; 
+            font-weight: 900; background: #161625; color: #444; 
+            cursor: not-allowed; transition: 0.4s; margin-top: 20px;
+            letter-spacing: 1px;
+        }
+
+        #unlockBtn.ready { 
+            background: var(--primary); 
+            color: #000; 
+            cursor: pointer; 
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+        }
     </style>
 </head>
 <body>
 
+<div class="glow"></div>
+
 <div class="verify-card">
-    <h2>VERIFICAÇÃO (0/2)</h2>
-    <p style="color:#555; font-size: 14px; margin-bottom: 30px;">Complete as etapas para liberar.</p>
+    <div style="color: var(--primary); font-size: 40px; margin-bottom: 10px;">🛡️</div>
+    <h2 id="verifyTitle">VERIFICAÇÃO (0/2)</h2>
+    <p class="steps-info">Complete as ações para provar que é humano.</p>
 
     <a href="https://youtube.com/@blackzwmc?sub_confirmation=1" target="_blank" class="task" onclick="completeTask(1)">
-        <span>1. Se inscrever no Canal</span>
-        <div class="check" id="c1"></div>
+        <div style="text-align: left;">
+            <span style="display: block; font-size: 14px; font-weight: 800;">INSCREVER-SE</span>
+            <span style="font-size: 11px; color: #555;">Canal Oficial NovaScripts</span>
+        </div>
+        <div class="check"></div>
     </a>
 
     <a href="https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128" target="_blank" class="task" onclick="completeTask(2)">
-        <span>2. Ver Anúncio Parceiro</span>
-        <div class="check" id="c2"></div>
+        <div style="text-align: left;">
+            <span style="display: block; font-size: 14px; font-weight: 800;">VER ANÚNCIO</span>
+            <span style="font-size: 11px; color: #555;">Aguarde 10 segundos no site</span>
+        </div>
+        <div class="check"></div>
     </a>
 
-    <button id="unlockBtn" disabled>AGUARDANDO...</button>
-</div>
-
-<div id="floatingWin">
-    <div style="display:flex; justify-content:space-between; align-items:center;">
-        <span style="font-weight:900; color:#00ff88; font-size:12px;">✅ DESBLOQUEADO</span>
-        <span onclick="window.location.href='index.html'" style="cursor:pointer; font-weight:900;">&times;</span>
-    </div>
-    <div class="code-box" id="finalCode"></div>
-    <button class="btn-copy" onclick="copyResult()">COPIAR SCRIPT</button>
+    <button id="unlockBtn" disabled>AGUARDANDO ETAPAS...</button>
 </div>
 
 <script>
-    let completed = new Set();
-    const scriptCode = localStorage.getItem('pendingScript') || "-- Erro: Selecione um script na Home";
+    let tasksCompleted = new Set();
 
     function completeTask(id) {
-        completed.add(id);
-        document.querySelectorAll('.task')[id-1].classList.add('done');
-        document.querySelector('h2').innerText = `VERIFICAÇÃO (${completed.size}/2)`;
+        // Delay pequeno para simular checagem
+        setTimeout(() => {
+            tasksCompleted.add(id);
+            const taskElements = document.querySelectorAll('.task');
+            taskElements[id-1].classList.add('done');
+            
+            document.getElementById('verifyTitle').innerText = `VERIFICAÇÃO (${tasksCompleted.size}/2)`;
 
-        if(completed.size === 2) {
-            const btn = document.getElementById('unlockBtn');
-            btn.disabled = false;
-            btn.classList.add('ready');
-            btn.innerText = "LIBERAR CÓDIGO";
-        }
+            if(tasksCompleted.size === 2) {
+                const btn = document.getElementById('unlockBtn');
+                btn.disabled = false;
+                btn.classList.add('ready');
+                btn.innerText = "LIBERAR SCRIPT AGORA";
+            }
+        }, 1000);
     }
 
     document.getElementById('unlockBtn').onclick = function() {
-        document.getElementById('floatingWin').style.display = 'block';
-        document.getElementById('finalCode').innerText = scriptCode;
-        // Abre o anúncio popunder final
+        // Abre o último popunder de lucro
         window.open('https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128', '_blank');
+        
+        // REDIRECIONA PARA A INDEX COM O STATUS DE SUCESSO
+        // Isso faz a janela flutuante pular automaticamente na Home
+        window.location.href = 'index.html?status=success';
     };
-
-    function copyResult() {
-        navigator.clipboard.writeText(scriptCode);
-        alert("✨ Script copiado com sucesso!");
-    }
 </script>
+
 </body>
 </html>
