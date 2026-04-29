@@ -1,6 +1,6 @@
 // data.js FINAL NOVASCRIPTS 3.0
 
-const scripts = [
+var scripts = [
 
 {
 id:1,
