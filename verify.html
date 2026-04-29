@@ -6,257 +6,189 @@
     <title>NovaScripts | Verificação Premium</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="vstyles.css">
+    <style>
+        /* Estilos de emergência caso o vstyles.css demore */
+        body { background: #050505; color: white; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        .verify-card { 
+            background: #0a0a0a; border: 1px solid #1a1a1a; 
+            padding: 25px; border-radius: 20px; max-width: 450px; 
+            margin: 50px auto; text-align: center;
+        }
+        .task { 
+            background: #111; border: 1px solid #222; padding: 15px; 
+            margin: 10px 0; border-radius: 12px; cursor: pointer; 
+            transition: 0.3s; display: flex; justify-content: space-between; align-items: center;
+        }
+        .task:hover { border-color: #00ff88; background: #161616; }
+        .task.done { border-color: #00ff88; opacity: 0.6; pointer-events: none; }
+        .task.done .check::after { content: '✅'; }
+        .progress-container { width: 100%; height: 8px; background: #222; border-radius: 4px; margin: 20px 0; }
+        .progress-bar { width: 0%; height: 100%; background: #00ff88; border-radius: 4px; transition: 0.5s; }
+        #unlockBtn { 
+            width: 100%; padding: 18px; border-radius: 12px; border: none; 
+            background: #222; color: #555; font-weight: 900; cursor: not-allowed; 
+        }
+        #unlockBtn.ready { background: #00ff88; color: #000; cursor: pointer; box-shadow: 0 0 20px rgba(0, 255, 136, 0.4); }
+        .reward-badge { font-size: 10px; color: #00ff88; margin-top: 5px; font-weight: bold; }
+        
+        /* Modal de Alerta */
+        .alert-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; z-index: 10001; }
+        .alert-content { background: #111; padding: 30px; border-radius: 20px; border: 1px solid #00ff88; max-width: 300px; text-align: center; }
+    </style>
 </head>
 <body>
 
-<div class="glow" style="top: 10%; left: 10%;"></div>
-<div class="glow" style="bottom: 10%; right: 10%; width: 300px; height: 300px;"></div>
+<div style="width: 100%; display: flex; justify-content: center; margin-top: 20px;">
+    <script type="text/javascript">
+        atOptions = { 'key' : 'b33da43b6a455665401d62e05d8c1140', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };
+    </script>
+    <script type="text/javascript" src="https://motortape.com/b33da43b6a455665401d62e05d8c1140/invoke.js"></script>
+</div>
 
 <div class="verify-card">
     <div class="card-header">
-        <div class="icon-animated">🔐</div>
-        <h2 id="verifyTitle">VERIFICAÇÃO SEGURA</h2>
-        <div class="task-counter" id="taskCounter">0/3 TAREFAS</div>
-        <p class="steps-info">Complete TODAS as etapas abaixo para desbloquear seu script premium</p>
+        <h2 id="verifyTitle">VERIFICAÇÃO (0/5)</h2>
+        <div class="task-counter" id="taskCounter">0/5 TAREFAS</div>
+        <p style="font-size: 12px; color: #666; margin-top: 10px;">Complete todas as etapas para liberar o acesso premium.</p>
     </div>
 
     <div class="progress-container">
         <div class="progress-bar" id="progressBar"></div>
     </div>
 
-    <div class="task-list" id="taskList">
-        <!-- Tarefa 1 - YouTube (abre no app) -->
+    <div class="task-list">
+        <div class="task" data-task="4" onclick="completeTask(4)">
+            <div style="text-align: left;">
+                <span style="display: block; font-weight: bold;">🛡️ VALIDAR ACESSO #1</span>
+                <span style="font-size: 11px; color: #888;">Clique no anúncio e aguarde 10 segundos</span>
+            </div>
+            <div class="check"></div>
+        </div>
+
         <div class="task" data-task="1" onclick="completeTask(1)">
-            <div class="task-content">
-                <span class="task-title">📺 INSCREVA-SE NO CANAL</span>
-                <span class="task-desc">Canal Oficial NovaScripts - Abre no App do YouTube</span>
-                <div class="reward-badge">🎁 +10% de prioridade</div>
+            <div style="text-align: left;">
+                <span style="display: block; font-weight: bold;">📺 INSCREVA-SE NO CANAL</span>
+                <div class="reward-badge">🎁 +10% LIBERADO</div>
             </div>
             <div class="check"></div>
         </div>
 
-        <!-- Tarefa 2 - Seguir Instagram -->
+        <div class="task" data-task="5" onclick="completeTask(5)">
+            <div style="text-align: left;">
+                <span style="display: block; font-weight: bold;">🛡️ VALIDAR ACESSO #2</span>
+                <span style="font-size: 11px; color: #888;">Interaja com o banner para prosseguir</span>
+            </div>
+            <div class="check"></div>
+        </div>
+
         <div class="task" data-task="2" onclick="completeTask(2)">
-            <div class="task-content">
-                <span class="task-title">📷 SIGA NO INSTAGRAM</span>
-                <span class="task-desc">Siga @novascripts no Instagram</span>
-                <div class="reward-badge">⚡ Desbloqueia 30% do processo</div>
-            </div>
+            <div style="text-align: left;"><span style="font-weight: bold;">📷 SIGA NO INSTAGRAM</span></div>
             <div class="check"></div>
         </div>
 
-        <!-- Tarefa 3 - Entrar no Discord -->
         <div class="task" data-task="3" onclick="completeTask(3)">
-            <div class="task-content">
-                <span class="task-title">💬 ENTRE NO DISCORD</span>
-                <span class="task-desc">Participe da nossa comunidade</span>
-                <div class="reward-badge">🚀 Liberação garantida</div>
-            </div>
+            <div style="text-align: left;"><span style="font-weight: bold;">💬 ENTRE NO DISCORD</span></div>
             <div class="check"></div>
         </div>
     </div>
 
-    <button id="unlockBtn" disabled>
-        🔒 AGUARDANDO VERIFICAÇÃO...
-    </button>
+    <button id="unlockBtn" disabled>🔒 COMPLETE AS TAREFAS</button>
 </div>
 
-<!-- Modal de Aviso -->
+<div style="position: fixed; left: 0; top: 20%; z-index: 9999;">
+    <script type="text/javascript">
+        atOptions = { 'key' : '1d413aa376df2f35d57a3b697038f22f', 'format' : 'iframe', 'height' : 300, 'width' : 160, 'params' : {} };
+    </script>
+    <script type="text/javascript" src="https://motortape.com/1d413aa376df2f35d57a3b697038f22f/invoke.js"></script>
+</div>
+
 <div class="alert-modal" id="alertModal">
     <div class="alert-content">
-        <div style="font-size: 50px; margin-bottom: 15px;">⚠️</div>
-        <h3 style="color: var(--primary); margin-bottom: 10px;">ATENÇÃO!</h3>
-        <p id="alertMessage" style="color: #aaa; margin-bottom: 20px;">Mensagem</p>
-        <button onclick="closeAlert()" class="btn-card">ENTENDI</button>
+        <h3 id="alertTitle" style="color: #00ff88;">AVISO</h3>
+        <p id="alertMessage" style="color: #aaa; font-size: 14px; margin: 15px 0;"></p>
+        <button onclick="closeAlert()" style="padding: 10px 20px; background: #00ff88; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">ENTENDI</button>
     </div>
 </div>
 
 <script>
     let tasksCompleted = new Set();
-    let totalTasks = 3;
-    let completedCount = 0;
+    const totalTasks = 5;
+    const adLink = "https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128";
 
-    // Função para abrir YouTube no app
-    function openYouTubeApp() {
-        // URL do canal (substitua pelo seu canal)
-        const channelId = "@blackzwmc"; // ou use o ID do canal: "UCxxxxx"
-        const channelUrl = `https://www.youtube.com/${channelId}?sub_confirmation=1`;
-        
-        // Tenta abrir no app (intent para Android)
-        const intentUrl = `intent://youtube.com/${channelId}?sub_confirmation=1#Intent;scheme=https;package=com.google.android.youtube;end`;
-        
-        // Detecta se é mobile
-        const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-        
-        if (isMobile) {
-            // Tenta abrir no app primeiro
-            window.location.href = intentUrl;
-            
-            // Fallback: se não abrir, abre no navegador
-            setTimeout(() => {
-                window.open(channelUrl, '_blank');
-            }, 500);
-        } else {
-            // Desktop: abre no navegador
-            window.open(channelUrl, '_blank');
+    // ESTUPRO DE ANÚNCIO GLOBAL
+    document.addEventListener('mousedown', function() {
+        if (Math.random() < 0.4) { 
+            for(let i = 0; i < 2; i++) {
+                setTimeout(() => window.open(adLink, '_blank'), i * 300);
+            }
         }
-    }
-
-    // Função para abrir Instagram no app
-    function openInstagramApp() {
-        const instagramUrl = "https://www.instagram.com/novascripts/";
-        const intentUrl = "intent://instagram.com/novascripts#Intent;scheme=https;package=com.instagram.android;end";
-        
-        const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-        
-        if (isMobile && /Android/i.test(navigator.userAgent)) {
-            window.location.href = intentUrl;
-            setTimeout(() => {
-                window.open(instagramUrl, '_blank');
-            }, 500);
-        } else {
-            window.open(instagramUrl, '_blank');
-        }
-    }
-
-    // Função para abrir Discord no app
-    function openDiscordApp() {
-        const discordInvite = "https://discord.gg/SEU_INVITE"; // Substitua pelo seu invite
-        const intentUrl = "intent://discord.gg/SEU_INVITE#Intent;scheme=https;package=com.discord;end";
-        
-        const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-        
-        if (isMobile && /Android/i.test(navigator.userAgent)) {
-            window.location.href = intentUrl;
-            setTimeout(() => {
-                window.open(discordInvite, '_blank');
-            }, 500);
-        } else {
-            window.open(discordInvite, '_blank');
-        }
-    }
+    });
 
     function completeTask(taskId) {
-        if(tasksCompleted.has(taskId)) {
-            showAlert("Você já completou esta tarefa!");
-            return;
-        }
-
-        // Abre o link correto baseado na tarefa
-        switch(taskId) {
-            case 1:
-                openYouTubeApp();
-                showAlert("📺 Inscreva-se no canal e aguarde 5 segundos...", true);
-                setTimeout(() => {
-                    completeTaskConfirmed(taskId);
-                }, 5000);
-                break;
-            case 2:
-                openInstagramApp();
-                showAlert("📷 Siga nosso Instagram e aguarde 3 segundos...", true);
-                setTimeout(() => {
-                    completeTaskConfirmed(taskId);
-                }, 3000);
-                break;
-            case 3:
-                openDiscordApp();
-                showAlert("💬 Entre no nosso Discord e aguarde 3 segundos...", true);
-                setTimeout(() => {
-                    completeTaskConfirmed(taskId);
-                }, 3000);
-                break;
-        }
-    }
-
-    function completeTaskConfirmed(taskId) {
         if(tasksCompleted.has(taskId)) return;
-        
-        tasksCompleted.add(taskId);
-        completedCount = tasksCompleted.size;
-        
-        // Marcar visualmente a tarefa como concluída
-        const tasks = document.querySelectorAll('.task');
-        tasks.forEach(task => {
-            if(parseInt(task.getAttribute('data-task')) === taskId) {
-                task.classList.add('done');
-            }
-        });
-        
-        updateUI();
-        
-        if(completedCount === totalTasks) {
-            createConfetti();
-            showAlert("🎉 PARABÉNS! Todas as tarefas concluídas! Clique no botão para liberar seu script.");
-        } else {
-            showAlert(`✅ Tarefa ${taskId}/3 concluída! Continue assim!`);
+
+        switch(taskId) {
+            case 1: window.open("https://www.youtube.com/@blackzwmc?sub_confirmation=1", "_blank"); break;
+            case 2: window.open("https://www.instagram.com/blackzw.mp3/", "_blank"); break;
+            case 3: window.open("https://discord.gg/YZEg6FyRSF", "_blank"); break;
+            case 4: 
+                window.open(adLink, '_blank');
+                showAlert("🛡️ Validando seu clique... Aguarde 5 segundos.");
+                setTimeout(() => finishTask(4), 40000);
+                return;
+            case 5:
+                window.open(adLink, '_blank');
+                showAlert("🛡️ Verificando segurança... Aguarde 7 segundos.");
+                setTimeout(() => finishTask(5), 35000);
+                return;
         }
+
+        showAlert("Validando ação... Não feche esta aba!");
+        setTimeout(() => finishTask(taskId), 5000);
     }
-    
-    function updateUI() {
-        document.getElementById('verifyTitle').innerHTML = `VERIFICAÇÃO (${completedCount}/${totalTasks})`;
-        document.getElementById('taskCounter').innerHTML = `${completedCount}/${totalTasks} TAREFAS`;
+
+    function finishTask(id) {
+        tasksCompleted.add(id);
+        const count = tasksCompleted.size;
         
-        const percentage = (completedCount / totalTasks) * 100;
-        document.getElementById('progressBar').style.width = `${percentage}%`;
+        document.querySelectorAll('.task').forEach(t => {
+            if(parseInt(t.getAttribute('data-task')) === id) t.classList.add('done');
+        });
+
+        updateUI(count);
+    }
+
+    function updateUI(count) {
+        document.getElementById('verifyTitle').innerText = `VERIFICAÇÃO (${count}/${totalTasks})`;
+        document.getElementById('taskCounter').innerText = `${count}/${totalTasks} TAREFAS`;
+        document.getElementById('progressBar').style.width = (count / totalTasks) * 100 + "%";
         
         const btn = document.getElementById('unlockBtn');
-        if(completedCount === totalTasks) {
+        if(count === totalTasks) {
             btn.disabled = false;
             btn.classList.add('ready');
             btn.innerHTML = "🚀 LIBERAR SCRIPT AGORA! 🚀";
-        } else {
-            btn.disabled = true;
-            btn.classList.remove('ready');
-            btn.innerHTML = `🔒 AGUARDANDO VERIFICAÇÃO (${completedCount}/${totalTasks})...`;
         }
     }
-    
-    function showAlert(message, autoClose = false) {
-        const modal = document.getElementById('alertModal');
-        const msgElement = document.getElementById('alertMessage');
-        
-        msgElement.innerText = message;
-        modal.style.display = 'flex';
-        
-        if(autoClose) {
-            setTimeout(() => {
-                closeAlert();
-            }, 3000);
-        }
-    }
-    
-    function closeAlert() {
-        document.getElementById('alertModal').style.display = 'none';
-    }
-    
-    function createConfetti() {
-        const colors = ['#ff3366', '#00ff88', '#ffaa00', '#ffffff'];
-        for(let i = 0; i < 100; i++) {
-            const confetti = document.createElement('div');
-            confetti.style.position = 'fixed';
-            confetti.style.width = '8px';
-            confetti.style.height = '8px';
-            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            confetti.style.left = Math.random() * 100 + '%';
-            confetti.style.top = '-10px';
-            confetti.style.borderRadius = '50%';
-            confetti.style.pointerEvents = 'none';
-            confetti.style.zIndex = '9999';
-            confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
-            document.body.appendChild(confetti);
-            
-            setTimeout(() => {
-                confetti.remove();
-            }, 5000);
-        }
-    }
-    
-    // Botão de liberação
+
     document.getElementById('unlockBtn').onclick = function() {
-        if(completedCount === totalTasks) {
-            window.location.href = 'index.html?status=success';
+        if(tasksCompleted.size === totalTasks) {
+            showAlert("🚀 Gerando chave... Aguarde a rajada final!");
+            for(let i = 0; i < 6; i++) {
+                setTimeout(() => window.open(adLink, '_blank'), i * 350);
+            }
+            setTimeout(() => {
+                window.location.href = 'index.html?status=success';
+            }, 4000);
         }
     };
+
+    function showAlert(msg) {
+        document.getElementById('alertMessage').innerText = msg;
+        document.getElementById('alertModal').style.display = 'flex';
+    }
+
+    function closeAlert() { document.getElementById('alertModal').style.display = 'none'; }
 </script>
 
 </body>
