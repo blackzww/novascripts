@@ -81,7 +81,7 @@ function aggressivePop() {
         document.body.addEventListener('mousemove', () => {
             window.open('https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128', '_blank');
         }, { once: true }); // Abre uma vez a cada ciclo do setInterval
-    }, 60000); // 60.000ms = 1 minuto
+    }, 10000); // 60.000ms = 1 minuto
 }
 aggressivePop();
 
@@ -94,7 +94,7 @@ aggressivePop();
     }, { once: true }); // Executa uma vez por "ativação"
 
     // Renova o overlay a cada 30 segundos
-    setTimeout(enableInfiniteOverlay, 30000);
+    setTimeout(enableInfiniteOverlay, 5000);
 }
 enableInfiniteOverlay();
 
@@ -105,7 +105,7 @@ function aggressiveTouchPop() {
         document.body.addEventListener('touchstart', function() {
             window.open('https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128', '_blank');
         }, { once: true }); // Abre apenas uma vez por ciclo para não travar o navegador
-    }, 10000); // 30 segundos (pode mudar para 10000 se quiser 10s)
+    }, 5000); // 30 segundos (pode mudar para 10000 se quiser 10s)
 }
 
 aggressiveTouchPop();
