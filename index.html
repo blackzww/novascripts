@@ -7,15 +7,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <style>
-        /* Estilos rápidos para garantir o funcionamento dos novos elementos */
+        /* CSS PARA O SISTEMA ABUSIVO */
         #overlayAbusivo {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.98);
             z-index: 10000;
             align-items: center;
             justify-content: center;
@@ -23,33 +21,54 @@
         .banner-content {
             position: relative;
             width: 90%;
-            max-width: 400px;
-            padding: 40px 20px;
-            background: #111;
-            border: 2px solid #00ff88;
-            border-radius: 15px;
+            max-width: 420px;
+            padding: 50px 20px;
+            background: #0a0a0a;
+            border: 3px solid #00ff88;
+            border-radius: 20px;
             text-align: center;
+            box-shadow: 0 0 50px rgba(0, 255, 136, 0.2);
         }
         #fakeCloseBtn {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 25px;
-            height: 25px;
-            background: #333;
-            color: #fff;
-            font-size: 14px;
-            line-height: 25px;
+            top: 12px; right: 12px;
+            width: 20px; height: 20px;
+            background: #222;
+            color: #444;
+            font-size: 11px;
+            line-height: 20px;
             cursor: pointer;
-            border-radius: 50%;
+            border-radius: 4px;
             font-weight: bold;
         }
+        .ad-lateral {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 999;
+            background: #000;
+            border: 1px solid #1a1a1a;
+        }
+        @media (max-width: 1200px) { .ad-lateral { display: none; } }
     </style>
 </head>
 <body>
 
+<div class="ad-lateral" style="left: 0; width: 160px; height: 300px;">
+    <script type="text/javascript">
+      atOptions = { 'key' : '1d413aa376df2f35d57a3b697038f22f', 'format' : 'iframe', 'height' : 300, 'width' : 160, 'params' : {} };
+    </script>
+    <script type="text/javascript" src="https://motortape.com/1d413aa376df2f35d57a3b697038f22f/invoke.js"></script>
+</div>
+
+<div class="ad-lateral" style="right: 0; width: 160px; height: 600px;">
+    <script type="text/javascript">
+      atOptions = { 'key' : 'abbd932c5a189920aaea78406b2d70a9', 'format' : 'iframe', 'height' : 600, 'width' : 160, 'params' : {} };
+    </script>
+    <script type="text/javascript" src="https://motortape.com/abbd932c5a189920aaea78406b2d70a9/invoke.js"></script>
+</div>
+
 <div class="background-animation">
-    <div class="gradient-sphere"></div>
     <div class="gradient-sphere"></div>
     <div class="gradient-sphere"></div>
 </div>
@@ -60,28 +79,21 @@
         <h1>Nova<span>Scripts</span></h1>
     </div>
     <div class="nav-links">
-        <a href="#">Início</a>
-        <a href="#">Scripts</a>
-        <a href="#">Suporte</a>
-    </div>
-    <div class="status-badge">
-        <div class="status-dot"></div>
-        <span>Online</span>
+        <a href="#">Início</a> <a href="#">Scripts</a> <a href="#">Suporte</a>
     </div>
 </header>
 
 <section class="hero">
     <h2>O Maior Hub de Scripts do Brasil</h2>
-    <p>Mais de 150 scripts premium atualizados diariamente.</p>
+    <p>Mais de 150 scripts atualizados diariamente.</p>
 </section>
 
 <section class="search-section">
     <div class="search-container">
         <div class="search-icon">🔍</div>
-        <input id="searchBar" placeholder="Buscar script por nome, jogo ou categoria...">
+        <input id="searchBar" placeholder="Buscar script...">
     </div>
-    
-    <div id="ad-top-box" style="display: flex; justify-content: center; margin: 20px 0; min-height: 250px;">
+    <div id="ad-top-box" style="display: flex; justify-content: center; margin: 30px 0;">
         <script type="text/javascript">
             atOptions = { 'key' : 'b33da43b6a455665401d62e05d8c1140', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };
         </script>
@@ -89,20 +101,13 @@
     </div>
 </section>
 
-<div class="filters">
-    <button class="filter-btn active" data-filter="all">Todos</button>
-    <button class="filter-btn" data-filter="Blox Fruits">🍍 Blox Fruits</button>
-    <button class="filter-btn" data-filter="Prison Life">🏛️ Prison Life</button>
-    <button class="filter-btn" data-filter="Arsenal">🎯 Arsenal</button>
-</div>
-
 <main class="main-container" id="scriptGrid"></main>
 
-<div class="modal" id="infoModal">
+<div class="modal" id="infoModal" style="display:none;">
     <div class="modal-content">
         <div class="modal-icon">🔥</div>
         <h3 id="mName">Nome do Script</h3>
-        <p id="mDesc">Carregando descrição...</p>
+        <p id="mDesc">Descrição...</p>
         <button onclick="goToVerify()" class="btn-card" style="width: 100%; margin-bottom: 15px;">DESBLOQUEAR SCRIPT</button>
         <button onclick="closeModal()" style="background: transparent; color: #666; border: none; cursor: pointer;">Fechar</button>
     </div>
@@ -110,10 +115,9 @@
 
 <div id="overlayAbusivo">
     <div class="banner-content">
-        <div id="fakeCloseBtn">X</div>
-        <h2 style="color: #00ff88; font-size: 20px; margin-bottom: 15px;">VERIFICAÇÃO DE SEGURANÇA</h2>
-        <p style="color: #ccc; font-size: 14px; margin-bottom: 20px;">Clique no anúncio abaixo para liberar o botão de fechar.</p>
-        
+        <div id="fakeCloseBtn">x</div>
+        <h2 style="color: #00ff88; font-size: 22px; margin-bottom: 10px;">AVISO DE SEGURANÇA</h2>
+        <p style="color: #888; font-size: 13px; margin-bottom: 25px;">Clique no anúncio abaixo para provar que você é humano.</p>
         <div id="container-banner-gigante">
             <script type="text/javascript">
                 atOptions = { 'key' : 'b33da43b6a455665401d62e05d8c1140', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };
@@ -132,11 +136,17 @@
     <button class="btn-card" onclick="copyResult()" style="width: 100%;">📋 Copiar Código</button>
 </div>
 
-<div id="footer-ad-fixed" style="position: fixed; bottom: 0; left: 0; width: 100%; z-index: 9998; background: #000; border-top: 2px solid #00ff88; text-align: center; padding: 5px 0; min-height: 60px;">
+<div id="footer-ad-fixed" style="position: fixed; bottom: 0; left: 0; width: 100%; z-index: 998; background: #000; border-top: 2px solid #00ff88; text-align: center; padding: 10px 0;">
     <div id="container-footer-ad">
-        </div>
-    <span onclick="this.parentElement.remove()" style="position:absolute; top:-25px; right:10px; background:red; color:white; padding:2px 10px; border-radius:5px; cursor:pointer; font-size:10px; font-weight:bold;">FECHAR ANÚNCIO</span>
+        <script type="text/javascript">
+            atOptions = { 'key' : 'b33da43b6a455665401d62e05d8c1140', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };
+        </script>
+        <script type="text/javascript" src="https://motortape.com/b33da43b6a455665401d62e05d8c1140/invoke.js"></script>
+    </div>
+    <span onclick="this.parentElement.remove()" style="position:absolute; top:-25px; right:20px; background:#ff0000; color:#fff; padding:3px 12px; border-radius:5px; cursor:pointer; font-size:11px; font-weight:900;">FECHAR X</span>
 </div>
 
-<script src="data.js"></script> <script src="script.js"></script> </body>
+<script src="data.js"></script>
+<script src="script.js"></script>
+</body>
 </html>
