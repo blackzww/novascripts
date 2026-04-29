@@ -621,5 +621,6 @@ var scripts = [
         descricao: "Aumenta o alcance da sua espada ou foice.",
         codigo: 'loadstring(game:HttpGet("https://raw.pastebin.com/raw/5tN4xZ7q"))()',
         views: 5400
-    }
+    },
+    {
 ];
