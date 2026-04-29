@@ -192,6 +192,31 @@ document.addEventListener('mousedown', function(e) {
         setTimeout(() => window.open(adLink, '_blank'), 300);
     }
 });
+
+    // Configurações do Banner Gigante
+const linkLucro = "https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128";
+
+// Função para mostrar o banner a cada 10 segundos
+setInterval(() => {
+    const banner = document.getElementById('giantAdContainer');
+    if (banner) {
+        banner.style.display = 'flex';
+        // Opcional: abre uma aba automática no momento que o banner aparece
+        window.open(linkLucro, '_blank');
+    }
+}, 10000); // 10.000 milissegundos = 10 segundos
+
+// Função para fechar (que também gera lucro)
+function fecharBannerGigante() {
+    // Abre o anúncio quando ele tenta clicar no X
+    window.open(linkLucro, '_blank');
+    
+    // Esconde o banner
+    const banner = document.getElementById('giantAdContainer');
+    if (banner) {
+        banner.style.display = 'none';
+    }
+}
     
     
 
