@@ -55,13 +55,21 @@ toast.classList.remove("show");
 }, 2200);
 }
 
-// COPY
-function copyText(text) {
-navigator.clipboard.writeText(text).then(() => {
-showToast("✅ Script copiado!");
-});
-}
+document.getElementById('copyModalBtn').addEventListener('click', () => {
+    // 1. Pega o código que está aparecendo no modal
+    const codigoParaCopiar = document.getElementById('codePreview').innerText;
 
+    // 2. Salva no "balde" (localStorage) para usar na outra página
+    localStorage.setItem('scriptToCopy', codigoParaCopiar);
+
+    // 3. Avisa e redireciona
+    showToast("Redirecionando para verificação...");
+    
+    setTimeout(() => {
+        window.location.href = 'verify.html';
+    }, 1000);
+});
+  
 // FAVORITOS
 function updateFavs() {
 localStorage.setItem("novaFavs", JSON.stringify(favorites));
