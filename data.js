@@ -90,6 +90,6 @@ var scripts = [
         descricao: "Hub universal atualizado diariamente.",
         codigo: 'loadstring(game:HttpGet("https://raw.pastebin.com/raw/0pL6mK3w"))()',
         views: 5710
-    },
+    }
 
     ];
