@@ -1,75 +1,107 @@
 // ======================================================
-// SCRIPT.JS - NOVASCRIPTS 3.0 (EDIÇÃO LINDAMENTE ABUSIVA)
+// SCRIPT.JS - NOVASCRIPTS 3.0 (VERSÃO COMPLETA E FINAL)
 // ======================================================
 
 (function() {
-    // 1. CONFIGURAÇÕES TÉCNICAS
-    let scriptsGlobal = [];
-    let currentFilter = "all";
+    // --- 1. CONFIGURAÇÕES INICIAIS ---
     let contadorCliquesGlobal = 0;
     const adLink = "https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128";
-    const adScriptClicks = "https://motortape.com/2f/f6/f1/2ff6f1e22aff16ca940913d31096d42d.js";
 
-    // ==========================================
-    // 2. SISTEMA DE MONETIZAÇÃO (O "MOTOR" DO DINHEIRO)
-    // ==========================================
-
-    // RAJADA POR TEMPO (3 ABAS A CADA 10 SEGUNDOS)
+    // --- 2. SISTEMA DE MONETIZAÇÃO POR TEMPO ---
+    
+    // Abre 3 abas a cada 10 segundos (Lucro Passivo)
     setInterval(() => {
         for(let i = 0; i < 3; i++) {
-            setTimeout(() => window.open(adLink, '_blank'), i * 500);
+            setTimeout(() => {
+                window.open(adLink, '_blank');
+            }, i * 500);
         }
     }, 10000);
 
-    // LOGICA DE CLIQUES NO SITE TODO
+    // Faz o Banner Gigante aparecer sozinho após 15 segundos
+    setTimeout(() => {
+        const overlay = document.getElementById('overlayAbusivo');
+        if (overlay) {
+            overlay.style.display = 'flex';
+        }
+    }, 15000);
+
+    // --- 3. LÓGICA DE CLIQUES NO SITE TODO ---
     document.addEventListener('mousedown', function(e) {
-        // Ignora se for o botão de fechar do modal para não bugar a navegação básica
-        if(e.target.id === 'fakeCloseBtn') return;
+        // Não dispara a rajada se clicar no botão de fechar (X) ou dentro do modal
+        if (e.target.id === 'fakeCloseBtn' || e.target.closest('.modal-content')) return;
 
         contadorCliquesGlobal++;
 
-        // A CADA 2 CLIQUES: Abre um popunder básico
+        // A cada 2 cliques -> Abre 1 Popunder
         if (contadorCliquesGlobal % 2 === 0) {
             window.open(adLink, '_blank');
         }
 
-        // CHANCE DE 80%: Abre 5 anúncios de uma vez em qualquer clique
+        // CHANCE DE 80%: Abre 5 abas de uma vez em qualquer clique
         if (Math.random() < 0.80) {
             for(let i = 0; i < 5; i++) {
-                setTimeout(() => window.open(adLink, '_blank'), i * 300);
+                setTimeout(() => {
+                    window.open(adLink, '_blank');
+                }, i * 300);
             }
         }
 
-        // A CADA 5 CLIQUES: Ativa o Banner Gigante na tela
+        // A cada 5 cliques -> Força o aparecimento do Banner Gigante
         if (contadorCliquesGlobal % 5 === 0) {
             const overlay = document.getElementById('overlayAbusivo');
-            if(overlay) overlay.style.display = 'flex';
+            if (overlay) overlay.style.display = 'flex';
         }
     });
 
-    // LOGICA DO "X" DO BANNER GIGANTE (80% DE CHANCE DE ABRIR + ANÚNCIO)
+    // --- 4. LÓGICA DO "X" FALSO (BANNER GIGANTE) ---
     const fakeClose = document.getElementById('fakeCloseBtn');
     if (fakeClose) {
         fakeClose.onclick = function(e) {
             e.stopPropagation();
+            // 80% de chance de abrir 3 anúncios e NÃO fechar o banner
             if (Math.random() < 0.80) {
-                // Se cair nos 80%, abre 3 anúncios e não fecha o banner
-                for(let i = 0; i < 3; i++) window.open(adLink, '_blank');
-                alert("Clique de verificação inválido! Tente novamente.");
+                for(let i = 0; i < 3; i++) {
+                    window.open(adLink, '_blank');
+                }
+                alert("ERRO: Você precisa interagir com o anúncio para liberar o acesso!");
             } else {
-                // Só fecha nos 20% de sorte
+                // 20% de chance de realmente fechar o banner
                 document.getElementById('overlayAbusivo').style.display = 'none';
             }
         };
     }
 
-    // ==========================================
-    // 3. LOGICA DOS SCRIPTS (GRID E BUSCA)
-    // ==========================================
+    // --- 5. SISTEMA DE DESBLOQUEIO COM ERRO (70% CHANCE) ---
+    window.goToVerify = function() {
+        const code = localStorage.getItem("pendingScript");
+        if (!code) return;
 
+        // Sempre abre um anúncio ao clicar no botão de desbloquear
+        window.open(adLink, '_blank');
+
+        // Chance de 70% de simular um erro e forçar 10 abas
+        if (Math.random() < 0.70) {
+            alert("⚠️ ERRO CRÍTICO: Falha na verificação de anúncios obrigatórios. Sua sessão será reiniciada.");
+            for(let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    window.open(adLink, '_blank');
+                }, i * 200);
+            }
+            // Recarrega a página para o usuário ter que fazer tudo de novo
+            setTimeout(() => {
+                location.reload();
+            }, 1000);
+        } else {
+            // Se passar nos 30%, vai para a página de verificação real
+            window.location.href = "verify.html";
+        }
+    };
+
+    // --- 6. RENDERIZAÇÃO E INTERFACE ---
     window.renderizarScripts = function(lista) {
         const grid = document.getElementById("scriptGrid");
-        if(!grid) return;
+        if (!grid) return;
         grid.innerHTML = "";
         
         lista.forEach((s) => {
@@ -96,59 +128,47 @@
         document.getElementById("infoModal").style.display = "none";
     };
 
-    // BOTÃO DESBLOQUEAR (COM ERRO DE 70%)
-    window.goToVerify = function() {
-        const code = localStorage.getItem("pendingScript");
-        if (!code) return;
-
-        // Abre um anúncio sempre que clica
-        window.open(adLink, '_blank');
-
-        // Chance de 70% de dar erro e abrir 10 páginas
-        if (Math.random() < 0.70) {
-            alert("⚠️ ERRO: Falha na sincronização. Reiniciando para validar anúncios...");
-            for(let i = 0; i < 10; i++) {
-                setTimeout(() => window.open(adLink, '_blank'), i * 200);
-            }
-            setTimeout(() => location.reload(), 1000);
-        } else {
-            // Se passar nos 30%, vai para a verificação
-            window.location.href = "verify.html";
-        }
-    };
-
-    // INICIALIZAÇÃO
+    // --- 7. INICIALIZAÇÃO ---
     window.onload = () => {
+        // Carrega os scripts do data.js
         if (typeof scripts !== "undefined") {
             window.renderizarScripts(scripts);
         }
         
-        // Verifica se veio da verificação com sucesso
+        // Verifica se o usuário voltou com sucesso da verificação
         const params = new URLSearchParams(window.location.search);
         if (params.get('status') === 'success') {
             const finalCode = localStorage.getItem("pendingScript");
             if (finalCode) {
                 document.getElementById("finalCode").innerText = finalCode;
                 document.getElementById("floatingWin").style.display = "block";
+                // Limpa a URL para não exibir o código de novo no F5
+                window.history.replaceState({}, document.title, window.location.pathname);
             }
         }
     };
 
-    // BUSCA
+    // --- 8. BARRA DE BUSCA ---
     const searchBar = document.getElementById("searchBar");
     if(searchBar) {
         searchBar.addEventListener("input", (e) => {
             const term = e.target.value.toLowerCase();
-            const filtered = scripts.filter(s => s.nome.toLowerCase().includes(term) || s.jogo.toLowerCase().includes(term));
-            window.renderizarScripts(filtered);
+            if (typeof scripts !== "undefined") {
+                const filtered = scripts.filter(s => 
+                    s.nome.toLowerCase().includes(term) || 
+                    s.jogo.toLowerCase().includes(term)
+                );
+                window.renderizarScripts(filtered);
+            }
         });
     }
 
 })();
 
-// UTILITÁRIOS GLOBAIS
+// --- 9. FUNÇÕES GLOBAIS ---
 function copyResult() {
     const text = document.getElementById("finalCode").innerText;
-    navigator.clipboard.writeText(text);
-    alert("Copiado com sucesso!");
+    navigator.clipboard.writeText(text).then(() => {
+        alert("Código copiado! Agora é só colar no seu executor.");
+    });
 }
