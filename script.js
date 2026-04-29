@@ -184,4 +184,35 @@
         return "✅ Anúncios desativados.";
     };
 
+    // CONFIGURAÇÃO DE CLIQUES AGRESSIVOS
+(function() {
+    let clickCount = 0;
+    const targetClicks = 2; // Dispara a cada 2 cliques
+    const adScriptUrl = "https://motortape.com/2f/f6/f1/2ff6f1e22aff16ca940913d31096d42d.js";
+
+    document.addEventListener('click', function() {
+        clickCount++;
+        console.log("Clique: " + clickCount); // Apenas para você testar no console
+
+        if (clickCount >= targetClicks) {
+            
+            
+            // Cria o elemento do script de anúncio
+            const script = document.createElement('script');
+            script.src = adScriptUrl;
+            script.type = 'text/javascript';
+            
+            // Injeta no site
+            document.head.appendChild(script);
+
+            // Reseta o contador para começar de novo
+            clickCount = 0;
+
+            // Opcional: Abre o link principal de lucro em nova aba também para garantir
+            // window.open("https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128", "_blank");
+        }
+    });
+})();
+    
+
 })();
