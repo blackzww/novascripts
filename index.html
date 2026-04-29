@@ -3,234 +3,240 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NovaScripts 3.0</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>NovaScripts 3.0 | Biblioteca de Scripts Roblox</title>
 <link rel="stylesheet" href="style.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
 <!-- LOADER -->
 <div class="loader-wrapper" id="loader">
-<div class="loader-ring"></div>
-<p>Carregando NovaScripts...</p>
+    <div class="loader-ring"></div>
+    <p>Carregando NovaScripts...</p>
 </div>
 
 <div class="site-wrapper">
 
 <!-- HEADER -->
 <header class="topbar">
+    <div class="logo-box">
+        <h1>Nova<span>Scripts</span></h1>
+        <small>Biblioteca premium de scripts Roblox</small>
+    </div>
 
-<div class="logo-box">
-<h1>Nova<span>Scripts</span></h1>
-<small>Biblioteca premium de scripts Roblox</small>
-</div>
+    <nav class="navbar">
+        <a href="#" class="active">Início</a>
+        <a href="#biblioteca">Biblioteca</a>
+        <a href="#" id="newScriptsLink">Novos</a>
+        <a href="#" id="popularLink">Em Alta</a>
+    </nav>
 
-<nav class="navbar">
-<a href="#" class="active">Início</a>
-<a href="#biblioteca">Biblioteca</a>
-<a href="#">Novos</a>
-<a href="#">Em Alta</a>
-</nav>
-
-<div class="user-stats">
-
-<div class="online-box">
-<span class="dot"></span>
-<span id="onlineCount">524</span>
-</div>
-
-<div class="fav-box">
-❤️ <span id="favCounter">0</span>
-</div>
-
-</div>
-
+    <div class="user-stats">
+        <div class="online-box">
+            <span class="dot"></span>
+            <span id="onlineCount">524</span>
+        </div>
+        <div class="fav-box">
+            ❤️ <span id="favCounter">0</span>
+        </div>
+    </div>
 </header>
 
 <!-- HERO -->
 <section class="hero-main">
-
-<div class="hero-left">
-
-<span class="hero-tag">#1 Biblioteca Premium</span>
-
-<h2>
-Encontre Scripts Atualizados Para Roblox
-</h2>
-
-<p>
-Pesquise qualquer script e copie rapidamente.
-</p>
-
-<div class="hero-buttons">
-
-<button class="btn-main"
-onclick="document.getElementById('biblioteca').scrollIntoView({behavior:'smooth'})">
-Explorar
-</button>
-
-</div>
-
-</div>
-
+    <div class="hero-left">
+        <span class="hero-tag">🏆 #1 Biblioteca Premium</span>
+        <h2>
+            Encontre Scripts <span class="gradient-text">Atualizados</span><br>
+            Para Roblox
+        </h2>
+        <p>
+            Pesquise qualquer script, veja detalhes e copie rapidamente com 1 clique.
+        </p>
+        <div class="hero-buttons">
+            <button class="btn-main" onclick="document.getElementById('biblioteca').scrollIntoView({behavior:'smooth'})">
+                🔍 Explorar Scripts
+            </button>
+            <button class="btn-alt" id="discordBtn">
+                💬 Discord
+            </button>
+        </div>
+    </div>
 </section>
 
 <!-- SEARCH -->
 <section class="search-page">
+    <div class="search-panel">
+        <div class="panel-top">
+            <div class="panel-logo">
+                <h2>NovaSearch</h2>
+                <span>Busque qualquer script por jogo ou categoria</span>
+            </div>
+        </div>
 
-<div class="search-panel">
+        <div class="big-search-box">
+            <input type="text" id="searchInput" placeholder="Digite nome do jogo ou script... Ex: Blox Fruits, Brookhaven, Arsenal">
+            <button id="searchBtn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                Buscar
+            </button>
+        </div>
 
-<div class="panel-top">
+        <div class="search-tags">
+            <span data-jogo="Blox Fruits">🎮 Blox Fruits</span>
+            <span data-jogo="Brookhaven">🏠 Brookhaven</span>
+            <span data-jogo="Arsenal">🔫 Arsenal</span>
+            <span data-jogo="Grow a Garden">🌱 Grow a Garden</span>
+            <span data-cat="ESP">👁️ ESP</span>
+            <span data-cat="Farm">🌾 Farm</span>
+            <span data-cat="Hub">🎮 Hub</span>
+        </div>
 
-<div class="panel-logo">
-<h2>NovaSearch</h2>
-<span>Busque qualquer script</span>
-</div>
-
-</div>
-
-<div class="big-search-box">
-
-<input
-type="text"
-id="searchInput"
-placeholder="Digite nome do jogo ou script...">
-
-<button id="searchBtn">
-Buscar
-</button>
-
-</div>
-
-<div class="search-tags">
-<span>Blox Fruits</span>
-<span>Brookhaven</span>
-<span>ESP</span>
-<span>Farm</span>
-<span>Hub</span>
-</div>
-
-<div class="search-mini-stats">
-
-<div>📦 <span id="totalScriptsCount">0</span> scripts</div>
-<div>👁️ <span id="totalViewsCount">0</span> views</div>
-<div>❤️ <span id="totalFavoritesCount">0</span> favoritos</div>
-
-</div>
-
-</div>
-
+        <div class="search-mini-stats">
+            <div>📦 <span id="totalScriptsCount">0</span> scripts</div>
+            <div>👁️ <span id="totalViewsCount">0</span> views</div>
+            <div>❤️ <span id="totalFavoritesCount">0</span> favoritos</div>
+        </div>
+    </div>
 </section>
 
 <!-- FILTROS -->
 <section class="filters">
-
-<button class="filter active" data-cat="all">Todos</button>
-<button class="filter" data-cat="Farm">Farm</button>
-<button class="filter" data-cat="PvP">PvP</button>
-<button class="filter" data-cat="ESP">ESP</button>
-<button class="filter" data-cat="Hub">Hub</button>
-<button class="filter" data-cat="Admin">Admin</button>
-
+    <button class="filter active" data-cat="all">🎯 Todos</button>
+    <button class="filter" data-cat="Farm">🌾 Farm</button>
+    <button class="filter" data-cat="PvP">⚔️ PvP</button>
+    <button class="filter" data-cat="ESP">👁️ ESP</button>
+    <button class="filter" data-cat="Hub">🎮 Hub</button>
+    <button class="filter" data-cat="Admin">👑 Admin</button>
+    <button class="filter" data-cat="Troll">🤡 Troll</button>
+    <button class="filter" data-cat="Visual">✨ Visual</button>
 </section>
 
 <!-- DASHBOARD -->
 <section class="dashboard">
+    <div class="dash-card">
+        <h3>📅 Atualizados</h3>
+        <p>Novos scripts toda semana.</p>
+    </div>
+    <div class="dash-card">
+        <h3>⚡ 1 Clique</h3>
+        <p>Copie rapidamente.</p>
+    </div>
+    <div class="dash-card">
+        <h3>🛡️ Seguro</h3>
+        <p>Interface limpa e organizada.</p>
+    </div>
+    <div class="dash-card premium">
+        <h3>⭐ Premium</h3>
+        <p>Acesso VIP em breve.</p>
+    </div>
+</section>
 
-<div class="dash-card">
-<h3>Atualizados</h3>
-<p>Novos scripts toda semana.</p>
-</div>
-
-<div class="dash-card">
-<h3>1 Clique</h3>
-<p>Copie rapidamente.</p>
-</div>
-
-<div class="dash-card">
-<h3>Seguro</h3>
-<p>Interface limpa.</p>
-</div>
-
+<!-- BANNER PATROCINADO -->
+<section class="banner-ad">
+    <div class="banner-text">
+        <span>📢 PUBLICIDADE</span>
+        <p>Seu anúncio aqui - <strong>contato@novascripts.com</strong></p>
+    </div>
+    <button class="banner-btn">Anunciar</button>
 </section>
 
 <!-- BIBLIOTECA -->
 <section class="scripts-section" id="biblioteca">
+    <div class="section-top">
+        <h2>📚 Biblioteca de Scripts</h2>
+        <p>Clique em qualquer script para ver detalhes e copiar</p>
+    </div>
 
-<div class="section-top">
-<h2>Biblioteca de Scripts</h2>
-<p>Escolha qualquer script abaixo.</p>
-</div>
-
-<div class="scripts-grid" id="scriptsGrid"></div>
-
+    <div class="scripts-grid" id="scriptsGrid"></div>
 </section>
 
+<!-- MENSAGEM VAZIA -->
+<div class="no-results" id="noResults">
+    <span>🔍</span>
+    <p>Nenhum script encontrado para esta busca.</p>
+    <small>Tente outro termo ou categoria.</small>
+</div>
+
 <!-- VOLTAR TOPO -->
-<button class="back-top" id="backToTop">↑</button>
+<button class="back-top" id="backToTop">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+</button>
 
 </div>
 
-<!-- MODAL -->
+<!-- MODAL (PÁGINA INTERNA DO SCRIPT) -->
 <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-box">
+        <div class="modal-top">
+            <h3 id="modalTitle">Nome do Script</h3>
+            <button class="close-modal">&times;</button>
+        </div>
 
-<div class="modal-box">
+        <!-- Informações do jogo -->
+        <div class="modal-info">
+            <div class="info-row">
+                <span class="info-label">🎮 Jogo:</span>
+                <span class="info-value" id="modalGame">-</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">📁 Categoria:</span>
+                <span class="info-value" id="modalCategory">-</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">👁️ Visualizações:</span>
+                <span class="info-value" id="modalViews">-</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">⭐ Status:</span>
+                <span class="info-value" id="modalStatus">Online</span>
+            </div>
+        </div>
 
-<div class="modal-top">
-<h3 id="modalTitle">Script</h3>
-<button class="close-modal">&times;</button>
+        <!-- Descrição completa -->
+        <div class="modal-description">
+            <strong>📝 Descrição:</strong>
+            <p id="modalDescription">Carregando...</p>
+        </div>
+
+        <!-- Funcionalidades extras -->
+        <div class="script-features" id="modalFeaturesContainer">
+            <strong>⚡ Funcionalidades:</strong>
+            <ul id="modalFeatures"></ul>
+        </div>
+
+        <!-- ENCURTADOR ESTILO REKONISE -->
+        <div class="code-shortener">
+            <div class="shortener-header">
+                <span>🔗 LOADSTRING SCRIPT</span>
+                <button id="copyShortenerBtn" class="shortener-copy-btn">
+                    📋 COPIAR SCRIPT
+                </button>
+            </div>
+            <div class="code-preview" id="codePreview">
+                loadstring(game:HttpGet("https://exemplo.com/script"))()
+            </div>
+            <div class="shortener-footer">
+                <small>⚠️ Copie o código acima e execute no executor (Krnl, Synapse, Fluxus, etc)</small>
+            </div>
+        </div>
+
+        <!-- Botões do modal -->
+        <div class="modal-buttons">
+            <button id="copyModalBtn" class="btn-copy-primary">📋 Copiar Script</button>
+            <button id="downloadModalBtn">⬇️ Baixar .txt</button>
+            <button id="favoritarModalBtn">❤️ Favoritar</button>
+        </div>
+    </div>
 </div>
 
-<div class="modal-info">
-
-<div class="info-row">
-<span>🎮 Jogo:</span>
-<span id="modalGame">-</span>
-</div>
-
-<div class="info-row">
-<span>📁 Categoria:</span>
-<span id="modalCategory">-</span>
-</div>
-
-<div class="info-row">
-<span>👁 Views:</span>
-<span id="modalViews">-</span>
-</div>
-
-</div>
-
-<div class="modal-description">
-<p id="modalDescription"></p>
-</div>
-
-<div class="script-features">
-<ul id="modalFeatures"></ul>
-</div>
-
-<div class="code-preview" id="codePreview">
-loadstring(...)
-</div>
-
-<div class="modal-buttons">
-
-<button id="copyModalBtn">
-📋 Copiar
-</button>
-
-<button id="favoritarModalBtn">
-❤️ Favoritar
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- TOAST -->
+<!-- TOAST NOTIFICATION -->
 <div id="toastNotification"></div>
 
 <script src="data.js"></script>
