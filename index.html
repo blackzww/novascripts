@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>ScriptHub | Biblioteca de Scripts Loadstring</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="loader-wrapper" id="loader">
+        <div class="loader"></div>
+        <div class="loader-text">Carregando ScriptHub...</div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <h1>ScriptHub<span>⚡</span></h1>
+                <p>loadstring • scripts premium</p>
+            </div>
+            <nav class="menu">
+                <a href="#" class="active">Home</a>
+                <a href="#">Scripts</a>
+                <a href="#" id="popularMenu">Populares</a>
+                <a href="#" id="newMenu">Novos</a>
+                <a href="#">Discord</a>
+            </nav>
+            <div class="header-stats">
+                <div class="online-counter">
+                    <span class="online-dot"></span>
+                    <span id="onlineCount">247</span>
+                </div>
+                <div class="favorite-stats">❤️ <span id="favTotal">0</span></div>
+            </div>
+        </header>
+
+        <!-- Barra de Pesquisa -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Pesquisar scripts, jogos ou categorias...">
+                <button id="searchBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Filtros de Categoria -->
+        <div class="filters-container">
+            <button class="filter-btn active" data-cat="all">📌 Todos</button>
+            <button class="filter-btn" data-cat="Farm">🌾 Farm</button>
+            <button class="filter-btn" data-cat="PvP">⚔️ PvP</button>
+            <button class="filter-btn" data-cat="Troll">🤡 Troll</button>
+            <button class="filter-btn" data-cat="ESP">👁️ ESP</button>
+            <button class="filter-btn" data-cat="Admin">👑 Admin</button>
+            <button class="filter-btn" data-cat="Hub">🎮 Hub</button>
+        </div>
+
+        <!-- Banner Patrocinado -->
+        <div class="sponsored-banner">
+            <div class="banner-content">
+                <span>📢 ESPAÇO PATROCINADO</span>
+                <p>Anuncie seu script aqui - <strong>Contato: comercial@scripthub.com</strong></p>
+            </div>
+            <button class="sponsor-btn">🔥 Seja Patrocinador</button>
+        </div>
+
+        <!-- Stats Row -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <span class="stat-icon">📜</span>
+                <div>
+                    <h3 id="totalScripts">0</h3>
+                    <p>Scripts Disponíveis</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-icon">❤️</span>
+                <div>
+                    <h3 id="totalFavs">0</h3>
+                    <p>Favoritos</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-icon">👁️</span>
+                <div>
+                    <h3 id="totalViews">0</h3>
+                    <p>Visualizações</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grid de Scripts -->
+        <div class="scripts-grid" id="scriptsContainer"></div>
+
+        <!-- Botão Voltar ao Topo -->
+        <button class="go-top" id="goTopBtn">⬆️</button>
+    </div>
+
+    <!-- Modal Ver Script -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Script Code</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <pre id="modalCode"></pre>
+                <button class="modal-copy-btn" id="modalCopyBtn">📋 Copiar Script</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast"></div>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
