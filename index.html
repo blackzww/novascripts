@@ -1,145 +1,93 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NovaScripts | Ultimate Script Hub</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NovaScripts | Ultimate Script Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary:#00ff88;
+            --bg:#030308;
+            --card-bg:rgba(15,15,28,0.7);
+            --border:rgba(255,255,255,0.08);
+        }
 
-<style>
-:root {
-    --primary:#00ff88;
-    --bg:#030308;
-    --card-bg:rgba(15,15,28,0.7);
-    --border:rgba(255,255,255,0.08);
-}
+        body { margin:0; font-family:'Inter', sans-serif; background:var(--bg); color:#fff; overflow-x: hidden; }
 
-body {
-    margin:0;
-    font-family:Inter;
-    background:var(--bg);
-    color:#fff;
-}
+        /* HEADER */
+        header{ display:flex; justify-content:space-between; align-items: center; padding:20px 8%; border-bottom:1px solid var(--border); background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); sticky; top: 0; z-index: 100; }
+        .logo h1 { font-weight: 900; font-size: 24px; margin: 0; }
+        .logo span{color:var(--primary);}
 
-/* HEADER */
-header{
-    display:flex;
-    justify-content:space-between;
-    padding:20px 8%;
-    border-bottom:1px solid var(--border);
-}
+        /* SEARCH */
+        .search-section{ padding:40px 8% 10px; }
+        #searchBar{ width:100%; padding:18px; border-radius:14px; border:1px solid var(--border); background:var(--card-bg); color:white; font-size: 16px; outline: none; transition: 0.3s; }
+        #searchBar:focus { border-color: var(--primary); box-shadow: 0 0 20px rgba(0, 255, 136, 0.1); }
 
-.logo span{color:var(--primary);}
+        /* GRID */
+        .main-container{ padding:30px 8%; display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:20px; }
 
-/* SEARCH */
-.search-section{
-    padding:40px 8% 10px;
-}
+        /* CARD */
+        .card{ background:var(--card-bg); border:1px solid var(--border); border-radius:16px; padding:20px; transition: 0.3s; position: relative; overflow: hidden; }
+        .card:hover { transform: translateY(-5px); border-color: var(--primary); background: rgba(15,15,28,0.9); }
+        .card h3 { margin: 0 0 10px 0; font-size: 18px; color: var(--primary); }
+        .card p { font-size: 13px; color: #aaa; line-height: 1.4; margin-bottom: 15px; }
+        .badge { background: rgba(0,255,136,0.1); color: var(--primary); padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: 900; margin-bottom: 10px; display: inline-block; }
 
-#searchBar{
-    width:100%;
-    padding:15px;
-    border-radius:12px;
-    border:1px solid var(--border);
-    background:var(--card-bg);
-    color:white;
-}
+        .btn-card{ width:100%; padding:12px; background:var(--primary); border:none; border-radius:10px; font-weight: 900; cursor:pointer; color: #000; transition: 0.3s; }
+        .btn-card:hover { background: #00cc6e; box-shadow: 0 5px 15px rgba(0, 255, 136, 0.3); }
 
-/* GRID */
-.main-container{
-    padding:30px 8%;
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
-    gap:20px;
-}
-
-/* CARD */
-.card{
-    background:var(--card-bg);
-    border:1px solid var(--border);
-    border-radius:16px;
-    padding:15px;
-}
-
-.btn-card{
-    margin-top:10px;
-    width:100%;
-    padding:10px;
-    background:var(--primary);
-    border:none;
-    font-weight:900;
-    cursor:pointer;
-}
-
-/* MODAL */
-.modal{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,0.85);
-    justify-content:center;
-    align-items:center;
-}
-
-.modal-content{
-    background:#111;
-    padding:30px;
-    border-radius:18px;
-    width:90%;
-    max-width:420px;
-}
-
-/* ADS AREA */
-.ad-box{
-    margin:20px auto;
-    text-align:center;
-    padding:10px;
-    border:1px dashed #333;
-    color:#555;
-    font-size:12px;
-}
-</style>
+        /* MODAL */
+        .modal{ display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); justify-content:center; align-items:center; z-index: 1000; backdrop-filter: blur(5px); }
+        .modal-content{ background:#0f0f1c; padding:30px; border-radius:20px; width:90%; max-width:400px; border: 1px solid var(--border); text-align: center; }
+        
+        /* JANELA FLUTUANTE (RETORNO) */
+        #floatingWin { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 340px; background: #0f0f1c; border: 2px solid var(--primary); border-radius: 20px; padding: 25px; z-index: 9999; box-shadow: 0 0 50px #000; }
+        .code-box { background: #000; color: var(--primary); padding: 15px; border-radius: 12px; font-family: monospace; font-size: 11px; margin: 15px 0; word-break: break-all; max-height: 120px; overflow-y: auto; border: 1px solid #222; text-align: left; }
+    </style>
 </head>
-
 <body>
 
 <header>
-    <div class="logo">
-        <h1>Nova<span>Scripts</span></h1>
-    </div>
-    <div style="color:#00ff88;font-weight:900;">● ONLINE</div>
+    <div class="logo"><h1>Nova<span>Scripts</span></h1></div>
+    <div style="color:var(--primary);font-weight:900; font-size: 12px;">● SERVIDOR ATIVO</div>
 </header>
 
-<!-- ADS (mantido como você queria lucro) -->
-<div class="ad-box">
-    ESPAÇO DE ANÚNCIO (pop / banner / AdSense aqui)
-</div>
-
 <section class="search-section">
-    <input id="searchBar" placeholder="Pesquisar scripts...">
+    <input id="searchBar" placeholder="Digite o nome do jogo ou script...">
 </section>
 
 <main class="main-container" id="scriptGrid"></main>
 
-<!-- MODAL -->
 <div class="modal" id="infoModal">
     <div class="modal-content">
-        <h2 id="mName"></h2>
-        <p id="mDesc"></p>
-
-        <button onclick="goToVerify()" class="btn-card">DESBLOQUEAR CÓDIGO</button>
-        <button onclick="closeModal()" style="margin-top:10px;width:100%;padding:10px;">Fechar</button>
+        <h2 id="mName" style="margin-bottom: 10px;"></h2>
+        <p id="mDesc" style="color: #888; margin-bottom: 20px;"></p>
+        <button onclick="goToVerify()" class="btn-card">DESBLOQUEAR AGORA</button>
+        <button onclick="closeModal()" style="background:transparent; color:#555; border:none; margin-top:15px; cursor:pointer; font-weight:700;">FECHAR</button>
     </div>
+</div>
+
+<div id="floatingWin">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 10px;">
+        <span style="font-weight:900; color:var(--primary); font-size:14px;">✅ SCRIPT LIBERADO!</span>
+        <span onclick="this.parentElement.parentElement.style.display='none'" style="cursor:pointer; font-size: 20px;">&times;</span>
+    </div>
+    <p style="font-size: 11px; color: #888;">Copie e cole no seu executor (Delta, Fluxus, etc):</p>
+    <div class="code-box" id="finalCode"></div>
+    <button class="btn-card" onclick="copyResult()">COPIAR AGORA</button>
 </div>
 
 <script src="data.js"></script>
 
 <script>
 let selectedScriptCode = "";
+// Corrigido para ler corretamente a sua var 'scripts' do data.js
 const data = typeof scripts !== "undefined" ? scripts : [];
 
-/* ===== RENDER ===== */
+/* ===== RENDERIZAR CARDS ===== */
 function renderizarScripts(lista){
     const grid = document.getElementById("scriptGrid");
     grid.innerHTML = "";
@@ -148,40 +96,37 @@ function renderizarScripts(lista){
         const card = document.createElement("div");
         card.className = "card";
 
+        // MUDADO DE s.name PARA s.nome E s.desc PARA s.descricao (IGUAL AO SEU DATA.JS)
         card.innerHTML = `
-            <h3>${s.name}</h3>
-            <p>${s.desc}</p>
-            <button class="btn-card">VER SCRIPT</button>
+            <div class="badge">${s.jogo}</div>
+            <h3>${s.nome}</h3>
+            <p>${s.descricao}</p>
+            <button class="btn-card">VER DETALHES</button>
         `;
 
         card.querySelector("button").onclick = ()=>{
             openModal(s);
         };
-
         grid.appendChild(card);
     });
 }
 
-/* ===== SEARCH ===== */
+/* ===== BUSCA ===== */
 document.getElementById("searchBar").addEventListener("input",(e)=>{
     const t = e.target.value.toLowerCase();
-
     const filtered = data.filter(s =>
-        (s.name||"").toLowerCase().includes(t) ||
-        (s.game||"").toLowerCase().includes(t) ||
-        (s.desc||"").toLowerCase().includes(t)
+        (s.nome||"").toLowerCase().includes(t) ||
+        (s.jogo||"").toLowerCase().includes(t) ||
+        (s.descricao||"").toLowerCase().includes(t)
     );
-
     renderizarScripts(filtered);
 });
 
 /* ===== MODAL ===== */
 function openModal(s){
-    selectedScriptCode = s.code;
-
-    document.getElementById("mName").innerText = s.name;
-    document.getElementById("mDesc").innerText = s.desc;
-
+    selectedScriptCode = s.codigo; // MUDADO PARA s.codigo
+    document.getElementById("mName").innerText = s.nome;
+    document.getElementById("mDesc").innerText = s.descricao;
     document.getElementById("infoModal").style.display = "flex";
 }
 
@@ -189,21 +134,52 @@ function closeModal(){
     document.getElementById("infoModal").style.display = "none";
 }
 
-/* ===== VERIFY + AD ===== */
+/* ===== MONETIZAÇÃO E REDIRECIONAMENTO ===== */
 function goToVerify(){
     if(!selectedScriptCode) return;
-
     localStorage.setItem("pendingScript", selectedScriptCode);
-
-    // AD (mantido seu sistema de lucro)
+    
+    // Abre o anúncio agressivo
     window.open("https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128","_blank");
-
+    
+    // Manda para a página de tarefas
     window.location.href = "verify.html";
 }
 
-/* ===== INIT ===== */
+/* ===== CHECAR SE VOLTOU DA VERIFICAÇÃO ===== */
+function checkSuccess() {
+    const params = new URLSearchParams(window.location.search);
+    if(params.get('status') === 'success') {
+        const code = localStorage.getItem("pendingScript");
+        if(code) {
+            document.getElementById("finalCode").innerText = code;
+            document.getElementById("floatingWin").style.display = "block";
+            // Limpa o link
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+    }
+}
+
+function copyResult() {
+    const code = document.getElementById("finalCode").innerText;
+    navigator.clipboard.writeText(code);
+    alert("Copiado! Agora cole no seu executor.");
+}
+
+/* ===== ANÚNCIOS POPUPER (OPCIONAL/AGRESSIVO) ===== */
+function aggressiveAds() {
+    setInterval(() => {
+        document.body.addEventListener('click', () => {
+            window.open("https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128", "_blank");
+        }, { once: true });
+    }, 30000); // 30 segundos
+}
+
+/* ===== INICIAR ===== */
 window.onload = ()=>{
     renderizarScripts(data);
+    checkSuccess();
+    aggressiveAds();
 };
 </script>
 
