@@ -23,7 +23,7 @@ var scripts = [
         id: 3,
         nome: "Aimbot Pro",
         jogo: "Arsenal",
-        categoria: "Pvp",
+        categoria: "PvP",
         descricao: "Aimbot suave + ESP completo.",
         codigo: 'loadstring(game:HttpGet("https://raw.pastebin.com/raw/5xM9aZtQ"))()',
         views: 2970
@@ -32,7 +32,7 @@ var scripts = [
         id: 4,
         nome: "Silent Aim X",
         jogo: "Phantom Forces",
-        categoria: "Pvp",
+        categoria: "PvP",
         descricao: "Silent aim preciso com menu premium.",
         codigo: 'loadstring(game:HttpGet("https://raw.pastebin.com/raw/kP3mB7vL"))()',
         views: 2401
@@ -50,7 +50,7 @@ var scripts = [
         id: 6,
         nome: "Murder Aura",
         jogo: "MM2",
-        categoria: "Pvp",
+        categoria: "PvP",
         descricao: "Auto kill e hit range expandido.",
         codigo: 'loadstring(game:HttpGet("https://raw.pastebin.com/raw/7tR0qV8x"))()',
         views: 3541
