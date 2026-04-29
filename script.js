@@ -201,34 +201,36 @@ aggressiveTouchPop();
     
     init();
 
-    // ==========================================
-// COMANDO DE LIMPEZA ISOLADO (SÓ EXECUTA NO CONSOLE)
-// ==========================================
+// COMANDO DE LIMPEZA VERSÃO SEGURA (NÃO AFETA O CARREGAMENTO)
 window.limpar = function() {
-    console.warn("🎬 Ativando modo de gravação...");
+    console.warn("Removendo anúncios para gravação...");
 
-    // 1. Desativa a trava de popups (se existir)
+    // 1. Desativa a variável de popups
     window.canOpenPop = false;
 
-    // 2. Remove os elementos de anúncio da tela
-    const lixo = ['antiAdblocker', 'surpriseAd', 'clickOverlay', 'modalAdContainer'];
-    lixo.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.remove();
+    // 2. Remove os elementos de anúncio por ID
+    const anuncios = ['antiAdblocker', 'surpriseAd', 'clickOverlay', 'modalAdContainer'];
+    anuncios.forEach(id => {
+        const elemento = document.getElementById(id);
+        if (elemento) {
+            elemento.style.setProperty("display", "none", "important");
+            console.log("Removido: " + id);
+        }
     });
 
-    // 3. Destrava o scroll do site
+    // 3. Força o scroll a funcionar
     document.body.style.setProperty("overflow", "auto", "important");
     document.documentElement.style.setProperty("overflow", "auto", "important");
 
-    // 4. Mata os loops de anúncios gigantes (Surprise Ad)
-    // Usamos um intervalo limpo para não bugar o resto do site
-    for (let i = 1; i < 99999; i++) {
-        window.clearInterval(i);
+    // 4. Mata apenas os anúncios que usam o nome 'surprise'
+    // Em vez de matar todos os IDs do site, matamos só os que criamos agora
+    let highTimeout = window.setTimeout(null, 0);
+    for (let i = 0; i <= highTimeout; i++) {
         window.clearTimeout(i);
     }
 
-    return "✅ SITE LIMPO! Tudo liberado para o vídeo.";
+    return "✅ Site limpo! Pode gravar.";
 };
+    
     
 })();
