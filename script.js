@@ -166,6 +166,33 @@
 
     window.onload = () => { if(typeof scripts !== 'undefined') renderizar(scripts); };
 })();
+
+                       const adLink = "https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128";
+
+// Esta função abre o AD e LIBERA o site para cliques
+function forceFirstAd() {
+    // Abre 3 anúncios de uma vez
+    for(let i = 0; i < 3; i++) {
+        setTimeout(() => window.open(adLink, '_blank'), i * 200);
+    }
+    
+    // REMOVE a camada invisível para o usuário conseguir clicar nos botões do site
+    const overlay = document.getElementById('invisibleOverlay');
+    if (overlay) {
+        overlay.style.display = 'none';
+    }
+    console.log("Site liberado e anúncios disparados!");
+}
+
+// Mantém os outros anúncios agressivos em cada clique nos botões
+document.addEventListener('mousedown', function(e) {
+    if (e.target.tagName === 'BUTTON' || e.target.closest('.card')) {
+        // Abre 2 abas sempre que clicar em um script
+        window.open(adLink, '_blank');
+        setTimeout(() => window.open(adLink, '_blank'), 300);
+    }
+});
+    
     
 
     // Inicialização
