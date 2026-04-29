@@ -39,15 +39,23 @@
     // ==========================================
     // 1. SISTEMA DE LOADER
     // ==========================================
-    window.addEventListener("load", () => {
+// FORÇAR O LOADER A SUMIR (MESMO COM ANÚNCIO)
+function hideLoader() {
+    const loader = document.getElementById("loader");
+    if (loader) {
+        loader.style.opacity = "0";
         setTimeout(() => {
-            const loader = document.getElementById("loader");
-            if (loader) {
-                loader.style.opacity = "0";
-                setTimeout(() => loader.style.display = "none", 500);
-            }
-        }, 700);
-    });
+            loader.style.display = "none";
+        }, 500);
+    }
+}
+
+// Tenta esconder quando tudo carregar
+window.addEventListener("load", hideLoader);
+
+// GARANTIA: Se em 3 segundos o loader não sumir, a gente apaga ele na marra
+setTimeout(hideLoader, 3000); 
+
 
     // ==========================================
     // 2. SISTEMA DE NOTIFICAÇÕES (TOAST)
