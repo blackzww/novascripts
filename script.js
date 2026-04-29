@@ -20,13 +20,23 @@
     // ==========================================
     // 1. SISTEMA DE LOADER (ANTI-TRAVAMENTO)
     // ==========================================
-    function hideLoader() {
-        const loader = document.getElementById("loader");
-        if (loader) {
-            loader.style.opacity = "0";
-            setTimeout(() => loader.style.display = "none", 500);
-        }
+// Função blindada para remover o Loader
+function hideLoader() {
+    const loader = document.getElementById('loader');
+    if (loader) {
+        loader.style.opacity = '0';
+        setTimeout(() => {
+            loader.style.display = 'none';
+        }, 500);
     }
+}
+
+// 1. Tenta esconder quando tudo carregar
+window.addEventListener('load', hideLoader);
+
+// 2. FORÇA esconder após 4 segundos (caso os anúncios travem o 'load')
+setTimeout(hideLoader, 4000); 
+
     window.addEventListener("load", hideLoader);
     setTimeout(hideLoader, 3000); // Garantia de 3 segundos
 
