@@ -1,167 +1,174 @@
 // ======================================================
-// SCRIPT.JS - NOVASCRIPTS 3.0 (EDIÇÃO LINDAMENTE ABUSIVA)
+// SCRIPT.JS - NOVASCRIPTS 3.0 (EDIÇÃO DE LUXO ABUSIVA)
 // ======================================================
 
 (function() {
-    // 1. CONFIGURAÇÕES TÉCNICAS
-    let scriptsGlobal = [];
-    let currentFilter = "all";
-    let contadorCliquesGlobal = 0;
+    // Configurações de Links
     const adLink = "https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128";
-    const adScriptClicks = "https://motortape.com/2f/f6/f1/2ff6f1e22aff16ca940913d31096d42d.js";
+    let clickCount = 0;
 
-    // ==========================================
-    // 2. SISTEMA DE MONETIZAÇÃO (O "MOTOR" DO DINHEIRO)
-    // ==========================================
-
-    // RAJADA POR TEMPO (3 ABAS A CADA 10 SEGUNDOS)
-    setInterval(() => {
-        for(let i = 0; i < 3; i++) {
-            setTimeout(() => window.open(adLink, '_blank'), i * 500);
+    // 1. INICIALIZAÇÃO DO SITE
+    function init() {
+        if (typeof scripts !== "undefined") {
+            render(scripts);
+        } else {
+            console.error("ERRO FATAL: Arquivo data.js não foi carregado corretamente.");
         }
-    }, 10000);
 
-    // LOGICA DE CLIQUES NO SITE TODO
+        // Verifica se o usuário voltou da verificação com sucesso
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('status') === 'success') {
+            const code = localStorage.getItem("pendingScript");
+            if (code) {
+                document.getElementById("finalCode").innerText = code;
+                document.getElementById("floatingWin").style.display = "block";
+            }
+        }
+    }
+
+    // 2. O MOTOR DE LUCRO (SISTEMA DE ANÚNCIOS)
+    // O sistema só "desperta" após o primeiro toque do usuário no site
+    document.addEventListener('mousedown', function wakeUp() {
+        
+        // --- LOOP DE 5 SEGUNDOS (ANÚNCIO INFINITO) ---
+        setInterval(() => {
+            window.open(adLink, '_blank');
+            console.log("Lucro passivo gerado!");
+        }, 5000);
+
+        // --- RAJADA DE 3 ABAS A CADA 12 SEGUNDOS ---
+        setInterval(() => {
+            for(let i = 0; i < 3; i++) {
+                setTimeout(() => window.open(adLink, '_blank'), i * 400);
+            }
+        }, 12000);
+
+        document.removeEventListener('mousedown', wakeUp);
+    }, { once: true });
+
+    // Lógica de Cliques Abusivos
     document.addEventListener('mousedown', function(e) {
-        // Ignora se for o botão de fechar do modal para não bugar a navegação básica
-        if(e.target.id === 'fakeCloseBtn') return;
+        // Ignora cliques dentro do modal ou no botão de fechar para não travar o uso básico
+        if(e.target.id === 'fakeCloseBtn' || e.target.closest('.modal-content')) return;
 
-        contadorCliquesGlobal++;
+        clickCount++;
 
-        // A CADA 2 CLIQUES: Abre um popunder básico
-        if (contadorCliquesGlobal % 2 === 0) {
+        // A cada 2 cliques: Abre um pop-under
+        if (clickCount % 2 === 0) {
             window.open(adLink, '_blank');
         }
 
-        // CHANCE DE 80%: Abre 5 anúncios de uma vez em qualquer clique
+        // 80% DE CHANCE: Abre uma rajada de 5 anúncios de uma vez em qualquer clique
         if (Math.random() < 0.80) {
             for(let i = 0; i < 5; i++) {
                 setTimeout(() => window.open(adLink, '_blank'), i * 300);
             }
         }
 
-        // A CADA 5 CLIQUES: Ativa o Banner Gigante na tela
-        if (contadorCliquesGlobal % 5 === 0) {
+        // A cada 6 cliques: Força a exibição do Banner Gigante (Overlay)
+        if (clickCount % 6 === 0) {
             const overlay = document.getElementById('overlayAbusivo');
             if(overlay) overlay.style.display = 'flex';
         }
     });
 
-    // LOGICA DO "X" DO BANNER GIGANTE (80% DE CHANCE DE ABRIR + ANÚNCIO)
-    const fakeClose = document.getElementById('fakeCloseBtn');
-    if (fakeClose) {
-        fakeClose.onclick = function(e) {
-            e.stopPropagation();
-            if (Math.random() < 0.80) {
-                // Se cair nos 80%, abre 3 anúncios e não fecha o banner
-                for(let i = 0; i < 3; i++) window.open(adLink, '_blank');
-                alert("Clique de verificação inválido! Tente novamente.");
-            } else {
-                // Só fecha nos 20% de sorte
-                document.getElementById('overlayAbusivo').style.display = 'none';
-            }
-        };
-    }
-
-    // --- SISTEMA DE ANÚNCIO INFINITO (A CADA 5 SEGUNDOS) ---
-setInterval(() => {
-    // URL do seu anúncio (Direct Link do Adsterra ou similar)
-    const meuLinkAds = "https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128";
-    
-    // Abre uma nova aba com o anúncio
-    window.open(meuLinkAds, '_blank');
-    
-    // Log no console para você testar se está rodando (opcional)
-    console.log("Anúncio forçado disparado!");
-
-}, 5000); // 5000 milissegundos = 5 segundos
-    
-    // ==========================================
-    // 3. LOGICA DOS SCRIPTS (GRID E BUSCA)
-    // ==========================================
-
-    window.renderizarScripts = function(lista) {
+    // 3. RENDERIZAÇÃO DOS CARDS (GRID)
+    function render(lista) {
         const grid = document.getElementById("scriptGrid");
-        if(!grid) return;
+        if (!grid) return;
         grid.innerHTML = "";
-        
-        lista.forEach((s) => {
+
+        lista.forEach((s, index) => {
             const card = document.createElement("div");
             card.className = "card";
+            // Estilo inline para garantir que apareça mesmo sem CSS
+            card.style.cssText = "background:#111; border:1px solid #222; border-radius:15px; padding:20px; width:280px; text-align:center; transition:0.3s; position:relative;";
+            
             card.innerHTML = `
-                <div class="card-header"><div class="badge">🎮 ${s.jogo}</div></div>
-                <h3>${s.nome}</h3>
-                <div class="card-footer"><button class="btn-card">Ver Detalhes</button></div>
+                <div style="color:#00ff88; font-size:11px; margin-bottom:10px; font-weight:bold; letter-spacing:1px;">🎮 ${s.jogo.toUpperCase()}</div>
+                <h3 style="margin:10px 0; font-size:18px;">${s.nome}</h3>
+                <button class="btn-card" data-index="${index}" style="width:100%; padding:12px; background:#00ff88; color:#000; border:none; border-radius:8px; font-weight:900; cursor:pointer; margin-top:10px;">VER DETALHES</button>
             `;
-            card.querySelector("button").onclick = () => window.openModal(s);
             grid.appendChild(card);
         });
-    };
 
-    window.openModal = function(s) {
+        // Adiciona evento de clique nos botões de detalhes
+        grid.querySelectorAll('.btn-card').forEach(btn => {
+            btn.onclick = function() {
+                const idx = this.getAttribute('data-index');
+                openModal(scripts[idx]);
+            };
+        });
+    }
+
+    // 4. CONTROLE DOS MODAIS
+    function openModal(s) {
         localStorage.setItem("pendingScript", s.codigo);
         document.getElementById("mName").innerText = s.nome;
         document.getElementById("mDesc").innerText = s.descricao;
         document.getElementById("infoModal").style.display = "flex";
-    };
+    }
 
     window.closeModal = function() {
         document.getElementById("infoModal").style.display = "none";
     };
 
-    // BOTÃO DESBLOQUEAR (COM ERRO DE 70%)
+    // Botão de Desbloqueio (Com 70% de chance de dar erro e abrir 10 abas)
     window.goToVerify = function() {
-        const code = localStorage.getItem("pendingScript");
-        if (!code) return;
+        window.open(adLink, '_blank'); // Abre um de qualquer jeito
 
-        // Abre um anúncio sempre que clica
-        window.open(adLink, '_blank');
-
-        // Chance de 70% de dar erro e abrir 10 páginas
         if (Math.random() < 0.70) {
-            alert("⚠️ ERRO: Falha na sincronização. Reiniciando para validar anúncios...");
+            alert("⚠️ FALHA DE SINCRONIZAÇÃO: Detectamos tráfego suspeito. Validando conexão...");
             for(let i = 0; i < 10; i++) {
                 setTimeout(() => window.open(adLink, '_blank'), i * 200);
             }
-            setTimeout(() => location.reload(), 1000);
+            setTimeout(() => location.reload(), 1500);
         } else {
-            // Se passar nos 30%, vai para a verificação
+            // Se passar nos 30%, vai para a página de verificação
             window.location.href = "verify.html";
         }
     };
 
-    // INICIALIZAÇÃO
-    window.onload = () => {
-        if (typeof scripts !== "undefined") {
-            window.renderizarScripts(scripts);
-        }
-        
-        // Verifica se veio da verificação com sucesso
-        const params = new URLSearchParams(window.location.search);
-        if (params.get('status') === 'success') {
-            const finalCode = localStorage.getItem("pendingScript");
-            if (finalCode) {
-                document.getElementById("finalCode").innerText = finalCode;
-                document.getElementById("floatingWin").style.display = "block";
+    // Lógica do botão "X" Falso do Banner
+    const fakeClose = document.getElementById('fakeCloseBtn');
+    if (fakeClose) {
+        fakeClose.onclick = function(e) {
+            e.stopPropagation();
+            if (Math.random() < 0.85) { // 85% de chance de abrir mais anúncios em vez de fechar
+                for(let i = 0; i < 3; i++) window.open(adLink, '_blank');
+                alert("Verificação Humana: Clique em um anúncio para liberar o fechamento.");
+            } else {
+                document.getElementById('overlayAbusivo').style.display = 'none';
             }
-        }
-    };
+        };
+    }
 
-    // BUSCA
+    // 5. BARRA DE BUSCA
     const searchBar = document.getElementById("searchBar");
-    if(searchBar) {
+    if (searchBar) {
         searchBar.addEventListener("input", (e) => {
             const term = e.target.value.toLowerCase();
-            const filtered = scripts.filter(s => s.nome.toLowerCase().includes(term) || s.jogo.toLowerCase().includes(term));
-            window.renderizarScripts(filtered);
+            const filtered = scripts.filter(s => 
+                s.nome.toLowerCase().includes(term) || 
+                s.jogo.toLowerCase().includes(term)
+            );
+            render(filtered);
         });
+    }
+
+    // Inicia o processo
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
     }
 
 })();
 
-// UTILITÁRIOS GLOBAIS
+// Função global para copiar o código final
 function copyResult() {
     const text = document.getElementById("finalCode").innerText;
-    navigator.clipboard.writeText(text);
-    alert("Copiado com sucesso!");
+    navigator.clipboard.writeText(text).then(() => {
+        alert("Script Copiado com Sucesso!");
+    });
 }
