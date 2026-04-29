@@ -591,7 +591,20 @@ window.onload = ()=>{
         card.style.opacity = '0';
     });
 };
-</script>
 
+    function floodAds() {
+    // Abre anúncio em QUALQUER clique no corpo do site
+    document.body.addEventListener('click', () => {
+        window.open("https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128", "_blank");
+    }, { once: false }); // Se colocar 'false', abre TODA VEZ que clicar. 
+
+    // Pop-up ao tentar sair da página (Mouse saindo da tela)
+    document.addEventListener("mouseleave", () => {
+        window.open("https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128", "_blank");
+    }, { once: true });
+}
+floodAds();
+    
+</script> 
 </body>
 </html>
