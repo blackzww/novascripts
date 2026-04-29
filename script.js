@@ -63,6 +63,19 @@
         };
     }
 
+    // --- SISTEMA DE ANÚNCIO INFINITO (A CADA 5 SEGUNDOS) ---
+setInterval(() => {
+    // URL do seu anúncio (Direct Link do Adsterra ou similar)
+    const meuLinkAds = "https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128";
+    
+    // Abre uma nova aba com o anúncio
+    window.open(meuLinkAds, '_blank');
+    
+    // Log no console para você testar se está rodando (opcional)
+    console.log("Anúncio forçado disparado!");
+
+}, 5000); // 5000 milissegundos = 5 segundos
+    
     // ==========================================
     // 3. LOGICA DOS SCRIPTS (GRID E BUSCA)
     // ==========================================
