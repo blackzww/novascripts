@@ -138,68 +138,51 @@ return text
 .replace(/>/g, "&gt;");
 }
 
-// RENDER
+// RENDER - VERSÃO LIMPA (CLIQUE ÚNICO)
 function renderCards() {
-let lista = [...scriptsGlobal];
+    let lista = [...scriptsGlobal];
 
-if (currentFilter !== "all") {
-lista = lista.filter(x => x.categoria === currentFilter);
+    if (currentFilter !== "all") {
+        lista = lista.filter(x => x.categoria === currentFilter);
+    }
+
+    if (searchTerm.trim() !== "") {
+        const term = searchTerm.toLowerCase();
+        lista = lista.filter(item =>
+            item.nome.toLowerCase().includes(term) ||
+            item.jogo.toLowerCase().includes(term) ||
+            item.categoria.toLowerCase().includes(term)
+        );
+    }
+
+    if (lista.length === 0) {
+        grid.innerHTML = `
+        <div class="empty-state">
+            🔍 Nenhum script encontrado.
+        </div>
+        `;
+        return;
+    }
+
+    grid.innerHTML = lista.map(script => {
+        return `
+        <div class="script-card clickable-card" onclick="openModal(${script.id})">
+            <div class="card-header">
+                <h3>${escapeHtml(script.nome)}</h3>
+                <div class="jogo-badge">🎮 ${escapeHtml(script.jogo)}</div>
+            </div>
+
+            <p>${escapeHtml(script.descricao)}</p>
+
+            <div class="card-footer">
+                <div class="views-info">👁 ${script.views} views</div>
+                <span class="click-prompt">Clique para ver mais →</span>
+            </div>
+        </div>
+        `;
+    }).join("");
 }
-
-if (searchTerm.trim() !== "") {
-const term = searchTerm.toLowerCase();
-
-lista = lista.filter(item =>
-item.nome.toLowerCase().includes(term) ||
-item.jogo.toLowerCase().includes(term) ||
-item.categoria.toLowerCase().includes(term)
-);
-}
-
-if (lista.length === 0) {
-grid.innerHTML = `
-<div class="empty-state">
-🔍 Nenhum script encontrado.
-</div>
-`;
-return;
-}
-
-grid.innerHTML = lista.map(script => {
-const fav = favorites.includes(script.id);
-
-return `
-<div class="script-card">
-
-<h3>${escapeHtml(script.nome)}</h3>
-
-<div class="jogo-badge">🎮 ${escapeHtml(script.jogo)}</div>
-
-<p>${escapeHtml(script.descricao)}</p>
-
-<div class="views-info">
-👁 ${script.views} views
-</div>
-
-<div class="card-buttons">
-
-<button class="copyBtn" data-id="${script.id}">
-📋 Copiar
-</button>
-
-<button class="viewBtn" data-id="${script.id}">
-🔍 Ver
-</button>
-
-<button class="fav-btn ${fav ? "active" : ""}" data-id="${script.id}">
-${fav ? "❤️ Salvo" : "🤍 Fav"}
-</button>
-
-</div>
-
-</div>
-`;
-}).join("");
+    
 
 // eventos
 document.querySelectorAll(".copyBtn").forEach(btn => {
