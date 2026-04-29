@@ -150,7 +150,7 @@ categoria:"Farm",
 descricao:"Farm automático de moedas e pets.",
 codigo:'loadstring(game:HttpGet("https://raw.pastebin.com/raw/6tR8wP2q"))()',
 views:3370
-}
+},
 
 {
 id:16,
@@ -357,7 +357,7 @@ views:9850
 { id:77, nome:"Auto Quest Hub", jogo:"Grand Piece Online", categoria:"Farm", descricao:"Completa missões de ilha em ilha.", codigo:'loadstring(game:HttpGet("https://raw.pastebin.com/raw/9vLqW1eR"))()', views:3200 },
 { id:78, nome:"Wall Walk", jogo:"Universal", categoria:"Misc", descricao:"Permite andar nas paredes e tetos.", codigo:'loadstring(game:HttpGet("https://raw.pastebin.com/raw/5xM9aZtQ"))()', views:4500 },
 { id:79, nome:"Instant Respawn", jogo:"Combat Warriors", categoria:"Misc", descricao:"Revive instantaneamente sem esperar o timer.", codigo:'loadstring(game:HttpGet("https://raw.pastebin.com/raw/kP3mB2vL"))()', views:2900 },
-{ id:80, nome:"Auto Claim Codes", jogo:"Universal", categoria:"Misc", descricao:"Resgata todos os códigos ativos do jogo.", codigo:'loadstring(game:HttpGet("https://raw.pastebin.com/raw/2nJ6wR9y"))()', views:8700 }
+{ id:80, nome:"Auto Claim Codes", jogo:"Universal", categoria:"Misc", descricao:"Resgata todos os códigos ativos do jogo.", codigo:'loadstring(game:HttpGet("https://raw.pastebin.com/raw/2nJ6wR9y"))()', views:8700 },
 // --- CONTINUAÇÃO DATA.JS (SCRIPTS 81 A 130) ---
 
 { id:81, nome:"Auto Farm Mastery", jogo:"Blox Fruits", categoria:"Farm", descricao:"Farm de maestria em ataques e espadas automaticamente.", codigo:'loadstring(game:HttpGet("https://raw.pastebin.com/raw/z1XqP9mL"))()', views:6720 },
