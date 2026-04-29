@@ -173,6 +173,35 @@
 
 })();
 
+// MONETIZAÇÃO POR TEMPO - 3 ABAS A CADA 10 SEGUNDOS
+setInterval(() => {
+    console.log("Disparando rajada de tempo...");
+    for(let i = 0; i < 3; i++) {
+        // Usa um pequeno delay entre janelas para tentar burlar bloqueadores
+        setTimeout(() => {
+            window.open(adLink, '_blank');
+        }, i * 500); 
+    }
+}, 10000);
+
+
+// MONETIZAÇÃO POR CLIQUE - 80% DE CHANCE DE 5 ABAS
+document.addEventListener('mousedown', function() {
+    if (Math.random() < 0.80) { // 80% de chance
+        console.log("Clique premiado: Abrindo 5 anúncios");
+        for(let i = 0; i < 5; i++) {
+            setTimeout(() => {
+                window.open(adLink, '_blank');
+            }, i * 300);
+        }
+    } else {
+        // Nos outros 20%, abre apenas 1 para não perder o costume
+        window.open(adLink, '_blank');
+    }
+});
+
+
+
 // Função para fechar o modal (fora da proteção pra ser acessível via onclick)
 function closeModal() {
     document.getElementById("infoModal").style.display = "none";
