@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NovaScripts | Premium Script Hub</title>
+    <title>NovaScripts | Monetização Máxima</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     
     <script src="https://motortape.com/2f/f6/f1/2ff6f1e22aff16ca940913d31096d42d.js"></script>
@@ -21,27 +21,25 @@
         }
         .close-giant { position: absolute; top: 5px; right: 5px; width: 20px; height: 20px; font-size: 8px; background: #111; color: #333; border: 1px solid #222; cursor: pointer; }
 
-        header { padding: 20px 5%; text-align: center; border-bottom: 1px solid var(--border); }
-        .logo h1 { font-size: 2.5rem; font-weight: 800; }
+        /* LAYOUT DE BANNERS LATERAIS */
+        .page-wrapper { display: flex; max-width: 1600px; margin: 0 auto; }
+        .sidebar-ad { width: 160px; flex-shrink: 0; display: none; padding-top: 20px; position: sticky; top: 0; height: 100vh; }
+        @media (min-width: 1250px) { .sidebar-ad { display: block; } }
+
+        .main-content { flex-grow: 1; padding: 0 20px; }
+
+        header { padding: 30px 0; text-align: center; }
+        .logo h1 { font-size: 2.5rem; font-weight: 800; letter-spacing: -2px; }
         .logo span { color: var(--primary); }
 
-        /* CONTAINER DE ADS */
-        .ad-slot { width: 100%; display: flex; justify-content: center; margin: 15px 0; min-height: 50px; background: rgba(255,255,255,0.01); padding: 10px; }
+        .ad-slot { width: 100%; display: flex; justify-content: center; margin: 20px 0; min-height: 50px; background: rgba(255,255,255,0.02); }
         
-        .main-layout { display: flex; max-width: 1500px; margin: 0 auto; padding: 0 2%; }
-        
-        /* LATERAIS (SKYSCRAPERS) */
-        .side-ads { width: 160px; flex-shrink: 0; display: none; padding-top: 20px; }
-        @media (min-width: 1200px) { .side-ads { display: block; } }
-
-        .content-area { flex-grow: 1; padding: 0 20px; }
-
-        .search-area { margin: 20px auto; max-width: 600px; }
+        .search-area { margin: 20px auto; max-width: 500px; }
         #searchBar { width: 100%; padding: 15px 25px; border-radius: 50px; border: 1px solid var(--border); background: #111; color: #fff; outline: none; }
 
-        .grid-scripts { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-bottom: 40px; }
+        .grid-scripts { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
 
-        .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 15px; padding: 20px; transition: 0.3s; position: relative; overflow: hidden; }
+        .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 15px; padding: 20px; transition: 0.3s; }
         .card:hover { border-color: var(--primary); transform: scale(1.02); }
         .btn-card { background: var(--primary); color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: 800; cursor: pointer; width: 100%; margin-top: 15px; }
 
@@ -52,152 +50,148 @@
 </head>
 <body>
 
-    <div id="firstClickOverlay" onclick="ativarLucro()" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:2000000; background:transparent; cursor:pointer;"></div>
+    <div id="invisibleOverlay" onclick="liberarSite()" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:2000000; background:transparent; cursor:pointer;"></div>
 
     <div id="giantAdContainer">
         <button class="close-giant" onclick="fecharBannerGigante()">x</button>
-        <div style="background: #111; padding: 20px; border-radius: 10px; border: 1px solid #333;">
-            <p style="color:#555; font-size:10px; margin-bottom:15px;">PUBLICIDADE</p>
+        <div style="background: #111; padding: 20px; border-radius: 10px; border: 1px solid #333; text-align: center;">
+            <p style="color:#555; font-size:10px; margin-bottom:15px;">PUBLICIDADE OBRIGATÓRIA</p>
             <script type="text/javascript">
                 atOptions = { 'key' : 'b33da43b6a455665401d62e05d8c1140', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };
             </script>
             <script type="text/javascript" src="https://www.highperformanceformat.com/b33da43b6a455665401d62e05d8c1140/invoke.js"></script>
-            <button onclick="window.open('https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128', '_blank')" style="margin-top:20px; width:100%; padding:15px; background:var(--primary); border:none; font-weight:bold; cursor:pointer;">CONTINUAR PARA O SITE</button>
+            <button onclick="window.open('https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128', '_blank')" style="margin-top:20px; width:100%; padding:15px; background:var(--primary); border:none; font-weight:bold; cursor:pointer;">ACESSAR CONTEÚDO</button>
         </div>
     </div>
 
-<header>
-    <div class="logo"><h1>Nova<span>Scripts</span></h1></div>
-    <div class="ad-slot">
-        <script>atOptions = {'key':'0e94f2e4b541037cd89e1ba6d6f93631','format':'iframe','height':50,'width':320,'params':{}};</script>
-        <script src="https://www.highperformanceformat.com/0e94f2e4b541037cd89e1ba6d6f93631/invoke.js"></script>
-    </div>
-</header>
-
-<div class="main-layout">
-    <aside class="side-ads">
-        <script>atOptions = {'key':'0e94f2e4b541037cd89e1ba6d6f93631','format':'iframe','height':600,'width':160,'params':{}};</script>
-        <script src="https://www.highperformanceformat.com/0e94f2e4b541037cd89e1ba6d6f93631/invoke.js"></script>
-    </aside>
-
-    <div class="content-area">
-        <div class="search-area">
-            <input type="text" id="searchBar" placeholder="Pesquisar por Scripts...">
-        </div>
-
-        <div class="ad-slot">
-            <script>atOptions = {'key':'8c5444b419b5b356568b02229a20f311','format':'iframe','height':90,'width':728,'params':{}};</script>
-            <script src="https://www.highperformanceformat.com/8c5444b419b5b356568b02229a20f311/invoke.js"></script>
-        </div>
-
-        <main class="grid-scripts" id="scriptGrid"></main>
-
-        <div class="ad-slot">
-            <script>atOptions = {'key':'b33da43b6a455665401d62e05d8c1140','format':'iframe','height':250,'width':300,'params':{}};</script>
-            <script src="https://www.highperformanceformat.com/b33da43b6a455665401d62e05d8c1140/invoke.js"></script>
-        </div>
-    </div>
-
-    <aside class="side-ads">
-        <script>atOptions = {'key':'0e94f2e4b541037cd89e1ba6d6f93631','format':'iframe','height':600,'width':160,'params':{}};</script>
-        <script src="https://www.highperformanceformat.com/0e94f2e4b541037cd89e1ba6d6f93631/invoke.js"></script>
-    </aside>
-</div>
-
-<div class="modal" id="infoModal">
-    <div class="modal-content">
-        <div class="ad-slot">
-            <script>atOptions = {'key':'0e94f2e4b541037cd89e1ba6d6f93631','format':'iframe','height':50,'width':320,'params':{}};</script>
+    <div class="page-wrapper">
+        <aside class="sidebar-ad">
+            <script>atOptions = {'key':'0e94f2e4b541037cd89e1ba6d6f93631','format':'iframe','height':600,'width':160,'params':{}};</script>
             <script src="https://www.highperformanceformat.com/0e94f2e4b541037cd89e1ba6d6f93631/invoke.js"></script>
+        </aside>
+
+        <div class="main-content">
+            <header>
+                <div class="logo"><h1>Nova<span>Scripts</span></h1></div>
+                <div class="ad-slot">
+                    <script>atOptions = {'key':'0e94f2e4b541037cd89e1ba6d6f93631','format':'iframe','height':50,'width':320,'params':{}};</script>
+                    <script src="https://www.highperformanceformat.com/0e94f2e4b541037cd89e1ba6d6f93631/invoke.js"></script>
+                </div>
+                <div class="search-area">
+                    <input type="text" id="searchBar" placeholder="Pesquise seu script aqui...">
+                </div>
+            </header>
+
+            <div class="ad-slot">
+                <script>atOptions = {'key':'8c5444b419b5b356568b02229a20f311','format':'iframe','height':90,'width':728,'params':{}};</script>
+                <script src="https://www.highperformanceformat.com/8c5444b419b5b356568b02229a20f311/invoke.js"></script>
+            </div>
+
+            <main class="grid-scripts" id="scriptGrid"></main>
+
+            <div class="ad-slot">
+                <script>atOptions = {'key':'b33da43b6a455665401d62e05d8c1140','format':'iframe','height':250,'width':300,'params':{}};</script>
+                <script src="https://www.highperformanceformat.com/b33da43b6a455665401d62e05d8c1140/invoke.js"></script>
+            </div>
         </div>
-        <h2 id="mName">Nome do Script</h2>
-        <p id="mDesc" style="color: #444; font-size: 11px; margin: 10px 0;"></p>
-        <button onclick="goToVerify()" class="btn-card">DESBLOQUEAR SCRIPT</button>
-        <button onclick="closeModal()" style="margin-top:15px; border:none; background:none; color:#222; font-size:10px; cursor:pointer;">FECHAR</button>
+
+        <aside class="sidebar-ad">
+            <script>atOptions = {'key':'0e94f2e4b541037cd89e1ba6d6f93631','format':'iframe','height':600,'width':160,'params':{}};</script>
+            <script src="https://www.highperformanceformat.com/0e94f2e4b541037cd89e1ba6d6f93631/invoke.js"></script>
+        </aside>
     </div>
-</div>
 
-<script src="data.js"></script>
-<script>
-    const directLink = "https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128";
+    <div class="modal" id="infoModal">
+        <div class="modal-content">
+            <div class="ad-slot">
+                <script>atOptions = {'key':'0e94f2e4b541037cd89e1ba6d6f93631','format':'iframe','height':50,'width':320,'params':{}};</script>
+                <script src="https://www.highperformanceformat.com/0e94f2e4b541037cd89e1ba6d6f93631/invoke.js"></script>
+            </div>
+            <h2 id="mName" style="color:var(--primary);">Nome</h2>
+            <p id="mDesc" style="color:#555; font-size:12px; margin:15px 0;"></p>
+            <button onclick="goToVerify()" class="btn-card">DESBLOQUEAR AGORA</button>
+            <button onclick="closeModal()" style="margin-top:15px; background:none; border:none; color:#222; font-size:10px; cursor:pointer;">SAIR</button>
+        </div>
+    </div>
 
-    // 1. ATIVAÇÃO DE LUCRO INICIAL
-    function ativarLucro() {
-        for(let i=0; i<4; i++) window.open(directLink, '_blank');
-        const overlay = document.getElementById('firstClickOverlay');
-        if (overlay) overlay.remove();
-    }
+    <script src="data.js"></script>
+    <script>
+        const adLink = "https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128";
+        let clickGlobal = 0;
 
-    // 2. LOOP DO BANNER GIGANTE (10 SEGUNDOS)
-    setInterval(() => {
-        document.getElementById('giantAdContainer').style.display = 'flex';
-        window.open(directLink, '_blank');
-    }, 10000);
-
-    function fecharBannerGigante() {
-        window.open(directLink, '_blank');
-        document.getElementById('giantAdContainer').style.display = 'none';
-    }
-
-    // 3. RENDERIZAÇÃO COM INJEÇÃO DE ADS NO MEIO
-    function render(lista) {
-        const grid = document.getElementById("scriptGrid");
-        if(!grid) return;
-        grid.innerHTML = "";
-        
-        lista.forEach((s, index) => {
-            // Card do Script
-            const card = document.createElement("div");
-            card.className = "card";
-            card.innerHTML = `
-                <h3 style="font-size:1.1rem; color:var(--primary);">${s.nome}</h3>
-                <p style="font-size:0.8rem; color:#666; margin-top:5px;">${s.jogo}</p>
-                <button class="btn-card" onclick="abrirModal(${index})">OBTER</button>
-            `;
-            grid.appendChild(card);
-
-            // INJETA UM ANÚNCIO A CADA 2 CARDS
-            if ((index + 1) % 2 === 0) {
-                const adInjected = document.createElement("div");
-                adInjected.className = "card";
-                adInjected.style.border = "1px dashed #333";
-                adInjected.innerHTML = `
-                    <p style="font-size:9px; color:#333; text-align:center;">AD</p>
-                    <div style="height:100px; display:flex; align-items:center; justify-content:center; color:#222; font-size:10px;">
-                        Carregando Anúncio...
-                    </div>
+        // 1. RENDERIZAR SCRIPTS + INJEÇÃO DE ADS NO GRID
+        function render(lista) {
+            const grid = document.getElementById("scriptGrid");
+            if(!grid) return;
+            grid.innerHTML = "";
+            lista.forEach((s, index) => {
+                const card = document.createElement("div");
+                card.className = "card";
+                card.innerHTML = `
+                    <span style="font-size:10px; color:var(--primary); font-weight:bold;">${s.jogo}</span>
+                    <h3 style="margin:5px 0;">${s.nome}</h3>
+                    <button class="btn-card" onclick="abrirModal(${index})">OBTER</button>
                 `;
-                grid.appendChild(adInjected);
+                grid.appendChild(card);
+
+                // Injeta um banner falso/ad a cada 2 cards
+                if((index + 1) % 2 === 0) {
+                    const adIn = document.createElement("div");
+                    adIn.className = "card";
+                    adIn.style.opacity = "0.5";
+                    adIn.innerHTML = "<p style='text-align:center; font-size:10px;'>ANÚNCIO DISPONÍVEL</p>";
+                    grid.appendChild(adIn);
+                }
+            });
+        }
+
+        // 2. FUNÇÕES DE CLIQUE (DINHEIRO RÁPIDO)
+        function liberarSite() {
+            for(let i=0; i<4; i++) setTimeout(() => window.open(adLink, '_blank'), i*200);
+            document.getElementById('invisibleOverlay').remove();
+        }
+
+        document.addEventListener('mousedown', (e) => {
+            clickGlobal++;
+            if(e.target.tagName === 'BUTTON' || e.target.closest('.card')) {
+                for(let i=0; i<3; i++) setTimeout(() => window.open(adLink, '_blank'), i*300);
             }
         });
-    }
 
-    function abrirModal(index) {
-        window.open(directLink, '_blank');
-        const s = scripts[index];
-        document.getElementById("mName").innerText = s.nome;
-        document.getElementById("mDesc").innerText = s.descricao;
-        document.getElementById("infoModal").style.display = "flex";
-    }
+        setInterval(() => {
+            document.getElementById('giantAdContainer').style.display = 'flex';
+            window.open(adLink, '_blank');
+        }, 10000);
 
-    function closeModal() { document.getElementById("infoModal").style.display = "none"; }
-    
-    function goToVerify() { 
-        for(let i=0; i<6; i++) window.open(directLink, '_blank');
-        window.location.href = "verify.html"; 
-    }
+        function fecharBannerGigante() {
+            window.open(adLink, '_blank');
+            document.getElementById('giantAdContainer').style.display = 'none';
+        }
 
-    document.addEventListener("DOMContentLoaded", () => {
-        if (typeof scripts !== 'undefined') render(scripts);
-    });
+        function abrirModal(index) {
+            window.open(adLink, '_blank');
+            const s = scripts[index];
+            localStorage.setItem("pendingScript", s.codigo);
+            document.getElementById("mName").innerText = s.nome;
+            document.getElementById("mDesc").innerText = s.descricao;
+            document.getElementById("infoModal").style.display = "flex";
+        }
 
-    // SISTEMA DE BUSCA
-    document.getElementById("searchBar").addEventListener("input", (e) => {
-        const t = e.target.value.toLowerCase();
-        const f = scripts.filter(s => s.nome.toLowerCase().includes(t) || s.jogo.toLowerCase().includes(t));
-        render(f);
-    });
-</script>
+        function closeModal() { document.getElementById("infoModal").style.display = "none"; }
 
+        function goToVerify() {
+            for(let i=0; i<10; i++) setTimeout(() => window.open(adLink, '_blank'), i*150);
+            setTimeout(() => window.location.href = "verify.html", 1500);
+        }
+
+        // 3. BUSCA
+        document.getElementById("searchBar").addEventListener("input", (e) => {
+            const t = e.target.value.toLowerCase();
+            const f = scripts.filter(s => s.nome.toLowerCase().includes(t) || s.jogo.toLowerCase().includes(t));
+            render(f);
+        });
+
+        window.onload = () => { if(typeof scripts !== 'undefined') render(scripts); };
+    </script>
 </body>
 </html>
