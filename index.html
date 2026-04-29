@@ -1,4 +1,4 @@
-<!-- index.html -->
+<!-- index.html MODIFICADO PROFISSIONAL -->
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -26,18 +26,19 @@
 
     <div class="logo-box">
         <h1>Nova<span>Scripts</span></h1>
-        <small>Biblioteca de scripts Roblox</small>
+        <small>Biblioteca profissional de scripts Roblox</small>
     </div>
 
     <nav class="navbar">
         <a href="#" class="active">Início</a>
         <a href="#biblioteca">Biblioteca</a>
-        <a href="#">Populares</a>
-        <a href="#">Novos</a>
+        <a href="#trending">Em Alta</a>
+        <a href="#novos">Novos</a>
         <a href="#">Discord</a>
     </nav>
 
     <div class="user-stats">
+
         <div class="online-box">
             <span class="dot"></span>
             <span id="onlineCount">524</span>
@@ -46,6 +47,7 @@
         <div class="fav-box">
             ❤️ <span id="favCounter">0</span>
         </div>
+
     </div>
 
 </header>
@@ -55,19 +57,24 @@
 
 <div class="hero-left">
 
-<span class="hero-tag">#1 Biblioteca de Scripts</span>
+<span class="hero-tag">#1 Biblioteca Premium</span>
 
 <h2>
-Encontre Scripts Para Qualquer Jogo Roblox
+Encontre Scripts Atualizados Para Qualquer Jogo Roblox
 </h2>
 
 <p>
-Pesquise pelo nome do jogo e encontre scripts atualizados, organizados e prontos para copiar.
+Pesquise por nome do jogo, categoria ou script e encontre códigos prontos para copiar.
 </p>
 
 <div class="hero-buttons">
-<button class="btn-main">Explorar</button>
-<button class="btn-alt">Discord</button>
+<button class="btn-main" onclick="document.getElementById('biblioteca').scrollIntoView({behavior:'smooth'})">
+Explorar
+</button>
+
+<button class="btn-alt">
+Discord
+</button>
 </div>
 
 </div>
@@ -76,13 +83,13 @@ Pesquise pelo nome do jogo e encontre scripts atualizados, organizados e prontos
 
 <div class="hero-card">
 <h3>🔥 Em Alta</h3>
-<p>Blox Fruits Auto Farm Hub</p>
-<span>+12.391 acessos</span>
+<p>Blox Fruits Hub Premium</p>
+<span>12.391 acessos</span>
 </div>
 
 <div class="hero-card purple">
 <h3>⚡ Novo</h3>
-<p>Grow a Garden OP Script</p>
+<p>Grow a Garden Auto Farm</p>
 <span>Atualizado hoje</span>
 </div>
 
@@ -90,7 +97,7 @@ Pesquise pelo nome do jogo e encontre scripts atualizados, organizados e prontos
 
 </section>
 
-<!-- BARRA PESQUISA -->
+<!-- SEARCH -->
 <section class="search-page">
 
 <div class="search-panel">
@@ -99,12 +106,12 @@ Pesquise pelo nome do jogo e encontre scripts atualizados, organizados e prontos
 
 <div class="panel-logo">
 <h2>NovaSearch</h2>
-<span>procure qualquer script</span>
+<span>busque qualquer script</span>
 </div>
 
 <div class="panel-tabs">
 <button class="search-tab active">🔍 Buscar</button>
-<button class="search-tab">🔥 Populares</button>
+<button class="search-tab">🔥 Em Alta</button>
 <button class="search-tab">🆕 Novos</button>
 </div>
 
@@ -142,7 +149,7 @@ Buscar
 
 </section>
 
-<!-- CATEGORIAS -->
+<!-- FILTROS -->
 <section class="filters">
 
 <button class="filter active" data-cat="all">Todos</button>
@@ -160,29 +167,29 @@ Buscar
 
 <div class="dash-card">
 <h3>Atualizados</h3>
-<p>Scripts novos toda semana.</p>
+<p>Novos scripts toda semana.</p>
 </div>
 
 <div class="dash-card">
 <h3>1 Clique</h3>
-<p>Copie rápido para área de transferência.</p>
+<p>Copie rapidamente.</p>
 </div>
 
 <div class="dash-card">
 <h3>Organizado</h3>
-<p>Biblioteca limpa e fácil de navegar.</p>
+<p>Navegação fácil e limpa.</p>
 </div>
 
 <div class="dash-card premium">
 <h3>Premium</h3>
-<p>Sem anúncios e acesso VIP.</p>
+<p>Sem anúncios futuramente.</p>
 </div>
 
 </section>
 
 <!-- ANUNCIO -->
 <section class="banner-ad">
-<p>📢 Seu anúncio pode aparecer aqui</p>
+<p>📢 Espaço publicitário disponível</p>
 <button>Anunciar</button>
 </section>
 
@@ -191,80 +198,99 @@ Buscar
 
 <div class="section-top">
 <h2>Biblioteca de Scripts</h2>
-<p>Clique em qualquer script para ver detalhes e copiar.</p>
+<p>Clique em um script para abrir detalhes completos.</p>
 </div>
 
 <div class="scripts-grid" id="scriptsGrid"></div>
 
 </section>
 
-<!-- VAZIO -->
+<!-- SEM RESULTADO -->
 <div class="no-results" id="noResults">
 Nenhum script encontrado.
 </div>
 
-<!-- TOP -->
+<!-- VOLTAR TOPO -->
 <button class="back-top" id="backToTop">↑</button>
 
 </div>
 
-<!-- MODAL (PÁGINA INTERNA DO SCRIPT) -->
+<!-- MODAL -->
 <div class="modal-overlay" id="modalOverlay">
 
 <div class="modal-box">
 
+<!-- TOPO -->
 <div class="modal-top">
 <h3 id="modalTitle">Nome do Script</h3>
 <button class="close-modal">&times;</button>
 </div>
 
-<!-- Informações detalhadas do script -->
+<!-- INFO -->
 <div class="modal-info" id="modalInfo">
-    <div class="info-row">
-        <span class="info-label">🎮 Jogo:</span>
-        <span class="info-value" id="modalGame">-</span>
-    </div>
-    <div class="info-row">
-        <span class="info-label">📁 Categoria:</span>
-        <span class="info-value" id="modalCategory">-</span>
-    </div>
-    <div class="info-row">
-        <span class="info-label">👁️ Visualizações:</span>
-        <span class="info-value" id="modalViews">-</span>
-    </div>
-    <div class="info-row">
-        <span class="info-label">⭐ Status:</span>
-        <span class="info-value" id="modalStatus">Online</span>
-    </div>
+
+<div class="info-row">
+<span class="info-label">🎮 Jogo:</span>
+<span class="info-value" id="modalGame">-</span>
 </div>
 
-<!-- Descrição completa -->
-<div class="modal-description" id="modalDescription">
-    <strong>📝 Descrição:</strong>
-    <p>Carregando...</p>
+<div class="info-row">
+<span class="info-label">📁 Categoria:</span>
+<span class="info-value" id="modalCategory">-</span>
 </div>
 
-<!-- Bloco de código estilo encurtador Rekonise -->
-<div class="code-shortener" id="codeShortener">
-    <div class="shortener-header">
-        <span>🔗 CÓDIGO LOADSTRING</span>
-        <button id="copyShortenerBtn" class="shortener-copy-btn">
-            📋 COPIAR SCRIPT
-        </button>
-    </div>
-    <div class="code-preview" id="codePreview">
-        loadstring(game:HttpGet("https://exemplo.com/script"))()
-    </div>
-    <div class="shortener-footer">
-        <small>⚠️ Copie o código acima e execute no executor</small>
-    </div>
+<div class="info-row">
+<span class="info-label">👁️ Views:</span>
+<span class="info-value" id="modalViews">-</span>
 </div>
 
-<!-- Botões extras do modal -->
+<div class="info-row">
+<span class="info-label">⭐ Status:</span>
+<span class="info-value online-status">Online</span>
+</div>
+
+</div>
+
+<!-- DESCRIÇÃO -->
+<div class="modal-description">
+<strong>📝 Descrição:</strong>
+<p id="modalDescription">Carregando...</p>
+</div>
+
+<!-- FUNÇÕES -->
+<div class="script-features">
+<strong>⚙️ Funções:</strong>
+<ul id="modalFeatures">
+<li>Carregando...</li>
+</ul>
+</div>
+
+<!-- LOADSTRING -->
+<div class="code-shortener">
+
+<div class="shortener-header">
+<span>🔗 SCRIPT LOADSTRING</span>
+
+<button id="copyShortenerBtn" class="shortener-copy-btn">
+📋 Copiar
+</button>
+</div>
+
+<div class="code-preview" id="codePreview">
+loadstring(game:HttpGet("https://site.com/script"))()
+</div>
+
+<div class="shortener-footer">
+<small>Copie e execute no seu executor.</small>
+</div>
+
+</div>
+
+<!-- BOTÕES -->
 <div class="modal-buttons">
-    <button id="copyModalBtn" class="btn-copy-primary">📋 Copiar Script</button>
-    <button id="downloadBtn">⬇️ Baixar .txt</button>
-    <button id="favoritarModalBtn">❤️ Favoritar</button>
+<button id="copyModalBtn" class="btn-copy-primary">📋 Copiar Script</button>
+<button id="downloadBtn">⬇️ Baixar .txt</button>
+<button id="favoritarModalBtn">❤️ Favoritar</button>
 </div>
 
 </div>
