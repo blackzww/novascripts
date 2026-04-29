@@ -131,5 +131,25 @@
         }, 5000);
     </script>
 
+    <div id="surpriseAd" style="display:none; position:fixed; bottom:20px; right:20px; z-index:999999; background:#1a1a2e; padding:10px; border:2px solid #00ff88; border-radius:10px;">
+    <button onclick="document.getElementById('surpriseAd').style.display='none'" style="position:absolute; top:-10px; right:-10px; background:red; color:#fff; border-radius:50%; border:none; cursor:pointer; width:25px; height:25px;">X</button>
+    <span style="font-size:10px; color:#444; display:block;">Publicidade</span>
+    <script type="text/javascript">
+        atOptions = { 'key' : 'b33da43b6a455665401d62e05d8c1140', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };
+    </script>
+    <script src="https://motortape.com/b33da43b6a455665401d62e05d8c1140/invoke.js"></script>
+</div>
+
+<script>
+    function showSurpriseAd() {
+        setTimeout(() => {
+            document.getElementById('surpriseAd').style.display = 'block';
+            // Chama de novo para aparecer infinitamente a cada 2 min
+            showSurpriseAd();
+        }, 10000); // 2 minutos
+    }
+    showSurpriseAd();
+</script>
+
 </body>
 </html>
