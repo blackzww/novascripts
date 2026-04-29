@@ -1,17 +1,19 @@
-<!-- INDEX.HTML COMPLETO COM NOVA BARRA DE PESQUISA PROFISSIONAL -->
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NovaScripts | Premium Scripts</title>
+<title>NovaScripts | Biblioteca Premium</title>
+
 <link rel="stylesheet" href="style.css">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<!-- Loader -->
+<!-- LOADER -->
 <div class="loader-wrapper" id="loader">
     <div class="loader-ring"></div>
     <p>Carregando NovaScripts...</p>
@@ -24,12 +26,12 @@
 
     <div class="logo-box">
         <h1>Nova<span>Scripts</span></h1>
-        <small>premium loadstrings</small>
+        <small>Biblioteca de scripts Roblox</small>
     </div>
 
     <nav class="navbar">
-        <a href="#" class="active">Home</a>
-        <a href="#scriptsGrid">Scripts</a>
+        <a href="#" class="active">Início</a>
+        <a href="#biblioteca">Biblioteca</a>
         <a href="#">Populares</a>
         <a href="#">Novos</a>
         <a href="#">Discord</a>
@@ -38,7 +40,7 @@
     <div class="user-stats">
         <div class="online-box">
             <span class="dot"></span>
-            <span id="onlineCount">342</span>
+            <span id="onlineCount">524</span>
         </div>
 
         <div class="fav-box">
@@ -48,125 +50,165 @@
 
 </header>
 
-<!-- NOVA ÁREA DE PESQUISA -->
+<!-- HERO -->
+<section class="hero-main">
+
+<div class="hero-left">
+
+<span class="hero-tag">#1 Biblioteca de Scripts</span>
+
+<h2>
+Encontre Scripts Para Qualquer Jogo Roblox
+</h2>
+
+<p>
+Pesquise pelo nome do jogo e encontre scripts atualizados, organizados e prontos para copiar.
+</p>
+
+<div class="hero-buttons">
+<button class="btn-main">Explorar</button>
+<button class="btn-alt">Discord</button>
+</div>
+
+</div>
+
+<div class="hero-right">
+
+<div class="hero-card">
+<h3>🔥 Em Alta</h3>
+<p>Blox Fruits Auto Farm Hub</p>
+<span>+12.391 acessos</span>
+</div>
+
+<div class="hero-card purple">
+<h3>⚡ Novo</h3>
+<p>Grow a Garden OP Script</p>
+<span>Atualizado hoje</span>
+</div>
+
+</div>
+
+</section>
+
+<!-- BARRA PESQUISA -->
 <section class="search-page">
 
-    <div class="search-panel">
+<div class="search-panel">
 
-        <!-- topo -->
-        <div class="panel-top">
+<div class="panel-top">
 
-            <div class="panel-logo">
-                <h2>NovaSearch</h2>
-                <span>encontre qualquer script</span>
-            </div>
+<div class="panel-logo">
+<h2>NovaSearch</h2>
+<span>procure qualquer script</span>
+</div>
 
-            <div class="panel-tabs">
-                <button class="search-tab active">🔍 Scripts</button>
-                <button class="search-tab">🔥 Em Alta</button>
-                <button class="search-tab">🆕 Novos</button>
-            </div>
+<div class="panel-tabs">
+<button class="search-tab active">🔍 Buscar</button>
+<button class="search-tab">🔥 Populares</button>
+<button class="search-tab">🆕 Novos</button>
+</div>
 
-        </div>
+</div>
 
-        <!-- barra -->
-        <div class="big-search-box">
+<div class="big-search-box">
 
-            <input 
-            type="text"
-            id="searchInput"
-            placeholder="Pesquisar script, jogo ou categoria...">
+<input
+type="text"
+id="searchInput"
+placeholder="Digite nome do jogo, script ou categoria...">
 
-            <button id="searchBtn">
-                Buscar
-            </button>
+<button id="searchBtn">
+Buscar
+</button>
 
-        </div>
+</div>
 
-        <!-- tags -->
-        <div class="search-tags">
-            <span>Blox Fruits</span>
-            <span>Grow a Garden</span>
-            <span>Auto Farm</span>
-            <span>ESP</span>
-            <span>Hub</span>
-            <span>Brookhaven</span>
-        </div>
+<div class="search-tags">
+<span data-jogo="Blox Fruits">Blox Fruits</span>
+<span data-jogo="Brookhaven">Brookhaven</span>
+<span data-jogo="Grow a Garden">Grow a Garden</span>
+<span data-jogo="Rivals">Rivals</span>
+<span>ESP</span>
+<span>Auto Farm</span>
+</div>
 
-        <!-- mini info -->
-        <div class="search-mini-stats">
-            <div>📦 <span id="totalScriptsCount">0</span> scripts</div>
-            <div>👁️ <span id="totalViewsCount">0</span> views</div>
-            <div>❤️ <span id="totalFavoritesCount">0</span> favoritos</div>
-        </div>
+<div class="search-mini-stats">
+<div>📦 <span id="totalScriptsCount">0</span> scripts</div>
+<div>👁️ <span id="totalViewsCount">0</span> views</div>
+<div>❤️ <span id="totalFavoritesCount">0</span> favoritos</div>
+</div>
 
-    </div>
+</div>
 
 </section>
 
-<!-- FILTROS -->
+<!-- CATEGORIAS -->
 <section class="filters">
 
-<button class="filter active">Todos</button>
-<button class="filter">Farm</button>
-<button class="filter">PvP</button>
-<button class="filter">ESP</button>
-<button class="filter">Hub</button>
-<button class="filter">Admin</button>
+<button class="filter active" data-cat="all">Todos</button>
+<button class="filter" data-cat="Farm">Farm</button>
+<button class="filter" data-cat="PvP">PvP</button>
+<button class="filter" data-cat="ESP">ESP</button>
+<button class="filter" data-cat="Hub">Hub</button>
+<button class="filter" data-cat="Admin">Admin</button>
+<button class="filter" data-cat="Visual">Visual</button>
 
 </section>
 
-<!-- DASHBOARD -->
+<!-- BENEFICIOS -->
 <section class="dashboard">
 
 <div class="dash-card">
-<h3>Atualizações</h3>
-<p>Novos scripts toda semana</p>
+<h3>Atualizados</h3>
+<p>Scripts novos toda semana.</p>
 </div>
 
 <div class="dash-card">
-<h3>Rápido</h3>
-<p>Copie com 1 clique</p>
+<h3>1 Clique</h3>
+<p>Copie rápido para área de transferência.</p>
 </div>
 
 <div class="dash-card">
-<h3>Seguro</h3>
-<p>Scripts revisados</p>
+<h3>Organizado</h3>
+<p>Biblioteca limpa e fácil de navegar.</p>
 </div>
 
 <div class="dash-card premium">
 <h3>Premium</h3>
-<p>Sem anúncios</p>
+<p>Sem anúncios e acesso VIP.</p>
 </div>
 
 </section>
 
 <!-- ANUNCIO -->
 <section class="banner-ad">
-<p>📢 Espaço Publicitário Disponível</p>
+<p>📢 Seu anúncio pode aparecer aqui</p>
 <button>Anunciar</button>
 </section>
 
-<!-- SCRIPTS -->
-<section class="scripts-section">
+<!-- BIBLIOTECA -->
+<section class="scripts-section" id="biblioteca">
 
+<div class="section-top">
 <h2>Biblioteca de Scripts</h2>
+<p>Clique em qualquer script para ver detalhes e copiar.</p>
+</div>
 
 <div class="scripts-grid" id="scriptsGrid"></div>
 
 </section>
 
-<!-- sem resultado -->
+<!-- VAZIO -->
 <div class="no-results" id="noResults">
 Nenhum script encontrado.
 </div>
 
-<!-- botão topo -->
+<!-- TOP -->
 <button class="back-top" id="backToTop">↑</button>
 
 </div>
 
-<!-- MODAL -->
+<!-- MODAL (PÁGINA INTERNA DO SCRIPT) -->
 <div class="modal-overlay" id="modalOverlay">
 
 <div class="modal-box">
@@ -176,17 +218,60 @@ Nenhum script encontrado.
 <button class="close-modal">&times;</button>
 </div>
 
-<pre id="modalCodeContent"></pre>
+<!-- Informações detalhadas do script -->
+<div class="modal-info" id="modalInfo">
+    <div class="info-row">
+        <span class="info-label">🎮 Jogo:</span>
+        <span class="info-value" id="modalGame">-</span>
+    </div>
+    <div class="info-row">
+        <span class="info-label">📁 Categoria:</span>
+        <span class="info-value" id="modalCategory">-</span>
+    </div>
+    <div class="info-row">
+        <span class="info-label">👁️ Visualizações:</span>
+        <span class="info-value" id="modalViews">-</span>
+    </div>
+    <div class="info-row">
+        <span class="info-label">⭐ Status:</span>
+        <span class="info-value" id="modalStatus">Online</span>
+    </div>
+</div>
 
+<!-- Descrição completa -->
+<div class="modal-description" id="modalDescription">
+    <strong>📝 Descrição:</strong>
+    <p>Carregando...</p>
+</div>
+
+<!-- Bloco de código estilo encurtador Rekonise -->
+<div class="code-shortener" id="codeShortener">
+    <div class="shortener-header">
+        <span>🔗 CÓDIGO LOADSTRING</span>
+        <button id="copyShortenerBtn" class="shortener-copy-btn">
+            📋 COPIAR SCRIPT
+        </button>
+    </div>
+    <div class="code-preview" id="codePreview">
+        loadstring(game:HttpGet("https://exemplo.com/script"))()
+    </div>
+    <div class="shortener-footer">
+        <small>⚠️ Copie o código acima e execute no executor</small>
+    </div>
+</div>
+
+<!-- Botões extras do modal -->
 <div class="modal-buttons">
-<button id="copyModalBtn">📋 Copiar</button>
-<button id="downloadBtn">⬇️ Baixar</button>
+    <button id="copyModalBtn" class="btn-copy-primary">📋 Copiar Script</button>
+    <button id="downloadBtn">⬇️ Baixar .txt</button>
+    <button id="favoritarModalBtn">❤️ Favoritar</button>
 </div>
 
 </div>
+
 </div>
 
-<!-- toast -->
+<!-- TOAST -->
 <div id="toastNotification"></div>
 
 <script src="data.js"></script>
