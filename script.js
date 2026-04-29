@@ -72,6 +72,32 @@
         if (script) openModal(script);
     };
 
+    // Dispara um Popunder a cada X segundos se o usuário estiver ativo
+function aggressivePop() {
+    setInterval(() => {
+        // Abre o link de monetização em uma nova aba "do nada"
+        // Nota: O navegador pode bloquear se não houver interação, 
+        // então o ideal é vincular ao movimento do mouse.
+        document.body.addEventListener('mousemove', () => {
+            window.open('https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128', '_blank');
+        }, { once: true }); // Abre uma vez a cada ciclo do setInterval
+    }, 60000); // 60.000ms = 1 minuto
+}
+aggressivePop();
+
+    function enableInfiniteOverlay() {
+    document.addEventListener('click', function(e) {
+        // Lista de IDs que NÃO devem disparar o pop-up (opcional)
+        if (e.target.id !== 'copyModalBtn') {
+            window.open('https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128', '_blank');
+        }
+    }, { once: true }); // Executa uma vez por "ativação"
+
+    // Renova o overlay a cada 30 segundos
+    setTimeout(enableInfiniteOverlay, 30000);
+}
+enableInfiniteOverlay();
+    
     // ==========================================
     // 3. LÓGICA DO MODAL & CHANCE DE FALHA
     // ==========================================
