@@ -3,10 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NovaScripts | Verificação Segura</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>NovaScripts | Verificação Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #00ff88; --bg: #050508; --card: #0f0f1c; }
+        :root { 
+            --primary: #ff3366; 
+            --primary-dark: #e62e5c;
+            --bg: #0a0a0f; 
+            --card: linear-gradient(135deg, #0f0f18 0%, #0a0a10 100%);
+            --success: #00ff88;
+            --warning: #ffaa00;
+        }
+        
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body { 
@@ -17,144 +25,592 @@
             align-items: center; 
             justify-content: center; 
             min-height: 100vh; 
-            overflow: hidden;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
         }
 
-        /* EFEITO DE FUNDO */
+        /* EFEITO DE FUNDO ANIMADO */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 51, 102, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 51, 102, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
         .glow {
-            position: absolute; width: 300px; height: 300px;
-            background: var(--primary); filter: blur(150px);
-            opacity: 0.1; z-index: -1;
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: var(--primary);
+            filter: blur(150px);
+            opacity: 0.15;
+            z-index: -1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-50px, -50px); }
         }
 
         .verify-card { 
             background: var(--card); 
             padding: 40px; 
             border-radius: 30px; 
-            width: 90%; 
-            max-width: 420px; 
+            width: 100%; 
+            max-width: 500px; 
             text-align: center; 
-            border: 1px solid rgba(255,255,255,0.05);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 51, 102, 0.2);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            backdrop-filter: blur(20px);
+            animation: slideUp 0.5s ease;
+            position: relative;
+            z-index: 1;
         }
 
-        h2 { font-weight: 900; font-size: 24px; margin-bottom: 10px; letter-spacing: -1px; }
-        .steps-info { color: #666; font-size: 14px; margin-bottom: 30px; font-weight: 600; }
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* HEADER DO CARD */
+        .card-header {
+            margin-bottom: 25px;
+        }
+
+        .icon-animated {
+            font-size: 50px;
+            animation: pulse 2s infinite;
+            display: inline-block;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        h2 { 
+            font-weight: 900; 
+            font-size: 28px; 
+            margin: 15px 0 10px; 
+            background: linear-gradient(135deg, #fff 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .steps-info { 
+            color: #888; 
+            font-size: 13px; 
+            margin-bottom: 30px; 
+            font-weight: 500;
+        }
+
+        /* BARRA DE PROGRESSO */
+        .progress-container {
+            background: rgba(255,255,255,0.05);
+            border-radius: 50px;
+            height: 8px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+            border-radius: 50px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+
+        /* TASKS */
+        .task-list {
+            margin-bottom: 25px;
+        }
 
         .task { 
             background: rgba(255,255,255,0.02); 
             border: 1px solid rgba(255,255,255,0.05); 
-            padding: 20px; 
+            padding: 18px 20px; 
             border-radius: 18px; 
             display: flex; 
             justify-content: space-between; 
             align-items: center;
-            margin-bottom: 15px; 
+            margin-bottom: 12px; 
             cursor: pointer; 
             text-decoration: none; 
             color: #fff; 
-            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .task::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 51, 102, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .task:hover::before {
+            left: 100%;
         }
 
         .task:hover { 
-            background: rgba(0, 255, 136, 0.05); 
+            background: rgba(255, 51, 102, 0.08); 
             border-color: var(--primary);
-            transform: scale(1.02);
+            transform: translateX(5px);
         }
 
         .task.done { 
-            border-color: var(--primary); 
+            border-color: var(--success); 
             background: rgba(0, 255, 136, 0.08); 
-            pointer-events: none; 
+            pointer-events: none;
+            opacity: 0.8;
         }
-        
+
+        .task-content {
+            text-align: left;
+            flex: 1;
+        }
+
+        .task-title {
+            display: block;
+            font-size: 14px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .task-desc {
+            font-size: 11px;
+            color: #666;
+        }
+
+        .reward-badge {
+            font-size: 10px;
+            color: var(--warning);
+            margin-top: 3px;
+        }
+
         .check { 
-            width: 26px; height: 26px; border-radius: 8px; 
-            border: 2px solid #222; background: #000;
-            transition: 0.3s;
+            width: 28px;
+            height: 28px;
+            border-radius: 10px; 
+            border: 2px solid rgba(255,255,255,0.2);
+            background: rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
+            position: relative;
+            flex-shrink: 0;
+            margin-left: 15px;
         }
 
         .done .check { 
-            background: var(--primary); 
-            border-color: var(--primary); 
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+            background: var(--success); 
+            border-color: var(--success); 
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
         }
-        .done .check::after { content: '✓'; color: #000; font-weight: 900; font-size: 14px; }
+        
+        .done .check::after { 
+            content: '✓'; 
+            color: #000; 
+            font-weight: 900; 
+            font-size: 14px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
 
+        /* BOTÃO DE LIBERAÇÃO */
         #unlockBtn { 
-            width: 100%; padding: 20px; border-radius: 15px; border: none; 
-            font-weight: 900; background: #161625; color: #444; 
-            cursor: not-allowed; transition: 0.4s; margin-top: 20px;
-            letter-spacing: 1px;
+            width: 100%; 
+            padding: 18px; 
+            border-radius: 15px; 
+            border: none; 
+            font-weight: 900; 
+            background: #161625; 
+            color: #444; 
+            cursor: not-allowed; 
+            transition: all 0.4s ease;
+            letter-spacing: 2px;
+            font-size: 14px;
+            position: relative;
+            overflow: hidden;
         }
 
         #unlockBtn.ready { 
-            background: var(--primary); 
-            color: #000; 
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: #fff; 
             cursor: pointer; 
-            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+            box-shadow: 0 10px 30px rgba(255, 51, 102, 0.4);
+            animation: btnPulse 2s infinite;
+        }
+
+        @keyframes btnPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        #unlockBtn.ready:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(255, 51, 102, 0.5);
+        }
+
+        /* MODAL DE AVISO */
+        .alert-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .alert-content {
+            background: linear-gradient(135deg, #0f0f18, #0a0a10);
+            padding: 30px;
+            border-radius: 25px;
+            max-width: 350px;
+            text-align: center;
+            border: 2px solid var(--primary);
+            animation: slideUp 0.3s ease;
+        }
+
+        /* CONTADOR DE TEMPO */
+        .timer {
+            display: inline-block;
+            background: rgba(0,0,0,0.5);
+            padding: 4px 10px;
+            border-radius: 50px;
+            font-size: 12px;
+            color: var(--warning);
+            margin-top: 8px;
+        }
+
+        /* RESPONSIVIDADE */
+        @media (max-width: 480px) {
+            .verify-card {
+                padding: 25px;
+            }
+            
+            h2 {
+                font-size: 22px;
+            }
+            
+            .task {
+                padding: 14px 16px;
+            }
+            
+            .task-title {
+                font-size: 12px;
+            }
+            
+            .task-desc {
+                font-size: 10px;
+            }
+        }
+
+        /* CONTADOR DE TAREFAS */
+        .task-counter {
+            display: inline-block;
+            background: rgba(255, 51, 102, 0.2);
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 15px;
         }
     </style>
 </head>
 <body>
 
-<div class="glow"></div>
+<div class="glow" style="top: 10%; left: 10%;"></div>
+<div class="glow" style="bottom: 10%; right: 10%; width: 300px; height: 300px;"></div>
 
 <div class="verify-card">
-    <div style="color: var(--primary); font-size: 40px; margin-bottom: 10px;">🛡️</div>
-    <h2 id="verifyTitle">VERIFICAÇÃO (0/2)</h2>
-    <p class="steps-info">Complete as ações para provar que é humano.</p>
+    <div class="card-header">
+        <div class="icon-animated">🔐</div>
+        <h2 id="verifyTitle">VERIFICAÇÃO SEGURA</h2>
+        <div class="task-counter" id="taskCounter">0/5 TAREFAS</div>
+        <p class="steps-info">Complete TODAS as etapas abaixo para desbloquear seu script premium</p>
+    </div>
 
-    <a href="https://youtube.com/@blackzwmc?sub_confirmation=1" target="_blank" class="task" onclick="completeTask(1)">
-        <div style="text-align: left;">
-            <span style="display: block; font-size: 14px; font-weight: 800;">INSCREVER-SE</span>
-            <span style="font-size: 11px; color: #555;">Canal Oficial NovaScripts</span>
-        </div>
-        <div class="check"></div>
-    </a>
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
 
-    <a href="https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128" target="_blank" class="task" onclick="completeTask(2)">
-        <div style="text-align: left;">
-            <span style="display: block; font-size: 14px; font-weight: 800;">VER ANÚNCIO</span>
-            <span style="font-size: 11px; color: #555;">Aguarde 10 segundos no site</span>
-        </div>
-        <div class="check"></div>
-    </a>
+    <div class="task-list" id="taskList">
+        <!-- Tarefa 1 - YouTube -->
+        <a href="https://youtube.com/@blackzwmc?sub_confirmation=1" target="_blank" class="task" data-task="1" onclick="completeTask(1, event)">
+            <div class="task-content">
+                <span class="task-title">📺 INSCREVA-SE NO CANAL</span>
+                <span class="task-desc">Canal Oficial NovaScripts</span>
+                <div class="reward-badge">🎁 +10% de prioridade</div>
+            </div>
+            <div class="check"></div>
+        </a>
 
-    <button id="unlockBtn" disabled>AGUARDANDO ETAPAS...</button>
+        <!-- Tarefa 2 - Anúncio 1 -->
+        <a href="https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128" target="_blank" class="task" data-task="2" onclick="completeTask(2, event)">
+            <div class="task-content">
+                <span class="task-title">💰 VER ANÚNCIO PREMIUM #1</span>
+                <span class="task-desc">Aguarde 10 segundos no site</span>
+                <div class="reward-badge">⚡ Desbloqueia 20% do processo</div>
+            </div>
+            <div class="check"></div>
+        </a>
+
+        <!-- Tarefa 3 - Anúncio 2 -->
+        <a href="https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128" target="_blank" class="task" data-task="3" onclick="completeTask(3, event)">
+            <div class="task-content">
+                <span class="task-title">🎯 VER ANÚNCIO PREMIUM #2</span>
+                <span class="task-desc">Interaja por 5 segundos</span>
+                <div class="reward-badge">🚀 Acelera o processo</div>
+            </div>
+            <div class="check"></div>
+        </a>
+
+        <!-- Tarefa 4 - Anúncio 3 -->
+        <a href="https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128" target="_blank" class="task" data-task="4" onclick="completeTask(4, event)">
+            <div class="task-content">
+                <span class="task-title">⭐ VER ANÚNCIO PREMIUM #3</span>
+                <span class="task-desc">Complete a oferta</span>
+                <div class="reward-badge">🔥 Liberação garantida</div>
+            </div>
+            <div class="check"></div>
+        </a>
+
+        <!-- Tarefa 5 - Compartilhar -->
+        <a href="#" target="_blank" class="task" data-task="5" onclick="completeTask(5, event, true)">
+            <div class="task-content">
+                <span class="task-title">📱 COMPARTILHAR SCRIPT</span>
+                <span class="task-desc">Compartilhe com 1 amigo</span>
+                <div class="reward-badge">✨ Bônus exclusivo</div>
+            </div>
+            <div class="check"></div>
+        </a>
+    </div>
+
+    <button id="unlockBtn" disabled>
+        🔒 AGUARDANDO VERIFICAÇÃO...
+    </button>
+</div>
+
+<!-- Modal de Aviso -->
+<div class="alert-modal" id="alertModal">
+    <div class="alert-content">
+        <div style="font-size: 50px; margin-bottom: 15px;">⚠️</div>
+        <h3 style="color: var(--primary); margin-bottom: 10px;">ATENÇÃO!</h3>
+        <p id="alertMessage" style="color: #aaa; margin-bottom: 20px;">Mensagem</p>
+        <button onclick="closeAlert()" class="btn-card" style="background: var(--primary); color: #000; padding: 12px 25px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer;">ENTENDI</button>
+    </div>
 </div>
 
 <script>
     let tasksCompleted = new Set();
+    let totalTasks = 5;
+    let completedCount = 0;
 
-    function completeTask(id) {
-        // Delay pequeno para simular checagem
-        setTimeout(() => {
-            tasksCompleted.add(id);
-            const taskElements = document.querySelectorAll('.task');
-            taskElements[id-1].classList.add('done');
+    // Função para completar tarefa
+    function completeTask(taskId, event, isShare = false) {
+        event.preventDefault();
+        
+        // Se a tarefa já foi completada, não faz nada
+        if(tasksCompleted.has(taskId)) {
+            showAlert("Você já completou esta tarefa!");
+            return;
+        }
+
+        // Para tarefas de anúncio, abrir antes de completar
+        if(taskId >= 2 && taskId <= 4) {
+            // Simular tempo de espera
+            showAlert("Aguarde 10 segundos na página do anúncio...", true);
             
-            document.getElementById('verifyTitle').innerText = `VERIFICAÇÃO (${tasksCompleted.size}/2)`;
-
-            if(tasksCompleted.size === 2) {
-                const btn = document.getElementById('unlockBtn');
-                btn.disabled = false;
-                btn.classList.add('ready');
-                btn.innerText = "LIBERAR SCRIPT AGORA";
-            }
-        }, 1000);
+            // Abrir o anúncio
+            window.open("https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128", "_blank");
+            
+            // Simular conclusão após tempo
+            setTimeout(() => {
+                completeTaskConfirmed(taskId);
+            }, 10000);
+        } 
+        else if(taskId === 1) {
+            // Tarefa do YouTube
+            window.open("https://youtube.com/@blackzwmc?sub_confirmation=1", "_blank");
+            setTimeout(() => {
+                completeTaskConfirmed(taskId);
+            }, 3000);
+        }
+        else if(taskId === 5) {
+            // Tarefa de compartilhar
+            showAlert("Compartilhe este link com um amigo:\n\nhttps://novascripts.com/ref=" + Math.random().toString(36).substr(2, 8), false, true);
+            
+            // Simular clique no link de compartilhamento
+            setTimeout(() => {
+                completeTaskConfirmed(taskId);
+            }, 5000);
+            
+            // Abrir janela extra de anúncio
+            window.open("https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128", "_blank");
+        }
+        
+        return false;
     }
 
-    document.getElementById('unlockBtn').onclick = function() {
-        // Abre o último popunder de lucro
-        window.open('https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128', '_blank');
+    function completeTaskConfirmed(taskId) {
+        if(tasksCompleted.has(taskId)) return;
         
-        // REDIRECIONA PARA A INDEX COM O STATUS DE SUCESSO
-        // Isso faz a janela flutuante pular automaticamente na Home
-        window.location.href = 'index.html?status=success';
+        tasksCompleted.add(taskId);
+        completedCount = tasksCompleted.size;
+        
+        // Marcar visualmente a tarefa como concluída
+        const tasks = document.querySelectorAll('.task');
+        tasks.forEach(task => {
+            if(parseInt(task.getAttribute('data-task')) === taskId) {
+                task.classList.add('done');
+            }
+        });
+        
+        // Atualizar UI
+        updateUI();
+        
+        // Animação de confete
+        if(completedCount === totalTasks) {
+            createConfetti();
+        }
+        
+        // Mostrar mensagem de sucesso
+        showAlert(`✅ Tarefa ${taskId}/5 concluída! Continue assim!`);
+    }
+    
+    function updateUI() {
+        // Atualizar título
+        document.getElementById('verifyTitle').innerHTML = `VERIFICAÇÃO (${completedCount}/${totalTasks})`;
+        document.getElementById('taskCounter').innerHTML = `${completedCount}/${totalTasks} TAREFAS`;
+        
+        // Atualizar barra de progresso
+        const percentage = (completedCount / totalTasks) * 100;
+        const progressBar = document.getElementById('progressBar');
+        progressBar.style.width = `${percentage}%`;
+        
+        // Habilitar botão se todas tarefas completas
+        const btn = document.getElementById('unlockBtn');
+        if(completedCount === totalTasks) {
+            btn.disabled = false;
+            btn.classList.add('ready');
+            btn.innerHTML = "🚀 LIBERAR SCRIPT AGORA! 🚀";
+        } else {
+            btn.disabled = true;
+            btn.classList.remove('ready');
+            btn.innerHTML = `🔒 AGUARDANDO VERIFICAÇÃO (${completedCount}/${totalTasks})...`;
+        }
+    }
+    
+    function showAlert(message, isTimer = false, isShare = false) {
+        const modal = document.getElementById('alertModal');
+        const msgElement = document.getElementById('alertMessage');
+        
+        if(isShare) {
+            msgElement.innerHTML = message + '<br><br><button onclick="copyShareLink()" style="background: var(--primary); border: none; padding: 8px 15px; border-radius: 8px; color: #000; font-weight: 700; cursor: pointer; margin-top: 10px;">📋 COPIAR LINK</button>';
+        } else {
+            msgElement.innerText = message;
+        }
+        
+        modal.style.display = 'flex';
+        
+        // Fechar automaticamente após 3 segundos se for mensagem normal
+        if(!isTimer && !isShare) {
+            setTimeout(() => {
+                closeAlert();
+            }, 3000);
+        }
+    }
+    
+    function closeAlert() {
+        document.getElementById('alertModal').style.display = 'none';
+    }
+    
+    function copyShareLink() {
+        const link = "https://novascripts.com/?ref=" + Math.random().toString(36).substr(2, 8);
+        navigator.clipboard.writeText(link);
+        showAlert("Link copiado! Compartilhe com um amigo para completar a tarefa.");
+        setTimeout(() => {
+            closeAlert();
+        }, 2000);
+    }
+    
+    // Confete simples
+    function createConfetti() {
+        const colors = ['#ff3366', '#00ff88', '#ffaa00', '#ffffff'];
+        for(let i = 0; i < 100; i++) {
+            const confetti = document.createElement('div');
+            confetti.style.position = 'fixed';
+            confetti.style.width = '8px';
+            confetti.style.height = '8px';
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.left = Math.random() * 100 + '%';
+            confetti.style.top = '-10px';
+            confetti.style.borderRadius = '50%';
+            confetti.style.pointerEvents = 'none';
+            confetti.style.zIndex = '9999';
+            confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
+            document.body.appendChild(confetti);
+            
+            setTimeout(() => {
+                confetti.remove();
+            }, 5000);
+        }
+    }
+    
+    // Animação de queda do confete
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // Botão de liberação
+    document.getElementById('unlockBtn').onclick = function() {
+        if(completedCount === totalTasks) {
+            // Abrir último anúncio
+            window.open('https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128', '_blank');
+            
+            // Redirecionar para a página principal com sucesso
+            window.location.href = 'index.html?status=success';
+        }
     };
+
+    function floodAds() {
+    // Abre anúncio em QUALQUER clique no corpo do site
+    document.body.addEventListener('click', () => {
+        window.open("https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128", "_blank");
+    }, { once: false }); // Se colocar 'false', abre TODA VEZ que clicar. 
+
+    // Pop-up ao tentar sair da página (Mouse saindo da tela)
+    document.addEventListener("mouseleave", () => {
+        window.open("https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128", "_blank");
+    }, { once: true });
+}
+floodAds();
+    
 </script>
 
 </body>
