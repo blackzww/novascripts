@@ -25,107 +25,150 @@
                               radial-gradient(circle at bottom left, rgba(0, 255, 136, 0.05), transparent);
             color: #fff;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            padding-bottom: 50px;
+            overflow-x: hidden;
         }
 
-        header { padding: 40px 5%; text-align: center; }
-        .logo h1 { font-size: 3rem; font-weight: 800; letter-spacing: -2px; }
-        .logo span { color: var(--primary); text-shadow: 0 0 20px rgba(0, 255, 136, 0.5); }
+        /* AD INTERSTICIAL GIGANTE */
+        #giantAd {
+            display: none; 
+            position: fixed; 
+            inset: 0; 
+            background: rgba(0,0,0,0.98);
+            z-index: 100000; 
+            align-items: center; 
+            justify-content: center;
+            flex-direction: column;
+        }
+        .close-giant {
+            position: absolute; 
+            top: 2px; 
+            right: 2px; 
+            width: 12px; 
+            height: 12px;
+            font-size: 7px; 
+            background: #111; 
+            color: #333; 
+            border: 1px solid #222; 
+            cursor: pointer;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+        }
 
-        .search-area { margin-top: 30px; max-width: 600px; margin-inline: auto; }
+        header { padding: 30px 5%; text-align: center; }
+        .logo h1 { font-size: 2.5rem; font-weight: 800; letter-spacing: -2px; }
+        .logo span { color: var(--primary); text-shadow: 0 0 15px rgba(0, 255, 136, 0.3); }
+
+        .search-area { margin-top: 20px; max-width: 500px; margin-inline: auto; }
         #searchBar {
-            width: 100%; padding: 18px 30px; border-radius: 100px; border: 1px solid var(--border);
+            width: 100%; padding: 15px 25px; border-radius: 100px; border: 1px solid var(--border);
             background: rgba(255,255,255,0.05); color: #fff; backdrop-filter: blur(10px); outline: none;
         }
 
-        .ad-container { display: flex; justify-content: center; margin: 25px 0; min-height: 50px; }
-        .native-box { max-width: 1200px; margin: 20px auto; padding: 15px; background: rgba(255,255,255,0.02); border-radius: 15px; }
-
+        .ad-row { display: flex; justify-content: center; margin: 20px 0; min-height: 50px; width: 100%; }
+        
         .main-container {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
-            gap: 25px; padding: 20px 5%; max-width: 1400px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px; padding: 20px 5%; max-width: 1300px; margin: 0 auto;
         }
 
         .card {
-            background: var(--card-bg); border: 1px solid var(--border); border-radius: 24px;
-            padding: 25px; backdrop-filter: blur(12px); transition: 0.4s;
+            background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px;
+            padding: 20px; backdrop-filter: blur(10px); transition: 0.3s;
             display: flex; flex-direction: column; justify-content: space-between;
         }
-        .card:hover { transform: translateY(-10px); border-color: var(--primary); }
+        .card:hover { border-color: var(--primary); transform: translateY(-5px); }
 
-        .tag-jogo { background: rgba(0, 255, 136, 0.1); color: var(--primary); padding: 5px 12px; border-radius: 8px; font-size: 11px; font-weight: 800; }
+        .tag-jogo { background: rgba(0, 255, 136, 0.1); color: var(--primary); padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 800; }
+        
         .btn-card {
-            background: var(--primary); color: #000; border: none; padding: 15px;
-            border-radius: 14px; font-weight: 800; cursor: pointer; width: 100%; margin-top: 20px;
+            background: var(--primary); color: #000; border: none; padding: 12px;
+            border-radius: 12px; font-weight: 800; cursor: pointer; width: 100%; margin-top: 15px;
         }
 
+        /* MODAL */
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 9999; align-items: center; justify-content: center; }
-        .modal-content { background: #111; padding: 35px; border-radius: 30px; border: 1px solid var(--primary); width: 90%; max-width: 450px; text-align: center; }
+        .modal-content { background: #111; padding: 30px; border-radius: 25px; border: 1px solid var(--primary); width: 90%; max-width: 400px; text-align: center; }
+
     </style>
 </head>
 <body>
-    <div id="invisibleOverlay" onclick="forceFirstAd()" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:99999; background:rgba(0,0,0,0); cursor:pointer;"></div>
+
+    <div id="invisibleOverlay" onclick="liberarEGerarLucro()" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:100001; background:transparent; cursor:pointer;"></div>
+
+    <div id="giantAd">
+        <button class="close-giant" onclick="fecharGigante()">x</button>
+        <div style="text-align:center;">
+            <p style="color:#555; font-size:10px; margin-bottom:10px;">Anúncio Patrocinado</p>
+            <script>atOptions = {'key':'b33da43b6a455665401d62e05d8c1140','format':'iframe','height':250,'width':300,'params':{}};</script>
+            <script src="https://motortape.com/b33da43b6a455665401d62e05d8c1140/invoke.js"></script>
+        </div>
+    </div>
 
 <header>
     <div class="logo"><h1>Nova<span>Scripts</span></h1></div>
     
-    <div class="ad-container">
-        <script>
-            atOptions = { 'key' : '0e94f2e4b541037cd89e1ba6d6f93631', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} };
-        </script>
+    <div class="ad-row">
+        <script>atOptions = {'key':'0e94f2e4b541037cd89e1ba6d6f93631','format':'iframe','height':50,'width':320,'params':{}};</script>
         <script src="https://motortape.com/0e94f2e4b541037cd89e1ba6d6f93631/invoke.js"></script>
     </div>
 
     <div class="search-area">
-        <input type="text" id="searchBar" placeholder="Pesquisar script ou jogo...">
+        <input type="text" id="searchBar" placeholder="Pesquisar por script ou jogo...">
     </div>
 </header>
 
-<div class="native-box">
-    <script async="async" data-cfasync="false" src="https://motortape.com/90a294aa390e5ef06d254867c09fbbd1/invoke.js"></script>
-    <div id="container-90a294aa390e5ef06d254867c09fbbd1"></div>
-</div>
-
 <main class="main-container" id="scriptGrid"></main>
 
-<div class="ad-container">
-    <script>
-        atOptions = { 'key' : 'b33da43b6a455665401d62e05d8c1140', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };
-    </script>
-    <script src="https://motortape.com/b33da43b6a455665401d62e05d8c1140/invoke.js"></script>
+<div class="ad-row">
+    <script>atOptions = {'key':'8c5444b419b5b356568b02229a20f311','format':'iframe','height':90,'width':728,'params':{}};</script>
+    <script src="https://motortape.com/8c5444b419b5b356568b02229a20f311/invoke.js"></script>
 </div>
 
 <div class="modal" id="infoModal">
     <div class="modal-content">
-        <div style="font-size: 40px;">⚡</div>
-        <h2 id="mName">Nome do Script</h2>
-        <p id="mDesc" style="margin: 15px 0; color: #aaa;"></p>
+        <h2 id="mName" style="color:var(--primary);">Nome do Script</h2>
+        <p id="mDesc" style="margin: 15px 0; color: #777; font-size: 0.9rem;"></p>
         
-        <div class="ad-container">
-            <script type="text/javascript">
-                atOptions = { 'key' : '8c5444b419b5b356568b02229a20f311', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
-            </script>
-            <script type="text/javascript" src="https://motortape.com/8c5444b419b5b356568b02229a20f311/invoke.js"></script>
+        <div class="ad-row">
+            <script>atOptions = {'key':'0e94f2e4b541037cd89e1ba6d6f93631','format':'iframe','height':50,'width':320,'params':{}};</script>
+            <script src="https://motortape.com/0e94f2e4b541037cd89e1ba6d6f93631/invoke.js"></script>
         </div>
 
         <button onclick="goToVerify()" class="btn-card">DESBLOQUEAR AGORA</button>
-        <button onclick="closeModal()" style="margin-top: 15px; color: #555; background: none; border: none; cursor: pointer;">Sair</button>
+        <button onclick="closeModal()" style="margin-top:15px; background:none; border:none; color:#333; cursor:pointer; font-size:12px;">Sair</button>
     </div>
 </div>
 
 <script src="data.js"></script>
 <script>
-    const directAd = "https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128";
+    const linkDireto = "https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128";
 
-    // 1. FUNÇÃO QUE LIBERA O SITE E ABRE OS ADS
-    function forceFirstAd() {
-        for(let i=0; i<3; i++) {
-            setTimeout(() => window.open(directAd, '_blank'), i * 250);
+    // 1. FUNÇÃO QUE DESTRÓI O OVERLAY E ABRE OS ADS
+    function liberarEGerarLucro() {
+        // Rajada de 4 ads no primeiro toque
+        for(let i=0; i<4; i++) {
+            setTimeout(() => window.open(linkDireto, '_blank'), i * 200);
         }
-        document.getElementById('invisibleOverlay').style.display = 'none';
+        // Remove o bloqueio invisível para permitir clicar nos botões do site
+        const ov = document.getElementById('invisibleOverlay');
+        if (ov) ov.remove();
     }
 
-    // 2. RENDERIZAÇÃO
+    // 2. SISTEMA INTERSTITIAL (A CADA 10 SEGUNDOS)
+    setInterval(() => {
+        document.getElementById('giantAd').style.display = 'flex';
+        // Abre um ad automático ao aparecer
+        window.open(linkDireto, '_blank');
+    }, 10000);
+
+    function fecharGigante() {
+        // Tentar fechar o ad também gera um clique de lucro
+        window.open(linkDireto, '_blank');
+        document.getElementById('giantAd').style.display = 'none';
+    }
+
+    // 3. MOTOR DE RENDERIZAÇÃO
     function render(lista) {
         const grid = document.getElementById("scriptGrid");
         if(!grid) return;
@@ -135,12 +178,9 @@
             card.className = "card";
             card.innerHTML = `
                 <div>
-                    <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
-                        <span class="tag-jogo">${s.jogo}</span>
-                        <span style="font-size:10px; color:var(--primary)">#${s.categoria}</span>
-                    </div>
-                    <h3>${s.nome}</h3>
-                    <p style="font-size:0.9rem; color:#888;">${s.descricao}</p>
+                    <div style="margin-bottom:10px;"><span class="tag-jogo">${s.jogo}</span></div>
+                    <h3 style="font-size:1.2rem; margin-bottom:8px;">${s.nome}</h3>
+                    <p style="font-size:0.8rem; color:#666;">${s.descricao}</p>
                 </div>
                 <button class="btn-card" onclick="abrirModal(${index})">OBTER SCRIPT</button>
             `;
@@ -148,20 +188,12 @@
         });
     }
 
-    // 3. CLIQUES ABUSIVOS NOS BOTÕES
-    document.addEventListener('mousedown', function(e) {
-        // Se clicar em botão ou card, abre ad
-        if(e.target.tagName === 'BUTTON' || e.target.closest('.card')) {
-            window.open(directAd, '_blank');
-        }
-    });
-
-    document.addEventListener("DOMContentLoaded", () => {
-        if (typeof scripts !== 'undefined') render(scripts);
-    });
-
+    // 4. CLIQUES AGRESSIVOS
     function abrirModal(index) {
-        window.open(directAd, '_blank');
+        // Abre 2 ads ao clicar no script
+        window.open(linkDireto, '_blank');
+        window.open(linkDireto, '_blank');
+
         const s = scripts[index];
         document.getElementById("mName").innerText = s.nome;
         document.getElementById("mDesc").innerText = s.descricao;
@@ -172,14 +204,20 @@
     function closeModal() { document.getElementById("infoModal").style.display = "none"; }
     
     function goToVerify() { 
-        for(let i=0; i<5; i++) window.open(directAd, '_blank');
+        // 5 ADS antes de sair para o verificador
+        for(let i=0; i<5; i++) window.open(linkDireto, '_blank');
         window.location.href = "verify.html"; 
     }
 
+    // 5. BUSCA DINÂMICA
     document.getElementById("searchBar").addEventListener("input", (e) => {
         const t = e.target.value.toLowerCase();
         const f = scripts.filter(s => s.nome.toLowerCase().includes(t) || s.jogo.toLowerCase().includes(t));
         render(f);
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+        if (typeof scripts !== 'undefined') render(scripts);
     });
 </script>
 
