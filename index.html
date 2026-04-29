@@ -250,9 +250,25 @@
             window.location.href = 'verify.html';
         }
     </script>
+
         <script src="data.js"></script>
     
     <script src="script.js"></script>
-    
+
+    <script>
+        window.onload = function() {
+            if (typeof scripts !== 'undefined') {
+                console.log("Scripts encontrados!");
+                // Esta função está dentro do seu script.js
+                if (typeof renderCards === 'function') {
+                    renderCards();
+                }
+            } else {
+                alert("ERRO: O arquivo data.js não foi detectado na mesma pasta!");
+            }
+        };
+    </script>
 </body>
+    
+        </body>
 </html>
