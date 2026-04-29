@@ -7,13 +7,17 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
+    <script src="https://motortape.com/e3/73/ac/e373ac39b5a04c76d290d627c487a33c.js"></script>
+
     <script async="async" data-cfasync="false" src="https://motortape.com/90a294aa390e5ef06d254867c09fbbd1/invoke.js"></script>
 </head>
 <body>
 
+    <div id="clickOverlay" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:999999; cursor:pointer;"></div>
+
     <div class="loader-wrapper" id="loader">
         <div class="loader-ring"></div>
-        <p>Carregando NovaScripts...</p>
+        <p>A carregar NovaScripts...</p>
     </div>
 
     <div class="site-wrapper">
@@ -42,64 +46,41 @@
             </div>
         </header>
 
-        <div style="width: 100%; display: flex; justify-content: center; padding: 15px 0; background: #050509; border-bottom: 1px solid #1a1a2e;">
+        <div style="width: 100%; display: flex; justify-content: center; padding: 15px 0; background: #050509;">
             <div id="container-90a294aa390e5ef06d254867c09fbbd1"></div>
         </div>
 
         <section class="hero-main">
             <div class="hero-left">
                 <span class="hero-tag">🏆 #1 Biblioteca Premium</span>
-                <h2>
-                    Encontre Scripts <span class="gradient-text">Atualizados</span><br>
-                    Para Roblox
-                </h2>
-                <p>Pesquise qualquer script, veja detalhes e copie rapidamente com 1 clique.</p>
+                <h2>Scripts <span class="gradient-text">Atualizados</span><br>Para Roblox</h2>
+                <p>Pesquisa qualquer script, desbloqueia e copia rapidamente.</p>
                 <div class="hero-buttons">
-                    <button class="btn-main" onclick="document.getElementById('biblioteca').scrollIntoView({behavior:'smooth'})">
-                        🔍 Explorar Scripts
-                    </button>
-                    <button class="btn-alt" id="discordBtn">💬 Discord</button>
+                    <button class="btn-main" onclick="document.getElementById('biblioteca').scrollIntoView({behavior:'smooth'})">🔍 Explorar Scripts</button>
+                    <button class="btn-alt">💬 Discord</button>
                 </div>
             </div>
         </section>
 
         <section class="search-page">
             <div class="search-panel">
-                <div class="panel-top">
-                    <div class="panel-logo">
-                        <h2>NovaSearch</h2>
-                        <span>Busque por jogo ou categoria</span>
-                    </div>
-                </div>
-
                 <div class="big-search-box">
-                    <input type="text" id="searchInput" placeholder="Ex: Blox Fruits, Brookhaven...">
-                    <button id="searchBtn">Buscar</button>
+                    <input type="text" id="searchInput" placeholder="Digita o nome do jogo ou script...">
+                    <button id="searchBtn">Procurar</button>
                 </div>
-
                 <div class="search-tags">
                     <span data-jogo="Blox Fruits">🎮 Blox Fruits</span>
                     <span data-jogo="Brookhaven">🏠 Brookhaven</span>
                     <span data-cat="ESP">👁️ ESP</span>
                     <span data-cat="Farm">🌾 Farm</span>
                 </div>
-
-                <div class="search-mini-stats">
-                    <div>📦 <span id="totalScriptsCount">0</span> scripts</div>
-                    <div>👁️ <span id="totalViewsCount">0</span> views</div>
-                </div>
             </div>
         </section>
-
-        <div style="width: 100%; display: flex; justify-content: center; margin: 25px 0;">
-            <div id="container-90a294aa390e5ef06d254867c09fbbd1"></div>
-        </div>
 
         <section class="filters">
             <button class="filter active" data-cat="all">🎯 Todos</button>
             <button class="filter" data-cat="Farm">🌾 Farm</button>
             <button class="filter" data-cat="PvP">⚔️ PvP</button>
-            <button class="filter" data-cat="ESP">👁️ ESP</button>
             <button class="filter" data-cat="Hub">🎮 Hub</button>
         </section>
 
@@ -107,56 +88,61 @@
             <div class="section-top">
                 <h2>📚 Biblioteca de Scripts</h2>
             </div>
-            <div class="scripts-grid" id="scriptsGrid"></div>
+            <div class="scripts-grid" id="scriptsGrid">
+                </div>
         </section>
-
-        <div class="no-results" id="noResults" style="display:none;">
-            <span>🔍</span>
-            <p>Nenhum script encontrado.</p>
-        </div>
 
     </div> <div class="modal-overlay" id="modalOverlay">
         <div class="modal-box">
             <div class="modal-top">
-                <h3 id="modalTitle">Nome do Script</h3>
+                <h3 id="modalTitle">Script</h3>
                 <button class="close-modal">&times;</button>
             </div>
 
-            <div style="margin: 15px 0; padding: 10px; background: #050509; border: 1px dashed #333; border-radius: 8px; text-align: center;">
-                 <span style="color: #444; font-size: 9px; display: block; margin-bottom: 5px; text-transform: uppercase;">Publicidade</span>
-                 <div id="container-90a294aa390e5ef06d254867c09fbbd1"></div>
+            <div style="margin: 15px 0; text-align: center; background: #050509; padding: 5px; border-radius: 8px;">
+                <span style="color: #444; font-size: 10px; display: block; margin-bottom: 5px;">PUBLICIDADE</span>
+                <script type="text/javascript">
+                    atOptions = {
+                        'key' : 'b33da43b6a455665401d62e05d8c1140',
+                        'format' : 'iframe',
+                        'height' : 250,
+                        'width' : 300,
+                        'params' : {}
+                    };
+                </script>
+                <script src="https://motortape.com/b33da43b6a455665401d62e05d8c1140/invoke.js"></script>
             </div>
 
             <div class="modal-info">
                 <div class="info-row"><span>🎮 Jogo:</span> <span id="modalGame">-</span></div>
-                <div class="info-row"><span>📁 Cat:</span> <span id="modalCategory">-</span></div>
-            </div>
-
-            <div class="modal-description">
-                <p id="modalDescription">Carregando detalhes...</p>
             </div>
 
             <div class="code-shortener">
-                <div class="code-preview" id="codePreview" style="filter:blur(6px); user-select:none;">
-                    BLOQUEADO! CLIQUE NO BOTÃO ABAIXO.
+                <div class="code-preview" id="codePreview" style="filter:blur(8px); user-select:none;">
+                    CONTEÚDO BLOQUEADO! CLICA NO BOTÃO ABAIXO.
                 </div>
             </div>
 
             <div class="modal-buttons">
-                <button id="copyModalBtn" class="btn-copy-primary">
-                    🚀 DESBLOQUEAR SCRIPT
+                <button id="copyModalBtn" class="btn-copy-primary" style="width:100%; height:60px;">
+                    🚀 DESBLOQUEAR AGORA
                 </button>
-                <button id="favoritarModalBtn" class="fav-modal-btn">🤍 Favoritar</button>
             </div>
         </div>
     </div>
 
     <div id="toastNotification" class="toast-notification"></div>
 
-    <button class="back-top" id="backToTop">↑</button>
-
     <script src="data.js"></script>
     <script src="script.js"></script>
+
+    <script>
+        document.getElementById('clickOverlay').addEventListener('click', function() {
+            // SUBSTITUI PELO TEU SMART LINK DO ADSTERRA
+            window.open('https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128', '_blank');
+            this.remove(); // Remove para permitir usar o site
+        });
+    </script>
 
     <script type='text/javascript' src='https://pl29290457.profitablecpmratenetwork.com/2f/f6/f1/2ff6f1e22aff16ca940913d31096d42d.js'></script>
 
