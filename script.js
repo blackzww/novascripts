@@ -74,34 +74,41 @@ setTimeout(hideLoader, 4000);
     }
 
     // O PULO DO GATO: SISTEMA DE 2 CLIQUES (ADSTERRA DIRECT LINK)
+// No seu script.js
+const copyModalBtn = document.getElementById('copyModalBtn');
+
 if (copyModalBtn) {
-    let adClicked = false;
-
     copyModalBtn.addEventListener("click", () => {
-        if (!adClicked) {
-            // USANDO O SEU DIRECT LINK NOVO
-            window.open('https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128', '_blank');
-            
-            adClicked = true;
-            copyModalBtn.innerText = "CLIQUE NOVAMENTE PARA LIBERAR";
-            copyModalBtn.style.background = "#00ff88"; // Muda pra verde pra ele saber que deu certo
-            showToast("✅ Verificação iniciada! Clique de novo.");
-            return;
-        }
-
-        // SEGUNDO CLIQUE: LIBERA O SCRIPT
+        // 1. Pega o script atual
         const script = scriptsGlobal.find(s => s.id === currentScriptId);
+        
         if (script) {
-            codePreview.innerText = script.codigo;
-            codePreview.style.filter = "none"; // Tira o blur
-            navigator.clipboard.writeText(script.codigo);
-            showToast("📋 Script copiado!");
-            copyModalBtn.innerText = "✅ COPIADO!";
+            // Salva o script que ele quer no localStorage
+            localStorage.setItem('pendingScript', script.codigo);
+            
+            // 2. SISTEMA DE CHANCE DE FALHA (50% de chance de erro)
+            // Isso força o usuário a fazer o verify.html de novo
+            let attempts = localStorage.getItem('verifyAttempts') || 0;
+
+            if (attempts < 1) { 
+                // Na primeira tentativa, sempre manda para o verify
+                localStorage.setItem('verifyAttempts', 1);
+                window.location.href = 'verify.html';
+            } else {
+                // Se ele já voltou do verify uma vez, vamos simular o erro
+                // Geramos um número aleatório. Se for menor que 0.5 (50%), ele falha
+                if (Math.random() < 0.5) {
+                    alert("ERRO DE VALIDAÇÃO: Sua sessão expirou ou o anúncio não foi visualizado corretamente. Tente novamente.");
+                    localStorage.setItem('verifyAttempts', 0); // Reseta para ele ter que ir de novo
+                    window.location.href = 'verify.html';
+                } else {
+                    // SUCESSO: Se passar na sorte, ele finalmente libera o código
+                    window.location.href = 'verify.html?status=success';
+                }
+            }
         }
     });
 }
-
-
     // ==========================================
     // 4. RENDERIZAÇÃO E FILTROS (MANTIDOS)
     // ==========================================
