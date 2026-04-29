@@ -8,19 +8,241 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
-        /* Estilos Críticos para Estabilidade */
-        #container-90a294aa390e5ef06d254867c09fbbd1 { min-height: 90px; background: #050509; display: flex; align-items: center; justify-content: center; }
-        .ad-modal-slot { min-height: 250px; background: #050509; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 8px; margin: 15px 0; }
-        #scriptsGrid { min-height: 400px; } /* Evita que o site "encolha" enquanto carrega */
+        /* ===== ESTILOS CRÍTICOS MELHORADOS ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: radial-gradient(circle at 10% 20%, #0a0a15, #030308);
+            font-family: 'Inter', sans-serif;
+            color: #eef2ff;
+            overflow-x: hidden;
+        }
+
+        /* Slots de Anúncio */
+        #container-90a294aa390e5ef06d254867c09fbbd1 { 
+            min-height: 100px; 
+            background: rgba(255, 255, 255, 0.02); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            border-radius: 16px;
+            margin: 10px auto;
+            width: 100%;
+            max-width: 1200px;
+            border: 1px dashed rgba(0, 255, 136, 0.1);
+        }
+        
+        .ad-modal-slot { 
+            min-height: 250px; 
+            background: #0a0a12; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            border-radius: 12px; 
+            margin: 15px 0; 
+            border: 1px solid rgba(0,255,136,0.2);
+        }
+        
+        #scriptsGrid { 
+            min-height: 400px; 
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+            padding: 2rem;
+        }
+
+        /* Loader */
+        .loader-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #02020a;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader-ring {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(0,255,136,0.2);
+            border-top: 4px solid #00ff88;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Navegação */
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: rgba(5,5,9,0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,255,136,0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-box h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, #ffffff, #00ff88);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 900;
+        }
+
+        .logo-box span { color: #00ff88; }
+
+        .navbar a {
+            color: #ccc;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .navbar a.active, .navbar a:hover { color: #00ff88; }
+
+        .online-box {
+            background: #0f0f1a;
+            padding: 8px 16px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: #00ff88;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #00ff88;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse { 0% { opacity: 0.4; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1.2); } }
+
+        /* Busca */
+        .big-search-box {
+            display: flex;
+            max-width: 800px;
+            margin: 3rem auto;
+            gap: 12px;
+            padding: 0 20px;
+        }
+
+        .big-search-box input {
+            flex: 1;
+            padding: 18px 25px;
+            background: #0f0f1c;
+            border: 1px solid #2a2a3a;
+            border-radius: 16px;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .big-search-box input:focus { border-color: #00ff88; box-shadow: 0 0 15px rgba(0,255,136,0.1); }
+
+        .big-search-box button {
+            background: #00ff88;
+            border: none;
+            padding: 0 35px;
+            border-radius: 16px;
+            font-weight: 800;
+            color: #000;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(10px);
+            align-items: center;
+            justify-content: center;
+            z-index: 20000;
+        }
+
+        .modal-box {
+            background: #0f0f1c;
+            width: 95%;
+            max-width: 600px;
+            border-radius: 24px;
+            padding: 30px;
+            border: 1px solid #00ff88;
+            position: relative;
+        }
+
+        /* Verificação do Canal */
+        .verify-channel-card {
+            background: linear-gradient(145deg, #0d0d1a, #070710);
+            border-radius: 24px;
+            padding: 30px;
+            width: 95%;
+            max-width: 550px;
+            margin: 20px auto;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .badge-step {
+            background: rgba(0, 255, 136, 0.1);
+            color: #00ff88;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        #copyBtn.active {
+            background: #00ff88 !important;
+            color: #000 !important;
+            cursor: pointer !important;
+            opacity: 1 !important;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .topbar { flex-direction: column; padding: 15px; gap: 10px; }
+            .navbar { order: 3; }
+            #scriptsGrid { grid-template-columns: 1fr; padding: 1rem; }
+        }
     </style>
 </head>
 <body>
 
-    <div id="antiAdblocker" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(5,5,9,0.98); z-index:9999999; text-align:center; padding-top:100px; backdrop-filter: blur(10px);">
-        <div style="background:#1a1a2e; width:90%; max-width:450px; margin:auto; padding:40px; border:2px solid #00ff88; border-radius:15px; box-shadow: 0 0 30px rgba(0,255,136,0.2);">
-            <h2 style="color:#fff; margin-bottom:20px;">🚫 ADBLOCK DETECTADO!</h2>
-            <p style="color:#ccc;">Para manter a <strong>NovaScripts</strong> gratuita, desative o Adblock e recarregue a página.</p>
-            <button onclick="window.location.reload()" style="margin-top:25px; background:#00ff88; color:#000; border:none; padding:15px 30px; border-radius:8px; font-weight:bold; cursor:pointer; width:100%;">RECARREGAR</button>
+    <div id="antiAdblocker" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(5,5,9,0.98); z-index:9999999; text-align:center; padding-top:150px; backdrop-filter: blur(15px);">
+        <div style="background:#131325; width:90%; max-width:400px; margin:auto; padding:40px; border:1px solid #ff4444; border-radius:24px; box-shadow: 0 0 50px rgba(255,68,68,0.2);">
+            <h2 style="color:#ff4444; margin-bottom:15px;">AVISO DE SEGURANÇA</h2>
+            <p style="color:#ccc; line-height:1.6;">Detectamos que você está usando um bloqueador. Para acessar os scripts, desative-o agora.</p>
+            <button onclick="window.location.reload()" style="margin-top:25px; background:#ff4444; color:#fff; border:none; padding:18px; border-radius:12px; font-weight:bold; cursor:pointer; width:100%;">ENTENDI, JÁ DESATIVEI</button>
         </div>
     </div>
 
@@ -28,7 +250,7 @@
 
     <div class="loader-wrapper" id="loader">
         <div class="loader-ring"></div>
-        <p>Carregando NovaScripts...</p>
+        <p style="color:#00ff88; font-weight: 700; letter-spacing: 1px;">INICIANDO NOVASCRIPTS...</p>
     </div>
 
     <div class="site-wrapper">
@@ -37,42 +259,71 @@
                 <h1>Nova<span>Scripts</span></h1>
             </div>
             <nav class="navbar">
-                <a href="#" class="active">Início</a>
-                <a href="#biblioteca">Biblioteca</a>
+                <a href="#" class="active">HOME</a>
+                <a href="#biblioteca">LIBRARY</a>
             </nav>
-            <div class="user-stats">
-                <div class="online-box"><span class="dot"></span><span id="onlineCount">524</span></div>
+            <div class="online-box">
+                <span class="dot"></span>
+                <span id="onlineCount" style="color:#fff; font-weight:800;">1,420</span>
             </div>
         </header>
 
-        <div style="width: 100%; display: flex; justify-content: center; padding: 15px 0;">
-            <div id="container-90a294aa390e5ef06d254867c09fbbd1"></div>
-        </div>
+        <div id="container-90a294aa390e5ef06d254867c09fbbd1"></div>
 
-        <section class="search-page">
+        <section class="hero">
             <div class="big-search-box">
-                <input type="text" id="searchInput" placeholder="Nome do jogo ou script...">
-                <button id="searchBtn">Buscar</button>
+                <input type="text" id="searchInput" placeholder="O que vamos executar hoje?">
+                <button id="searchBtn">BUSCAR</button>
             </div>
         </section>
 
-        <section class="scripts-section" id="biblioteca">
-            <div class="scripts-grid" id="scriptsGrid"></div>
+        <div id="verifySection">
+            <div class="verify-channel-card">
+                <div class="badge-step">SISTEMA DE ACESSO</div>
+                <h2 style="color: #fff; margin-bottom: 10px;">Desbloqueie a Loadstring</h2>
+                <p style="color: #888; font-size: 0.95rem; margin-bottom: 25px;">Inscreva-se no canal para liberar o acesso vitalício à biblioteca principal.</p>
+                
+                <a href="https://www.youtube.com/@blackzwmc?sub_confirmation=1" 
+                   target="_blank" 
+                   id="subscribeLink"
+                   style="display: block; background: #ff0000; color: #fff; padding: 18px; text-decoration: none; font-weight: 800; border-radius: 16px; margin-bottom: 15px; transition: 0.3s; font-size: 1.1rem;">
+                   🔴 INSCREVER-SE NO CANAL
+                </a>
+                
+                <button id="copyBtn" disabled style="width: 100%; padding: 18px; background: #1a1a2e; color: #555; border: none; border-radius: 16px; font-weight: 800; font-size: 1rem; cursor: not-allowed; transition: 0.3s;">
+                    🔒 COPIAR SCRIPT (BLOQUEADO)
+                </button>
+                <p id="verifyStatus" style="margin-top: 15px; font-size: 0.85rem; color: #ffaa44; font-weight: 600;"></p>
+            </div>
+        </div>
+
+        <section id="biblioteca">
+            <h2 style="text-align: center; margin-top: 40px; color: #00ff88;">SCRIPTS EM DESTAQUE</h2>
+            <div id="scriptsGrid"></div>
         </section>
     </div>
 
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-box">
-            <div class="modal-top">
-                <h3 id="modalTitle">Script</h3>
-                <button class="close-modal">&times;</button>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3 id="modalTitle" style="color:#00ff88; font-size: 1.5rem;">Script Detalhes</h3>
+                <span id="closeModal" style="color: #fff; font-size: 2rem; cursor: pointer;">&times;</span>
             </div>
+            
             <div class="ad-modal-slot" id="modalAdContainer">
-                </div>
-            <div class="code-shortener">
-                <div class="code-preview" id="codePreview" style="filter:blur(10px);">CONTEÚDO BLOQUEADO!</div>
+                <p style="color:#444; font-size: 12px;">Anúncio do Parceiro</p>
             </div>
-            <button id="copyModalBtn" class="btn-copy-primary" style="width:100%; height:60px;">🚀 DESBLOQUEAR AGORA</button>
+
+            <div style="background: #000; padding: 20px; border-radius: 16px; margin: 20px 0; border: 1px solid #222; position: relative; overflow: hidden;">
+                <pre id="codePreview" style="color: #00ff88; font-family: monospace; filter: blur(10px); transition: 0.5s;">loadstring(game:HttpGet("https://novascripts.com/api/main"))()</pre>
+                <div id="lockOverlay" style="position: absolute; top:0; left:0; width:100%; height:100%; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.4);">
+                    <span style="background: #00ff88; color: #000; padding: 5px 15px; border-radius: 5px; font-weight: 800; font-size: 12px;">CONTEÚDO PROTEGIDO</span>
+                </div>
+            </div>
+
+            <button id="modalUnlockBtn" style="width: 100%; padding: 20px; background: #00ff88; border: none; border-radius: 12px; font-weight: 900; color: #000; cursor: pointer; font-size: 1.1rem;">
+                🚀 DESBLOQUEAR E COPIAR
+            </button>
         </div>
     </div>
 
@@ -80,96 +331,100 @@
     <script src="script.js"></script>
 
     <script>
-        // 1. GESTÃO DO CARREGAMENTO (SISTEMA REAL)
-        function finalizeLoading() {
-            const loader = document.getElementById('loader');
-            if (loader && loader.style.display !== 'none') {
-                loader.style.opacity = '0';
-                setTimeout(() => { loader.style.display = 'none'; }, 500);
+        // 1. LÓGICA DE DESBLOQUEIO (CANAL)
+        const copyBtn = document.getElementById('copyBtn');
+        const subscribeLink = document.getElementById('subscribeLink');
+        const statusMsg = document.getElementById('verifyStatus');
+        const LOADSTRING_OFICIAL = `loadstring(game:HttpGet("https://raw.githubusercontent.com/MirrorsHub/main/loader.lua"))()`;
+
+        function checkUnlockStatus() {
+            if (localStorage.getItem('novascripts_subbed') === 'true') {
+                copyBtn.disabled = false;
+                copyBtn.classList.add('active');
+                copyBtn.innerText = "📋 COPIAR LOADSTRING";
+                statusMsg.innerText = "✅ Acesso Liberado!";
+                statusMsg.style.color = "#00ff88";
             }
         }
 
-        // Carrega o conteúdo assim que o DOM estiver pronto (Não espera anúncios)
-        document.addEventListener('DOMContentLoaded', () => {
-            if (typeof renderCards === 'function') renderCards();
-            setTimeout(finalizeLoading, 2000); // Garante que o loader suma em 2s
+        subscribeLink.addEventListener('click', () => {
+            statusMsg.innerText = "⏳ Verificando inscrição... aguarde 5 segundos.";
+            setTimeout(() => {
+                localStorage.setItem('novascripts_subbed', 'true');
+                checkUnlockStatus();
+            }, 5000);
         });
 
-        // 2. INJEÇÃO DOS ANÚNCIOS (SÓ DEPOIS DO SITE ESTAR PRONTO)
-        window.addEventListener('load', () => {
-            // Injeção do Banner Topo
-            const topAd = document.createElement('script');
-            topAd.src = "//motortape.com/90a294aa390e5ef06d254867c09fbbd1/invoke.js";
-            topAd.async = true;
-            document.getElementById('container-90a294aa390e5ef06d254867c09fbbd1').appendChild(topAd);
-
-            // Injeção do Social Bar / Popunder
-            const externalAds = [
-                "https://motortape.com/e3/73/ac/e373ac39b5a04c76d290d627c487a33c.js",
-                "https://pl29290457.profitablecpmratenetwork.com/2f/f6/f1/2ff6f1e22aff16ca940913d31096d42d.js"
-            ];
-            externalAds.forEach(src => {
-                const s = document.createElement('script');
-                s.src = src;
-                s.async = true;
-                document.body.appendChild(s);
-            });
-        });
-
-        // 3. LÓGICA DE MONETIZAÇÃO
-        document.getElementById('clickOverlay').addEventListener('click', function() {
+        copyBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(LOADSTRING_OFICIAL);
+            copyBtn.innerText = "✅ COPIADO COM SUCESSO!";
+            setTimeout(() => { copyBtn.innerText = "📋 COPIAR LOADSTRING"; }, 3000);
+            // Monetização extra ao copiar
             window.open('https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128', '_blank');
-            this.remove();
         });
 
-        // 4. ANTI-ADBLOCK (CHECA APÓS 5 SEGUNDOS)
+        // 2. ANTI-ADBLOCK PROFISSIONAL
         setTimeout(() => {
-            const testAd = document.getElementById('container-90a294aa390e5ef06d254867c09fbbd1');
-            if (!testAd || testAd.offsetHeight === 0) {
+            const adCheck = document.getElementById('container-90a294aa390e5ef06d254867c09fbbd1');
+            if (!adCheck || adCheck.offsetHeight < 10) {
                 document.getElementById('antiAdblocker').style.display = 'block';
+                document.body.style.overflow = 'hidden';
             }
-        }, 1000);
+        }, 2500);
+
+        // 3. LOADER
+        window.addEventListener('load', () => {
+            checkUnlockStatus();
+            setTimeout(() => {
+                const loader = document.getElementById('loader');
+                loader.style.opacity = '0';
+                setTimeout(() => loader.style.display = 'none', 500);
+            }, 1500);
+        });
+
+        // 4. OVERLAY DE CLIQUE INICIAL
+        const overlay = document.getElementById('clickOverlay');
+        overlay.addEventListener('click', () => {
+            window.open('https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128', '_blank');
+            overlay.remove();
+        });
+
+        // 5. INJEÇÃO DE ANÚNCIOS
+        function injectAds() {
+            const container = document.getElementById('container-90a294aa390e5ef06d254867c09fbbd1');
+            if (container) {
+                const s = document.createElement('script');
+                s.src = "//motortape.com/90a294aa390e5ef06d254867c09fbbd1/invoke.js";
+                s.async = true;
+                container.appendChild(s);
+            }
+        }
+        injectAds();
+
+        // 6. LÓGICA DO MODAL
+        const modal = document.getElementById('modalOverlay');
+        const unlockBtn = document.getElementById('modalUnlockBtn');
+        const codeText = document.getElementById('codePreview');
+        const lockIcon = document.getElementById('lockOverlay');
+
+        window.openScriptModal = function(name, code) {
+            document.getElementById('modalTitle').innerText = name;
+            codeText.innerText = code;
+            codeText.style.filter = "blur(10px)";
+            lockIcon.style.display = "flex";
+            modal.style.display = "flex";
+        };
+
+        unlockBtn.addEventListener('click', () => {
+            codeText.style.filter = "blur(0px)";
+            lockIcon.style.display = "none";
+            navigator.clipboard.writeText(codeText.innerText);
+            unlockBtn.innerText = "✅ COPIADO!";
+            window.open('https://motortape.com/ga1uevxd?key=71152d36faeff43084b87ca8cf837128', '_blank');
+            setTimeout(() => { unlockBtn.innerText = "🚀 DESBLOQUEAR E COPIAR"; }, 2000);
+        });
+
+        document.getElementById('closeModal').onclick = () => modal.style.display = "none";
     </script>
-
-    <div id="surpriseAd" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); z-index:9999999; background:#050509; padding:20px; border:3px solid #00ff88; border-radius:20px; box-shadow: 0 0 50px rgba(0,255,136,0.5); width: 90vw; max-width: 800px; text-align: center;">
-    
-    <button onclick="document.getElementById('surpriseAd').style.display='none'" style="position:absolute; top:-15px; right:-15px; background:#ff4444; color:#fff; border-radius:50%; border:none; cursor:pointer; width:40px; height:40px; font-weight:bold; font-size:20px; box-shadow: 0 0 10px rgba(0,0,0,0.5);">X</button>
-    
-    <span style="font-size:12px; color:#555; display:block; margin-bottom:15px; text-transform:uppercase; letter-spacing:2px;">Publicidade Premium</span>
-
-    <div id="adContainerGigante" style="display:flex; justify-content:center; align-items:center; min-height:250px;">
-        <script type="text/javascript">
-            atOptions = { 'key' : 'b33da43b6a455665401d62e05d8c1140', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };
-        </script>
-        <script src="https://motortape.com/b33da43b6a455665401d62e05d8c1140/invoke.js"></script>
-    </div>
-    
-    <p style="color:#00ff88; margin-top:15px; font-family: 'Inter', sans-serif; font-weight:bold;">Aguarde o carregamento do Script...</p>
-    </div>
-    <script>
-        
-    function showSurpriseAd() {
-        // Define o tempo para 10 segundos (10000ms)
-        setTimeout(() => {
-            const adDiv = document.getElementById('surpriseAd');
-            adDiv.style.display = 'block';
-            
-            console.log("Anúncio gigante disparado!");
-
-            // Se você quiser que o anúncio FECHE sozinho depois de 5 segundos para aparecer de novo:
-            /*
-            setTimeout(() => { adDiv.style.display = 'none'; }, 5000);
-            */
-
-            // Chama a função novamente para criar o loop infinito de 10s
-            showSurpriseAd();
-        }, 6000); 
-    }
-
-    // Inicia o ciclo assim que o site abrir
-    showSurpriseAd();
-    </script>
-    
-
 </body>
 </html>
